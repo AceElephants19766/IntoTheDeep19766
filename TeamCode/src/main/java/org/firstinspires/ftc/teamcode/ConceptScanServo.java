@@ -29,6 +29,9 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -51,7 +54,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 @TeleOp(name = "Concept: Scan Servo", group = "Concept")
 
-public class ConceptScanServo extends LinearOpMode {
+public class ConceptScanServo extends CommandOpMode {
 
     static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int    CYCLE_MS    =   50;     // period of each cycle
@@ -65,7 +68,7 @@ public class ConceptScanServo extends LinearOpMode {
 
 
     @Override
-    public void runOpMode() {
+    public void initialize() {
 
         // Connect to servo (Assume Robot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
@@ -74,41 +77,49 @@ public class ConceptScanServo extends LinearOpMode {
         // Wait for the start button
         telemetry.addData(">", "Press Start to scan Servo." );
         telemetry.update();
-        waitForStart();
 
+        GamepadEx gamepadEx1 = new GamepadEx(gamepad1);
 
-        // Scan servo till stop pressed.
-        while(opModeIsActive()){
+//        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed();
 
-            // slew the servo, according to the rampUp (direction) variable.
-            if (rampUp) {
-                // Keep stepping up until we hit the max value.
-                position += INCREMENT ;
-                if (position >= MAX_POS ) {
-                    position = MAX_POS;
-                    rampUp = !rampUp;   // Switch ramp direction
-                }
+    }
+
+    @Override
+    public void run() {
+        super.run();
+
+        // slew the servo, according to the rampUp (direction) variable.
+        if (rampUp) {
+            // Keep stepping up until we hit the max value.
+            position += INCREMENT ;
+            if (position >= MAX_POS ) {
+                position = MAX_POS;
+                rampUp = !rampUp;   // Switch ramp direction
             }
-            else {
-                // Keep stepping down until we hit the min value.
-                position -= INCREMENT ;
-                if (position <= MIN_POS ) {
-                    position = MIN_POS;
-                    rampUp = !rampUp;  // Switch ramp direction
-                }
+        }
+        else {
+            // Keep stepping down until we hit the min value.
+            position -= INCREMENT ;
+            if (position <= MIN_POS ) {
+                position = MIN_POS;
+                rampUp = !rampUp;  // Switch ramp direction
             }
-
-            // Display the current value
-            telemetry.addData("Servo Position", "%5.2f", position);
-            telemetry.addData(">", "Press Stop to end test." );
-            telemetry.update();
-
-            // Set the servo to the new position and pause;
-            servo.setPower(position);
-            sleep(CYCLE_MS);
-            idle();
         }
 
+        // Display the current value
+        telemetry.addData("Servo Position", "%5.2f", position);
+        telemetry.addData(">", "Press Stop to end test." );
+        telemetry.update();
+
+        // Set the servo to the new position and pause;
+        servo.setPower(position);
+        sleep(CYCLE_MS);
+        idle();
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
         // Signal done;
         telemetry.addData(">", "Done");
         telemetry.update();
