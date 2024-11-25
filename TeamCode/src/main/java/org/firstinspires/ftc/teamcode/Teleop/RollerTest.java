@@ -14,7 +14,6 @@ public class RollerTest extends CommandOpMode {
     public void initialize() {
         roller = new Roller(hardwareMap);
     }
-
     @Override
     public void run() {
         super.run();

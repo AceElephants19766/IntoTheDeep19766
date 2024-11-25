@@ -10,12 +10,9 @@ public class Roller extends SubsystemBase {
 
     public Roller(HardwareMap hardwareMap) {
         roller = hardwareMap.get(CRServo.class, "roller");
-        //TODO: change name in config
     }
-    public void setPower (double power ){
+    public void setPower (double power)
+    {
         roller.setPower(power);
-
     }
-
-
 }
