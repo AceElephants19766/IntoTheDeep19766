@@ -41,11 +41,15 @@ public class MechnumDrive extends CommandOpMode
     public void run() {
         super.run();
         //mecanum
-        mecanumDrive.setPowerLF(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
-        mecanumDrive.setPowerLB(-gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x);
-        mecanumDrive.setPowerRF(-gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x);
-        mecanumDrive.setPowerRB(-gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x);
 
+        double[] powers = {
+                -gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x,
+                -gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x,
+                -gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x,
+                -gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x
+        };
+
+        mecanumDrive.setPower(powers);
 
         //elevators up
         right_up.setPower(-gamepad2.right_stick_y);

@@ -25,20 +25,17 @@ public class DriveTrainMecanum extends SubsystemBase
 
     }
 
-    public void setPowerLF (double power)
+    public void setPower (double[] powers)
     {
-        leftFront.setPower(power);
+        leftFront.setPower(powers[0]);
+        leftBack.setPower(powers[1]);
+        rightFront.setPower(powers[2]);
+        rightBack.setPower(powers[3]);
+
+
     }
-    public void setPowerLB (double power)
-    {
-        leftBack.setPower(power);
-    }
-    public void setPowerRF (double power)
-    {
-        rightFront.setPower(power);
-    }
-    public void setPowerRB (double power)
-    {
-        rightBack.setPower(power);
-    }
+
+
+
+
 }
