@@ -6,67 +6,50 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
+import org.firstinspires.ftc.teamcode.Subsystems.LeftElbow;
+import org.firstinspires.ftc.teamcode.Subsystems.LeftElevator;
 import org.firstinspires.ftc.teamcode.Subsystems.RightElbow;
+import org.firstinspires.ftc.teamcode.Subsystems.RightElevator;
 import org.firstinspires.ftc.teamcode.commands.RightElbowSetPower;
 
 @TeleOp
 public class MechnumDrive extends CommandOpMode
 {
     public DriveTrainMecanum mecanumDrive;
-    public RightElbow rightElbow;
 
-    DcMotor left_up;
-    DcMotor left_elevator;
+    public RightElbow rightElbow;
+    public RightElevator rightElevator;
+    public LeftElbow leftElbow;
+    public LeftElevator leftElevator;
 
     @Override
     public void initialize() {
+        //Subsystems
         mecanumDrive = new DriveTrainMecanum(hardwareMap);
         rightElbow = new RightElbow(hardwareMap);
+        rightElevator = new RightElevator(hardwareMap);
+        leftElbow = new LeftElbow(hardwareMap);
+        leftElevator = new LeftElevator(hardwareMap);
 
-        left_up = hardwareMap.get(DcMotor.class, "left_up");
-        left_elevator = hardwareMap.get(DcMotor.class, "left_elevator");
-
+        //Commands
         new RightElbowSetPower(rightElbow);
     }
 
     @Override
     public void run() {
         super.run();
+
         //mecanum
+        double y = gamepad1.left_stick_y;
+        double x = gamepad1.left_stick_x;
+        double rx = gamepad1.right_stick_x;
         double[] powers = {
-                -gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x,
-                -gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x,
-                -gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x,
-                -gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x
+                -y + x + rx,
+                -y - x + rx,
+                -y - x - rx,
+                -y + x - rx
         };
         mecanumDrive.setPower(powers);
-
-        double[] powers1  = {
-                -gamepad1.right_stick_y,
-                gamepad1.right_stick_x,
-                0.0,
-                0.0
-        };
-
-
-        //elevators up
-       // right_up.setPower(-gamepad2.right_stick_y);
-        left_up.setPower(gamepad2.left_stick_y);
-        //claw.setPosition(gamepad2.right_stick_x);
-
-//        if (gamepad2.dpad_up)
-//            right_elevator.setPower(0.9);
-//        else if (gamepad2.dpad_down)
-//            right_elevator.setPower(-0.9);
-//        else
-//            right_elevator.setPower(0.0);
-
-        if (gamepad2.dpad_right)
-            left_elevator.setPower(0.9);
-        else if (gamepad2.dpad_left)
-            left_elevator.setPower(-0.9);
-        else
-            left_elevator.setPower(0.0);
 
     }
 }
