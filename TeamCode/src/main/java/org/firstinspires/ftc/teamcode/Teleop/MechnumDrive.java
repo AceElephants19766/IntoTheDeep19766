@@ -8,12 +8,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
+import org.firstinspires.ftc.teamcode.Subsystems.RightElbow;
+import org.firstinspires.ftc.teamcode.commands.RightElbowSetPower;
 
 @TeleOp
 public class MechnumDrive extends CommandOpMode
 {
     public DriveTrainMecanum mecanumDrive;
     public Arm arm;
+    public RightElbow rightElbow;
 
     DcMotor left_up;
     DcMotor left_elevator;
@@ -22,9 +25,12 @@ public class MechnumDrive extends CommandOpMode
     public void initialize() {
         mecanumDrive = new DriveTrainMecanum(hardwareMap);
         arm = new Arm(hardwareMap);
+        rightElbow = new RightElbow(hardwareMap);
 
         left_up = hardwareMap.get(DcMotor.class, "left_up");
         left_elevator = hardwareMap.get(DcMotor.class, "left_elevator");
+
+        new RightElbowSetPower(rightElbow);
     }
 
     @Override
