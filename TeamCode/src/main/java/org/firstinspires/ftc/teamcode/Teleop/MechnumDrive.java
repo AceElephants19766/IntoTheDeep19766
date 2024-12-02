@@ -3,10 +3,8 @@ package org.firstinspires.ftc.teamcode.Teleop;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 
-import org.firstinspires.ftc.teamcode.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
 import org.firstinspires.ftc.teamcode.Subsystems.RightElbow;
 import org.firstinspires.ftc.teamcode.commands.RightElbowSetPower;
@@ -15,7 +13,6 @@ import org.firstinspires.ftc.teamcode.commands.RightElbowSetPower;
 public class MechnumDrive extends CommandOpMode
 {
     public DriveTrainMecanum mecanumDrive;
-    public Arm arm;
     public RightElbow rightElbow;
 
     DcMotor left_up;
@@ -24,7 +21,6 @@ public class MechnumDrive extends CommandOpMode
     @Override
     public void initialize() {
         mecanumDrive = new DriveTrainMecanum(hardwareMap);
-        arm = new Arm(hardwareMap);
         rightElbow = new RightElbow(hardwareMap);
 
         left_up = hardwareMap.get(DcMotor.class, "left_up");
@@ -51,7 +47,6 @@ public class MechnumDrive extends CommandOpMode
                 0.0,
                 0.0
         };
-        arm.setPower(powers1);
 
 
         //elevators up
