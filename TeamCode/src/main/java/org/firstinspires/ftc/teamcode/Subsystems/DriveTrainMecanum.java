@@ -31,8 +31,6 @@ public class DriveTrainMecanum extends SubsystemBase
         leftBack.setPower(powers[1]);
         rightFront.setPower(powers[2]);
         rightBack.setPower(powers[3]);
-
-
     }
 
 
