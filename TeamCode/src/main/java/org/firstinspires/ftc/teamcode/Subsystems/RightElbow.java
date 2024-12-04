@@ -13,7 +13,11 @@ public class RightElbow extends SubsystemBase {
     public RightElbow (HardwareMap hardwareMap){
         rightElbow = hardwareMap.get(DcMotor.class, "right_up");
     }
+
     public void setPower (double power){
-        rightElbow.setPower(power);
+            rightElbow.setPower(power);
+    }
+    public void stop (){
+       setPower(0);
     }
 }

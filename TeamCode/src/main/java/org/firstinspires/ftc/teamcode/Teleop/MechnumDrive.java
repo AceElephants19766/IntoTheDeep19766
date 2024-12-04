@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
+import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
@@ -10,17 +10,25 @@ import org.firstinspires.ftc.teamcode.Subsystems.LeftElbow;
 import org.firstinspires.ftc.teamcode.Subsystems.LeftElevator;
 import org.firstinspires.ftc.teamcode.Subsystems.RightElbow;
 import org.firstinspires.ftc.teamcode.Subsystems.RightElevator;
-import org.firstinspires.ftc.teamcode.commands.RightElbowSetPower;
+import org.firstinspires.ftc.teamcode.Commands.RightElbowSetPower;
 
 @TeleOp
 public class MechnumDrive extends CommandOpMode
 {
-    public DriveTrainMecanum mecanumDrive;
 
+
+    boolean firstRun = true;
+
+    //subsystems
+    public DriveTrainMecanum mecanumDrive;
     public RightElbow rightElbow;
     public RightElevator rightElevator;
     public LeftElbow leftElbow;
     public LeftElevator leftElevator;
+
+    //commands
+    public Command runForFiveSec;
+
 
     @Override
     public void initialize() {
@@ -32,12 +40,19 @@ public class MechnumDrive extends CommandOpMode
         leftElevator = new LeftElevator(hardwareMap);
 
         //Commands
-        new RightElbowSetPower(rightElbow);
+        runForFiveSec = new RightElbowSetPower(rightElbow);
+
+
     }
 
     @Override
     public void run() {
         super.run();
+
+        if(firstRun) {
+            runForFiveSec.schedule();
+            firstRun = false;
+        }
 
         //mecanum
         double y = -gamepad1.left_stick_y;
@@ -51,5 +66,7 @@ public class MechnumDrive extends CommandOpMode
                 (y + x - rx)/denominator
         };
         mecanumDrive.setPower(powers);
+
+
     }
 }

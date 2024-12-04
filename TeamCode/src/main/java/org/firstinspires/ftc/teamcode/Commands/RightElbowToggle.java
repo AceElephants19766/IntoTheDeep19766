@@ -1,16 +1,14 @@
-package org.firstinspires.ftc.teamcode.commands;
+package org.firstinspires.ftc.teamcode.Commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Subsystems.RightElbow;
 
-public class RightElbowSetPower extends CommandBase {
+public class RightElbowToggle extends CommandBase {
 
     public RightElbow rightElbow;
 
-    public RightElbowSetPower (RightElbow rightElbow){
+    public RightElbowToggle (RightElbow rightElbow){
         this.rightElbow = rightElbow;
     }
 
@@ -20,17 +18,13 @@ public class RightElbowSetPower extends CommandBase {
     }
 
     @Override
-    public void execute() {
-
-    }
-
-    @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 
     @Override
     public void end(boolean interrupted) {
-
+        super.end(interrupted);
+        rightElbow.stop();
     }
 }
