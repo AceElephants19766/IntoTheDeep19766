@@ -34,6 +34,7 @@ public class MechnumDrive extends CommandOpMode
     public void initialize() {
         //Subsystems
         mecanumDrive = new DriveTrainMecanum(hardwareMap);
+//        mecanumDrive.setDefaultCommand(mj njii);
         rightElbow = new RightElbow(hardwareMap);
         rightElevator = new RightElevator(hardwareMap);
         leftElbow = new LeftElbow(hardwareMap);
