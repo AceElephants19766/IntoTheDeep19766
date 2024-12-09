@@ -4,28 +4,34 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.Subsystems.RightElbow;
 
-public class RightElbowToggle extends CommandBase {
+import java.util.Calendar;
 
-    private RightElbow rightElbow;
+public class RightElbowRunForSeconds extends CommandBase {
 
-    public RightElbowToggle (RightElbow rightElbow){
+    public RightElbow rightElbow;
+    long startTime;
+    double seconds;
+
+    public RightElbowRunForSeconds(RightElbow rightElbow, double seconds){
         this.rightElbow = rightElbow;
+        this.seconds = seconds;
         addRequirements(rightElbow);
     }
 
     @Override
     public void initialize() {
         rightElbow.setPower(0.5);
+        startTime = Calendar.getInstance().getTimeInMillis();
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        double time = (Calendar.getInstance().getTimeInMillis()-startTime);
+        return time>=seconds;
     }
 
     @Override
     public void end(boolean interrupted) {
-        super.end(interrupted);
         rightElbow.stop();
     }
 }

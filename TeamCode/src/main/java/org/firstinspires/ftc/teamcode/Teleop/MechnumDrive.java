@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.LeftElbow;
 import org.firstinspires.ftc.teamcode.Subsystems.LeftElevator;
 import org.firstinspires.ftc.teamcode.Subsystems.RightElbow;
 import org.firstinspires.ftc.teamcode.Subsystems.RightElevator;
-import org.firstinspires.ftc.teamcode.Commands.RightElbowSetPower;
+import org.firstinspires.ftc.teamcode.Commands.RightElbowRunForSeconds;
 
 @TeleOp
 public class MechnumDrive extends CommandOpMode
@@ -40,8 +40,7 @@ public class MechnumDrive extends CommandOpMode
         leftElevator = new LeftElevator(hardwareMap);
 
         //Commands
-        runForFiveSec = new RightElbowSetPower(rightElbow);
-
+        runForFiveSec = new RightElbowRunForSeconds(rightElbow,500);
 
     }
 
@@ -66,7 +65,5 @@ public class MechnumDrive extends CommandOpMode
                 (y + x - rx)/denominator
         };
         mecanumDrive.setPower(powers);
-
-
     }
 }
