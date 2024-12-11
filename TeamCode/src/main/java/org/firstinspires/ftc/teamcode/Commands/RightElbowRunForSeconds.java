@@ -6,8 +6,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.RightElbow;
 
 import java.util.Calendar;
 
-public class RightElbowRunForSeconds extends CommandBase {
 
+public class RightElbowRunForSeconds extends CommandBase {
     public RightElbow rightElbow;
     long startTime;
     double seconds;

@@ -34,7 +34,7 @@ public class MechnumDrive extends CommandOpMode
     public void initialize() {
         //Subsystems
         mecanumDrive = new DriveTrainMecanum(hardwareMap);
-//        mecanumDrive.setDefaultCommand(mj njii);
+//      mecanumDrive.setDefaultCommand(mj njii);
         rightElbow = new RightElbow(hardwareMap);
         rightElevator = new RightElevator(hardwareMap);
         leftElbow = new LeftElbow(hardwareMap);
@@ -53,18 +53,13 @@ public class MechnumDrive extends CommandOpMode
             runForFiveSec.schedule();
             firstRun = false;
         }
-
         //mecanum
-        double y = -gamepad1.left_stick_y;
+
+        //inputs
         double x = gamepad1.left_stick_x*1.1;
+        double y = -gamepad1.left_stick_y;
         double rx = gamepad1.right_stick_x;
-        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-        double[] powers = {
-                (y + x + rx)/denominator,
-                (y - x + rx)/denominator,
-                (y - x - rx)/denominator,
-                (y + x - rx)/denominator
-        };
-        mecanumDrive.setPower(powers);
+
+        mecanumDrive.arcadeDrive(x,y,rx);
     }
 }
