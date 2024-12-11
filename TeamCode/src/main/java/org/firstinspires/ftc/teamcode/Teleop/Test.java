@@ -35,7 +35,7 @@ public class Test extends CommandOpMode {
         rightElbow = new RightElbow(hardwareMap);
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new RightElbowRunForSeconds(rightElbow, 5000)
+                new RightElbowRunForSeconds(rightElbow, 5)
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
@@ -49,8 +49,8 @@ public class Test extends CommandOpMode {
                         new RightElbowSetPower(rightElbow,0)
                 )
         );
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).toggleWhenPressed(
-                new RightElbowRunForSecondsCommandGroup(rightElbow,1,5000)
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new RightElbowRunForSecondsCommandGroup(rightElbow,1,5)
         );
     }
 }

@@ -14,7 +14,7 @@ public class RightElbowRunForSeconds extends CommandBase {
 
     public RightElbowRunForSeconds(RightElbow rightElbow, double seconds){
         this.rightElbow = rightElbow;
-        this.seconds = seconds;
+        this.seconds = seconds*1000;
         addRequirements(rightElbow);
     }
 
