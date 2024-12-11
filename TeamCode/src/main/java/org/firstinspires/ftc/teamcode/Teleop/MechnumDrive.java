@@ -20,7 +20,7 @@ public class MechnumDrive extends CommandOpMode
     boolean firstRun = true;
 
     //subsystems
-    public DriveTrainMecanum mecanumDrive;
+    public DriveTrainMecanum driveTrainMecanum;
     public RightElbow rightElbow;
     public RightElevator rightElevator;
     public LeftElbow leftElbow;
@@ -33,7 +33,7 @@ public class MechnumDrive extends CommandOpMode
     @Override
     public void initialize() {
         //Subsystems
-        mecanumDrive = new DriveTrainMecanum(hardwareMap);
+        driveTrainMecanum = new DriveTrainMecanum(hardwareMap);
 //      mecanumDrive.setDefaultCommand(mj njii);
         rightElbow = new RightElbow(hardwareMap);
         rightElevator = new RightElevator(hardwareMap);
@@ -60,6 +60,5 @@ public class MechnumDrive extends CommandOpMode
         double y = -gamepad1.left_stick_y;
         double rx = gamepad1.right_stick_x;
 
-        mecanumDrive.arcadeDrive(x,y,rx);
     }
 }

@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import java.util.logging.Handler;
-
 public class RightElbow extends SubsystemBase {
 
     private DcMotor rightElbow;

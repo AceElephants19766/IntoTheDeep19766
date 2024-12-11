@@ -8,12 +8,14 @@ import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
 public class DriveCommand extends CommandBase {
 
     private Gamepad gamepad1;
+    private DriveTrainMecanum driveTrainMecanum;
 
-    double x = gamepad1.left_stick_x*1.1;
-    double y = -gamepad1.left_stick_y;
-    double rx = gamepad1.right_stick_x;
+    double x;
+    double y;
+    double rx;
 
-    public DriveCommand (double x,double y, double rx){
+    public DriveCommand (DriveTrainMecanum driveTrainMecanum, double x,double y, double rx){
+        this.driveTrainMecanum = driveTrainMecanum;
         this.x = x;
         this.y = y;
         this.rx = rx;
@@ -21,7 +23,7 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        super.execute();//empty
+        driveTrainMecanum.arcadeDrive(x,y,rx);
     }
 
     @Override
