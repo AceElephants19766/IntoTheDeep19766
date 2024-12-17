@@ -49,6 +49,7 @@ public class Test extends CommandOpMode {
                         new RightElbowSetPower(rightElbow,0)
                 )
         );
+
         gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new RightElbowRunForSecondsCommandGroup(rightElbow,1,5)
         );

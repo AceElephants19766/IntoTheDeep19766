@@ -2,9 +2,13 @@ package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.button.Trigger;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
+import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
 import org.firstinspires.ftc.teamcode.Subsystems.LeftElbow;
 import org.firstinspires.ftc.teamcode.Subsystems.LeftElevator;
@@ -17,7 +21,8 @@ public class MechnumDrive extends CommandOpMode
 {
 
 
-    boolean firstRun = true;
+
+    public GamepadEx gamepadEx1;
 
     //subsystems
     public DriveTrainMecanum driveTrainMecanum;
@@ -26,39 +31,27 @@ public class MechnumDrive extends CommandOpMode
     public LeftElbow leftElbow;
     public LeftElevator leftElevator;
 
-    //commands
-    public Command runForFiveSec;
-
 
     @Override
     public void initialize() {
+
+        //GamePad
+        gamepadEx1 = new GamepadEx(gamepad1);
+
+
         //Subsystems
         driveTrainMecanum = new DriveTrainMecanum(hardwareMap);
-//      mecanumDrive.setDefaultCommand(mj njii);
         rightElbow = new RightElbow(hardwareMap);
         rightElevator = new RightElevator(hardwareMap);
         leftElbow = new LeftElbow(hardwareMap);
         leftElevator = new LeftElevator(hardwareMap);
 
-        //Commands
-        runForFiveSec = new RightElbowRunForSeconds(rightElbow,500);
-
-    }
-
-    @Override
-    public void run() {
-        super.run();
-
-        if(firstRun) {
-            runForFiveSec.schedule();
-            firstRun = false;
-        }
         //mecanum
-
-        //inputs
-        double x = gamepad1.left_stick_x*1.1;
-        double y = -gamepad1.left_stick_y;
-        double rx = gamepad1.right_stick_x;
-
+        driveTrainMecanum.setDefaultCommand(
+                new DriveCommand(
+                        driveTrainMecanum,
+                        gamepadEx1
+                )
+        );
     }
 }

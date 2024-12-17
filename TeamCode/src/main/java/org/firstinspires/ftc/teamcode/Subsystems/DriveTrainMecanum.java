@@ -23,7 +23,6 @@ public class DriveTrainMecanum extends SubsystemBase {
 
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-
     }
 
     public double[] joystickToPower(double x, double y, double rx) {
