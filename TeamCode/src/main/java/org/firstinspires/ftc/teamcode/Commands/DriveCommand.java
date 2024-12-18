@@ -19,9 +19,9 @@ public class DriveCommand extends CommandBase {
     @Override
     public void execute() {
         double x = gamepadEx1.getLeftX()*1.1;
-        double y = -gamepadEx1.getLeftY();
+        double y = gamepadEx1.getLeftY();
         double rx = gamepadEx1.getRightX();
 
-        driveTrainMecanum.arcadeDrive(x,y,rx);
+        driveTrainMecanum.fieldOrientedDrive(x,y,rx);
     }
 }
