@@ -13,7 +13,6 @@ public class RightElevator extends SubsystemBase {
         rightElevator = hardwareMap.get(DcMotor.class, "right_elevator");
     }
     public void setPower (double power){
-
         rightElevator.setPower(power);
     }
 }
