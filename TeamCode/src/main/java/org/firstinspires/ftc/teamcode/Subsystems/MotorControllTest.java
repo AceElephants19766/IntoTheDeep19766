@@ -13,7 +13,7 @@ public class MotorControllTest extends SubsystemBase {
     private DcMotor motor;
 
     private PIDController pidController;
-    public static double kP = 0.56;
+    public static double kP = 0.8;
     public static double kI = 0;
     public static double kD = 0;
 

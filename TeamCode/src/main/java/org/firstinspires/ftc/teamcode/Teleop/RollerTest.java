@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Roller;
-@TeleOp
+@Disabled
 public class RollerTest extends CommandOpMode {
 
     public Roller roller;

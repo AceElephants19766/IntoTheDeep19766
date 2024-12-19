@@ -20,7 +20,6 @@ public class DriveTrainMecanum extends SubsystemBase {
 
     public DriveTrainMecanum(HardwareMap hardwareMap) {
         register();
-
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         leftBack = hardwareMap.get(DcMotor.class, "leftBack");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");

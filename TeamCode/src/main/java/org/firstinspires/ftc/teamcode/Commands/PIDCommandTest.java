@@ -9,18 +9,19 @@ import java.util.Calendar;
 public class PIDCommandTest extends CommandBase {
 
     public MotorControllTest motorControllTest;
-    public int target;
+    public int targetInCm;
     public long startTime;
 
-    public PIDCommandTest(MotorControllTest motorControllTest, int target){
+
+    public PIDCommandTest(MotorControllTest motorControllTest, int targetInCm){
         this.motorControllTest = motorControllTest;
-        this.target = target;
+        this.targetInCm = targetInCm;
         addRequirements(motorControllTest);
     }
 
     @Override
     public void initialize() {
-        motorControllTest.getPidController().setSetPoint(target);
+        motorControllTest.getPidController().setSetPoint(targetInCm);
     }
 
     @Override
