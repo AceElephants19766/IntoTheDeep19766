@@ -19,11 +19,6 @@ public class RightElbowToggle extends CommandBase {
     }
 
     @Override
-    public boolean isFinished() {
-        return false;
-    }
-
-    @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
         rightElbow.stop();

@@ -43,6 +43,10 @@ public class Test extends CommandOpMode {
                 new RightElbowToggle(rightElbow)
         );
 
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whileActiveOnce(
+                new
+        );
+
         gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
                 new SequentialCommandGroup(
                         new RightElbowSetPower(rightElbow, 0.5),
