@@ -43,6 +43,7 @@ public class MotorControllTest extends SubsystemBase {
     public void periodic() {
         FtcDashboard.getInstance().getTelemetry().addData("target",pidController.getSetPoint());
         FtcDashboard.getInstance().getTelemetry().addData("currentPos",getRevs());
+        FtcDashboard.getInstance().getTelemetry().addData("motor power",motor.getPower());
         FtcDashboard.getInstance().getTelemetry().update();
     }
 }
