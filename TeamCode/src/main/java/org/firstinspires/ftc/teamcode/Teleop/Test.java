@@ -10,18 +10,21 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Commands.HangArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.RightElbowRunForSecondsCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.RightElbowSetPower;
 import org.firstinspires.ftc.teamcode.Commands.RightElbowToggle;
+import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 import org.firstinspires.ftc.teamcode.Subsystems.RightElbow;
 import org.firstinspires.ftc.teamcode.Commands.RightElbowRunForSeconds;
 
 
-@Disabled
+@TeleOp
 public class Test extends CommandOpMode {
 
     //subsystem
     public RightElbow rightElbow;
+    public HangArm hangArm;
 
     public GamepadEx gamepadEx1;
     public GamepadEx gamepadEx2;
@@ -31,11 +34,13 @@ public class Test extends CommandOpMode {
 
         //GamePad
         gamepadEx1 = new GamepadEx(gamepad1);
+        gamepadEx2 = new GamepadEx(gamepad2);
 
         //subsystem
         rightElbow = new RightElbow(hardwareMap);
+        hangArm = new HangArm(hardwareMap);
 
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 new RightElbowRunForSeconds(rightElbow, 5)
         );
 
@@ -44,7 +49,10 @@ public class Test extends CommandOpMode {
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whileActiveOnce(
-                new
+                new HangArmCommand(hangArm,-1)
+        );
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whileActiveOnce(
+                new HangArmCommand(hangArm,1)
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
@@ -55,7 +63,7 @@ public class Test extends CommandOpMode {
                 )
         );
 
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new RightElbowRunForSecondsCommandGroup(rightElbow,1,5)
         );
     }

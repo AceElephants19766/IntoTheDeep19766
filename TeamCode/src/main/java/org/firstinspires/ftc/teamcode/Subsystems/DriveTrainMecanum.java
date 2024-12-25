@@ -40,6 +40,9 @@ public class DriveTrainMecanum extends SubsystemBase {
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
     }
+    public void reset(){
+        imu.resetYaw();
+    }
 
     public double[] joystickToPower(double x, double y, double rx) {
 
