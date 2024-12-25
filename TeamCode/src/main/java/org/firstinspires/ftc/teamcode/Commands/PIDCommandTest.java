@@ -12,7 +12,6 @@ public class PIDCommandTest extends CommandBase {
     public int targetInCm;
     public long startTime;
 
-
     public PIDCommandTest(MotorControllTest motorControllTest, int targetInCm){
         this.motorControllTest = motorControllTest;
         this.targetInCm = targetInCm;

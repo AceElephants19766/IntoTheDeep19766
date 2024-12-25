@@ -45,7 +45,7 @@ public class MechnumDrive extends CommandOpMode
 
         //Subsystems
         driveTrainMecanum = new DriveTrainMecanum(hardwareMap);
-//        rightElbow = new RightElbow(hardwareMap);
+        rightElbow = new RightElbow(hardwareMap);
 //        rightElevator = new RightElevator(hardwareMap);
 //        leftElbow = new LeftElbow(hardwareMap);
 //        leftElevator = new LeftElevator(hardwareMap);
@@ -57,9 +57,9 @@ public class MechnumDrive extends CommandOpMode
                         gamepadEx1
                 )
         );
-//        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-//                new RightElbowRunForSeconds(rightElbow, 5)
-//        );
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new RightElbowRunForSeconds(rightElbow, 5)
+        );
 
 //        gamepadEx1.getGamepadButton(GamepadKeys.Button.START).whenPressed(
 //                new Imu(driveTrainMecanum)

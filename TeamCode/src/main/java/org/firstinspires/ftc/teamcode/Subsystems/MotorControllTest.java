@@ -13,7 +13,7 @@ public class MotorControllTest extends SubsystemBase {
     private DcMotor motor;
 
     private PIDController pidController;
-    public static double kP = 0.8;
+    public static double kP = 0.5;
     public static double kI = 0;
     public static double kD = 0;
 
@@ -26,7 +26,7 @@ public class MotorControllTest extends SubsystemBase {
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         pidController = new PIDController(kP,kI,kD);
-        pidController.setTolerance(0.1);
+        pidController.setTolerance(0.2);
     }
     public void setPower (double power){
         motor.setPower(power);
