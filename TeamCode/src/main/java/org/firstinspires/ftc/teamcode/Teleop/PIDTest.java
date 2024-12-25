@@ -26,7 +26,7 @@ public class PIDTest extends CommandOpMode {
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                new PIDCommandTest(motorControllTest,-80)
+                new PIDCommandTest(motorControllTest,56)
         );
     }
 
