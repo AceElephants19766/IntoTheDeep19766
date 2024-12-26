@@ -3,20 +3,25 @@ package org.firstinspires.ftc.teamcode.Commands;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
+
 public class HangArmCommand extends CommandBase {
-    public DcMotor motor;
 
-    public HangArmCommand (){
+    public HangArm hangArm;
+    public double power;
 
+    public HangArmCommand (HangArm hangArm , double power){
+        this.hangArm = hangArm;
+        this.power = power;
+        addRequirements(hangArm);
     }
     @Override
     public void initialize() {
-        motor.setPower(0.5);
+        hangArm.setPower(power);
     }
 
     @Override
     public void end(boolean interrupted) {
-        motor.setPower(0);
-
+        hangArm.setPower(0);
     }
 }

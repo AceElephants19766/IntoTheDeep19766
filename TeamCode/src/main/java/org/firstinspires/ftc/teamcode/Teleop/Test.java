@@ -51,6 +51,7 @@ public class Test extends CommandOpMode {
         gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whileActiveOnce(
                 new HangArmCommand(hangArm,-1)
         );
+
         gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whileActiveOnce(
                 new HangArmCommand(hangArm,1)
         );
@@ -62,7 +63,6 @@ public class Test extends CommandOpMode {
                         new RightElbowSetPower(rightElbow,0)
                 )
         );
-
         gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new RightElbowRunForSecondsCommandGroup(rightElbow,1,5)
         );

@@ -2,14 +2,15 @@ package org.firstinspires.ftc.teamcode.Commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
+import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.teamcode.Subsystems.RightElbow;
 
-public class RightElbowSetPower extends CommandBase {
+public class RightElbowArm extends CommandBase {
 
-    RightElbow rightElbow;
-    double power;
+    public RightElbow rightElbow;
+    public double power;
 
-    public RightElbowSetPower (RightElbow rightElbow, double power){
+    public RightElbowArm (RightElbow rightElbow, double power){
         this.rightElbow = rightElbow;
         this.power = power;
         addRequirements(rightElbow);
@@ -21,7 +22,7 @@ public class RightElbowSetPower extends CommandBase {
     }
 
     @Override
-    public boolean isFinished() {
-        return true;
+    public void end(boolean interrupted) {
+        rightElbow.setPower(0);
     }
 }

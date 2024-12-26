@@ -6,16 +6,16 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class HangArm extends SubsystemBase {
 
-    private DcMotor motor;
+    private DcMotor hangArm;
 
     public HangArm(HardwareMap hardwareMap) {
 
-        motor = hardwareMap.get(DcMotor.class, "motor");
+        hangArm = hardwareMap.get(DcMotor.class, "hangArm");
     }
 
     public void setPower(double power) {
 
-        motor.setPower(power);
+        hangArm.setPower(power);
     }
 }
 
