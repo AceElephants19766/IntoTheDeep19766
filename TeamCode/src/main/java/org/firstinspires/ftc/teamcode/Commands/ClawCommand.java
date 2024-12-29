@@ -19,6 +19,6 @@ public class ClawCommand  extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        claw.SetPose(0 );
+        claw.SetPose(0);
     }
 }

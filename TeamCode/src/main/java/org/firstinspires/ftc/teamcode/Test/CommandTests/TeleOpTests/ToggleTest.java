@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Teleop;
+package org.firstinspires.ftc.teamcode.Test.CommandTests.TeleOpTests;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -6,11 +6,9 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Commands.CommandTest;
-import org.firstinspires.ftc.teamcode.Subsystems.RightElbow;
+import org.firstinspires.ftc.teamcode.Test.CommandTests.CommandTest;
+import org.firstinspires.ftc.teamcode.Test.CommandTests.SubsystemTests.RightElbow;
 
 @Disabled
 public class ToggleTest extends CommandOpMode {

@@ -12,16 +12,12 @@ import org.firstinspires.ftc.teamcode.Commands.ClawRotateCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Commands.HangArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
-import org.firstinspires.ftc.teamcode.Commands.RightElbowArm;
+import org.firstinspires.ftc.teamcode.Test.CommandTests.RightElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRotat;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
-import org.firstinspires.ftc.teamcode.Subsystems.LeftElbow;
-import org.firstinspires.ftc.teamcode.Subsystems.LeftElevator;
-import org.firstinspires.ftc.teamcode.Subsystems.RightElbow;
-import org.firstinspires.ftc.teamcode.Subsystems.RightElevator;
-import org.firstinspires.ftc.teamcode.Commands.RightElbowRunForSeconds;
+import org.firstinspires.ftc.teamcode.Test.CommandTests.SubsystemTests.RightElbow;
 
 @TeleOp
 public class MechnumDrive extends CommandOpMode
@@ -95,7 +91,6 @@ public class MechnumDrive extends CommandOpMode
 //        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
 //                new RightElbowRunForSeconds(rightElbow, 5)
 //        );
-//
 //        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
 //                new RightElbowRunForSeconds(rightElbow, 5)
 //        );

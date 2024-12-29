@@ -1,9 +1,8 @@
-package org.firstinspires.ftc.teamcode.Commands;
+package org.firstinspires.ftc.teamcode.Test.CommandTests;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
 
-import org.firstinspires.ftc.teamcode.Subsystems.MotorControllTest;
+import org.firstinspires.ftc.teamcode.Test.CommandTests.SubsystemTests.MotorControllTest;
 
 public class MotorControlCommand extends CommandBase {
 

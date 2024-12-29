@@ -1,22 +1,19 @@
-package org.firstinspires.ftc.teamcode.Teleop;
+package org.firstinspires.ftc.teamcode.Test.CommandTests.TeleOpTests;
 
-import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Commands.HangArmCommand;
-import org.firstinspires.ftc.teamcode.Commands.RightElbowRunForSecondsCommandGroup;
-import org.firstinspires.ftc.teamcode.Commands.RightElbowSetPower;
-import org.firstinspires.ftc.teamcode.Commands.RightElbowToggle;
+import org.firstinspires.ftc.teamcode.Test.CommandTests.RightElbowRunForSecondsCommandGroup;
+import org.firstinspires.ftc.teamcode.Test.CommandTests.RightElbowSetPower;
+import org.firstinspires.ftc.teamcode.Test.CommandTests.RightElbowToggle;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
-import org.firstinspires.ftc.teamcode.Subsystems.RightElbow;
-import org.firstinspires.ftc.teamcode.Commands.RightElbowRunForSeconds;
+import org.firstinspires.ftc.teamcode.Test.CommandTests.SubsystemTests.RightElbow;
+import org.firstinspires.ftc.teamcode.Test.CommandTests.RightElbowRunForSeconds;
 
 
 @TeleOp

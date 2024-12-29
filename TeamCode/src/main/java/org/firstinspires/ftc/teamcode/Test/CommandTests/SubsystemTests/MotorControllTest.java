@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Subsystems;
+package org.firstinspires.ftc.teamcode.Test.CommandTests.SubsystemTests;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -19,31 +19,33 @@ public class MotorControllTest extends SubsystemBase {
 
     private final double RPM = 537.7;
 
-    public MotorControllTest (HardwareMap hardwareMap) {
+    public MotorControllTest(HardwareMap hardwareMap) {
         register();
 
         motor = hardwareMap.get(DcMotor.class, "motor");
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        pidController = new PIDController(kP,kI,kD);
+        pidController = new PIDController(kP, kI, kD);
         pidController.setTolerance(0.2);
     }
-    public void setPower (double power){
+
+    public void setPower(double power) {
         motor.setPower(power);
     }
-    public double getRevs (){
-        return motor.getCurrentPosition()/RPM;
+
+    public double getRevs() {
+        return motor.getCurrentPosition() / RPM;
     }
 
-    public PIDController getPidController(){
+    public PIDController getPidController() {
         return pidController;
     }
 
     @Override
     public void periodic() {
-        FtcDashboard.getInstance().getTelemetry().addData("target",pidController.getSetPoint());
-        FtcDashboard.getInstance().getTelemetry().addData("currentPos",getRevs());
-        FtcDashboard.getInstance().getTelemetry().addData("motor power",motor.getPower());
+        FtcDashboard.getInstance().getTelemetry().addData("target", pidController.getSetPoint());
+        FtcDashboard.getInstance().getTelemetry().addData("currentPos", getRevs());
+        FtcDashboard.getInstance().getTelemetry().addData("motor power", motor.getPower());
         FtcDashboard.getInstance().getTelemetry().update();
     }
 }
