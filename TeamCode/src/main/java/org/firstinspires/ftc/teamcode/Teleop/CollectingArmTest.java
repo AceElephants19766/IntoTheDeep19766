@@ -71,11 +71,11 @@ public class CollectingArmTest extends CommandOpMode {
                 new HangArmCommand(hangArm,0.5)
         );
 
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).toggleWhenPressed(
-                new RightElbowArm(rightElbow,0.5)
-        );
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).toggleWhenPressed(
-                new RightElbowArm(rightElbow,-0.5)
-        );
+//        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whileActiveOnce(
+//                new RightElbowArm(rightElbow,0.5)
+//        );
+//        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whileActiveOnce(
+//                new RightElbowArm(rightElbow,-0.5)
+//        );
     }
 }

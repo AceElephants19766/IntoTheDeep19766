@@ -43,11 +43,9 @@ public class CollectingArmPID extends SubsystemBase {
 
     @Override
     public void periodic() {
-        FtcDashboard.getInstance().getTelemetry().addData("Elevator target", pidController.getSetPoint());
-        FtcDashboard.getInstance().getTelemetry().addData("Elevator currentPos", getRevs());
-        FtcDashboard.getInstance().getTelemetry().addData("Elevator power", collectingArm.getPower());
-        FtcDashboard.getInstance().getTelemetry().update();
+//        FtcDashboard.getInstance().getTelemetry().addData("Elevator target", pidController.getSetPoint());
+//        FtcDashboard.getInstance().getTelemetry().addData("Elevator currentPos", getRevs());
+//        FtcDashboard.getInstance().getTelemetry().addData("Elevator power", collectingArm.getPower());
+//        FtcDashboard.getInstance().getTelemetry().update();
     }
 }
-
-
