@@ -8,13 +8,13 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 
 import org.firstinspires.ftc.teamcode.Commands.ClawCommand;
-import org.firstinspires.ftc.teamcode.Commands.ClawRotateCommand;
+import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Commands.HangArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
 import org.firstinspires.ftc.teamcode.Test.CommandTests.RightElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
-import org.firstinspires.ftc.teamcode.Subsystems.ClawRotat;
+import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 import org.firstinspires.ftc.teamcode.Test.CommandTests.SubsystemTests.RightElbow;
@@ -32,7 +32,7 @@ public class MechnumDrive extends CommandOpMode
     public DriveTrainMecanum driveTrainMecanum;
     public RightElbow rightElbow;
     public Claw claw;
-    public ClawRotat clawRotat;
+    public ClawRollRotate clawRotat;
     public HangArm hangArm;
 
 
@@ -49,7 +49,7 @@ public class MechnumDrive extends CommandOpMode
         driveTrainMecanum = new DriveTrainMecanum(hardwareMap);
         rightElbow = new RightElbow(hardwareMap);
         claw = new Claw(hardwareMap);
-        clawRotat = new ClawRotat(hardwareMap);
+        clawRotat = new ClawRollRotate(hardwareMap);
         hangArm = new HangArm(hardwareMap);
         rightElbow = new RightElbow(hardwareMap);
 
@@ -64,18 +64,18 @@ public class MechnumDrive extends CommandOpMode
                 new ResetImu(driveTrainMecanum)
         );
 
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).toggleWhenPressed(
-                new ClawCommand(claw)
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
+                new ClawCommand(claw,0.5)
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
-                new ClawRotateCommand(clawRotat)
+                new ClawRollRotateCommand(clawRotat,0.5)
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whileActiveOnce(
                 new HangArmCommand(hangArm,-0.5)
         );
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whileActiveOnce(
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whileActiveOnce(
                 new HangArmCommand(hangArm,0.5)
         );
 

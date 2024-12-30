@@ -3,13 +3,14 @@ package org.firstinspires.ftc.teamcode.Test.CommandTests.TeleOpTests;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Test.CommandTests.MotorControlCommand;
 import org.firstinspires.ftc.teamcode.Test.CommandTests.MotorControlCommand1;
 import org.firstinspires.ftc.teamcode.Test.CommandTests.SubsystemTests.MotorControllTest;
 
-@TeleOp
+@Disabled
 public class ControlTestLearning  extends CommandOpMode {
 
     public MotorControllTest motorControllTest;

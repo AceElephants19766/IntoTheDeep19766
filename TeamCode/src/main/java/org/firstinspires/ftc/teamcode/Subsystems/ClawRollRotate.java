@@ -4,10 +4,10 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class ClawRotat extends SubsystemBase {
+public class ClawRollRotate extends SubsystemBase {
     public Servo clawRotate;
 
-    public ClawRotat (HardwareMap hardwareMap) {
+    public ClawRollRotate(HardwareMap hardwareMap) {
         clawRotate = hardwareMap.get(Servo.class, "clawRotate");
     }
 
