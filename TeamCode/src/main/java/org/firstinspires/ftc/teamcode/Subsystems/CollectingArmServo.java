@@ -14,11 +14,6 @@ public class CollectingArmServo extends SubsystemBase {
         elbowArm = hardwareMap.get(Servo.class, "elbowArm");
     }
 
-    /*public void setPos (double pos)
-    {
-        elbowArm.setPosition(pos);
-    }*/
-
     public void Lift(double pos)
     {
         elbowArm.setPosition(pos);

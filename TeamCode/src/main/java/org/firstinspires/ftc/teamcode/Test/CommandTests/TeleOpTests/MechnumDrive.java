@@ -1,8 +1,9 @@
-package org.firstinspires.ftc.teamcode.Teleop;
+package org.firstinspires.ftc.teamcode.Test.CommandTests.TeleOpTests;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -19,7 +20,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 import org.firstinspires.ftc.teamcode.Test.CommandTests.SubsystemTests.RightElbow;
 
-@TeleOp
+@Disabled
 public class MechnumDrive extends CommandOpMode
 {
 

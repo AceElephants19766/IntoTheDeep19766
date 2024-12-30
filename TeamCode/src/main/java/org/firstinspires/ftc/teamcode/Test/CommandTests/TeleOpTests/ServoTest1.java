@@ -1,8 +1,9 @@
-package org.firstinspires.ftc.teamcode.Teleop;
+package org.firstinspires.ftc.teamcode.Test.CommandTests.TeleOpTests;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Commands.CollectingElbowServoCommand;
@@ -10,8 +11,8 @@ import org.firstinspires.ftc.teamcode.Commands.HangArmCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.CollectingArmServo;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 
-@TeleOp
-public class ServoTest extends CommandOpMode {
+@Disabled
+public class ServoTest1 extends CommandOpMode {
 
     public CollectingArmServo collectingArmServo;
     public HangArm hangArm;

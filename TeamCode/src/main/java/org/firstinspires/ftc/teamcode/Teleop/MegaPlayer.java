@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 
 @TeleOp
-public class LaviPro extends CommandOpMode {
+public class MegaPlayer extends CommandOpMode {
 
     //Gampad
     public GamepadEx gamepadEx1;
