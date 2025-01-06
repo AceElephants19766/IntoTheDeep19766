@@ -7,18 +7,20 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Commands.ClawCommand;
-import org.firstinspires.ftc.teamcode.Commands.ClawPitchRotateCommand;
+import org.firstinspires.ftc.teamcode.Commands.ClawUpDownCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateCommand;
 import org.firstinspires.ftc.teamcode.Commands.CollectingElbowServoCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
+import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.HangArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.HangArmForSec;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
-import org.firstinspires.ftc.teamcode.Subsystems.ClawPitchRotate;
+import org.firstinspires.ftc.teamcode.Subsystems.ClawUpDown;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
 import org.firstinspires.ftc.teamcode.Subsystems.CollectingArmServo;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
+import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 
 @TeleOp
@@ -31,8 +33,9 @@ public class MegaPlayer extends CommandOpMode {
     //Subsystem
     public Claw claw;
     public ClawRollRotate clawRollRotat;
-    public ClawPitchRotate clawPitchRotate;
+    public ClawUpDown clawUpDown;
     public HangArm hangArm;
+    public ExtenderArm extenderArm;
     public CollectingArmServo collectingArmServo;
     public DriveTrainMecanum driveTrainMecanum;
 
@@ -41,7 +44,8 @@ public class MegaPlayer extends CommandOpMode {
         //Subsystems
         claw = new Claw(hardwareMap);
         clawRollRotat = new ClawRollRotate(hardwareMap);
-        clawPitchRotate = new ClawPitchRotate(hardwareMap);
+        clawUpDown = new ClawUpDown(hardwareMap);
+        extenderArm = new ExtenderArm(hardwareMap);
 
         hangArm = new HangArm(hardwareMap);
 
@@ -64,22 +68,39 @@ public class MegaPlayer extends CommandOpMode {
                 new ResetImu(driveTrainMecanum)
         );
 
-        //claw open&close
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
-                new ClawCommand(claw,0.5)
+        //extender arm PID
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new ExtenderArmCommand(extenderArm,12)
         );
-        //Claw roll rotation
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
-                new ClawRollRotateCommand(clawRollRotat,0.38)
-        );
-        //Claw pitch rotation
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whileActiveOnce(
-                new ClawPitchRotateCommand(clawPitchRotate, 0.5)
-        );
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whileActiveOnce(
-                new ClawPitchRotateCommand(clawPitchRotate, -0.2)
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new ExtenderArmCommand(extenderArm,0)
         );
 
+
+        //opening and closing the hangArm
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whileActiveOnce(
+                new HangArmCommand(hangArm, -1)
+        );
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whileActiveOnce(
+                new HangArmCommand(hangArm, 1)
+        );
+
+        //claw open&close
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
+                new ClawCommand(claw,Claw.OPEN)
+        );
+
+        //Claw roll rotation
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
+                new ClawRollRotateCommand(clawRollRotat,ClawRollRotate.COLLECTING)
+        );
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
+                new ClawRollRotateCommand(clawRollRotat,ClawRollRotate.SCORING)
+        );
+        //Claw up and down
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).toggleWhenPressed(
+                new ClawUpDownCommand(clawUpDown, ClawUpDown.COLLECT)
+        );
 
         //when we catch the sample, when pressed closing the elevator and lifting the elbow
         gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
@@ -88,20 +109,11 @@ public class MegaPlayer extends CommandOpMode {
                         new HangArmForSec(hangArm, 0.5, 500)
                 )
         );
-        //opening and closing the elevator
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whileActiveOnce(
-                new HangArmCommand(hangArm, -0.5)
-        );
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whileActiveOnce(
-                new HangArmCommand(hangArm, 0.5)
-        );
+
         // for collecting
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).toggleWhenPressed(
-                new CollectingElbowServoCommand(collectingArmServo, 0.25)
-        );
-        //for putting samples in the basket
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).toggleWhenPressed(
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).toggleWhenPressed(
                 new CollectingElbowServoCommand(collectingArmServo, 1)
         );
+
     }
 }

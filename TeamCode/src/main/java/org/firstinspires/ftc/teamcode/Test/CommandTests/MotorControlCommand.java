@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Test.CommandTests;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.Test.CommandTests.SubsystemTests.MotorControllTest;
+import org.firstinspires.ftc.teamcode.Test.SubsystemTests.MotorControllTest;
 
 public class MotorControlCommand extends CommandBase {
 

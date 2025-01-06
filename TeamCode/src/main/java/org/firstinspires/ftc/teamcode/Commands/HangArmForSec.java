@@ -15,8 +15,4 @@ public class HangArmForSec extends SequentialCommandGroup {
         addRequirements(hangArm);
     }
 
-    @Override
-    public void initialize() {
-        super.initialize();
-    }
 }

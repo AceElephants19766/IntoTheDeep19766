@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Test.CommandTests.SubsystemTests;
+package org.firstinspires.ftc.teamcode.Test.SubsystemTests;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotor;

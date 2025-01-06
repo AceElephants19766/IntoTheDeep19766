@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Test.CommandTests.TeleOpTests;
+package org.firstinspires.ftc.teamcode.Test.TeleOpTests;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
-import org.firstinspires.ftc.teamcode.Test.CommandTests.SubsystemTests.RightElbow;
+import org.firstinspires.ftc.teamcode.Test.SubsystemTests.RightElbow;
 
 @Disabled
 public class MechnumDrive extends CommandOpMode

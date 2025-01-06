@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.Test.CommandTests.TeleOpTests;
+package org.firstinspires.ftc.teamcode.Test.TeleOpTests;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.Test.CommandTests.SubsystemTests.Roller;
+import org.firstinspires.ftc.teamcode.Test.SubsystemTests.Roller;
 @Disabled
 public class RollerTest extends CommandOpMode {
 

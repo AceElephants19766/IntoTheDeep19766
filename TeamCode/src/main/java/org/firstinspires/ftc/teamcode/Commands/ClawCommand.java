@@ -9,6 +9,7 @@ public class ClawCommand  extends CommandBase {
     public Claw claw;
     public double pos;
 
+
     public ClawCommand (Claw claw , double pos){
         this.claw = claw;
         this.pos = pos;

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Test.CommandTests.TeleOpTests;
+package org.firstinspires.ftc.teamcode.Test.TeleOpTests;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;

@@ -20,6 +20,6 @@ public class ClawRollRotateCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        clawRollRotat.SetPose(0);
+        clawRollRotat.SetPose(0.71);
     }
 }
