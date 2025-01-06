@@ -17,11 +17,11 @@ public class ClawPitchRotateCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        clawPitchRotate.SetPower(power);
+        clawPitchRotate.setPos(power);
     }
 
     @Override
     public void end(boolean interrupted) {
-        clawPitchRotate.SetPower(0);
+        clawPitchRotate.setPos(0);
     }
 }

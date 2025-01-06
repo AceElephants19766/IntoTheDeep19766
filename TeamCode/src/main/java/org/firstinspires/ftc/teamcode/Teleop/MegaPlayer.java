@@ -73,13 +73,9 @@ public class MegaPlayer extends CommandOpMode {
                 new ClawRollRotateCommand(clawRollRotat,0.38)
         );
         //Claw pitch rotation
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whileActiveOnce(
-                new ClawPitchRotateCommand(clawPitchRotate, 0.5)
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).toggleWhenPressed(
+                new ClawPitchRotateCommand(clawPitchRotate, 0.38)
         );
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whileActiveOnce(
-                new ClawPitchRotateCommand(clawPitchRotate, -0.2)
-        );
-
 
         //when we catch the sample, when pressed closing the elevator and lifting the elbow
         gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
