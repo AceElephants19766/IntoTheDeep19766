@@ -15,7 +15,6 @@ public class ElbowArmCommand extends CommandBase {
         this.elbowArm = elbowArm;
         this.targetInDeg = targetInDeg;
 
-        addRequirements(elbowArm);
     }
 
     @Override

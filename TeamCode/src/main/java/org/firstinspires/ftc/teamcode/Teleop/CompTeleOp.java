@@ -6,27 +6,24 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Commands.ClawCommand;
-import org.firstinspires.ftc.teamcode.Commands.ClawUpDownCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateCommand;
+import org.firstinspires.ftc.teamcode.Commands.ClawUpDownCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
-import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
-import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
-import org.firstinspires.ftc.teamcode.Commands.ExtenderGetToZero;
-import org.firstinspires.ftc.teamcode.Commands.HangArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
+import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScore;
+import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
-import org.firstinspires.ftc.teamcode.Subsystems.ClawUpDown;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
+import org.firstinspires.ftc.teamcode.Subsystems.ClawUpDown;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
 import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 
 @TeleOp
-public class MegaPlayer extends CommandOpMode {
+public class CompTeleOp extends CommandOpMode {
 
-    //Gampad
     public GamepadEx gamepadEx1;
     public GamepadEx gamepadEx2;
 
@@ -39,7 +36,6 @@ public class MegaPlayer extends CommandOpMode {
     public ElbowArm elbowArm;
 
     public DriveTrainMecanum driveTrainMecanum;
-
     @Override
     public void initialize() {
         //Subsystems
@@ -60,61 +56,44 @@ public class MegaPlayer extends CommandOpMode {
         driveTrainMecanum.setDefaultCommand(
                 new DriveCommand(
                         driveTrainMecanum,
-                        gamepadEx2
+                        gamepadEx1
                 )
         );
         //IMU Reset
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.START).whenPressed(
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(
                 new ResetImu(driveTrainMecanum)
         );
-
         elbowArm.setDefaultCommand(
                 new ElbowKeepPos(elbowArm)
         );
-        //extender arm PID
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                new ExtenderArmCommand(extenderArm,30)
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
+                new PrepareForCollectCommand(
+                        elbowArm,
+                        extenderArm,
+                        clawUpDown,
+                        clawRollRotat
+                )
         );
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new ExtenderGetToZero(extenderArm)
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
+                new PrepaereForScore(
+                        elbowArm,
+                        extenderArm,
+                        clawUpDown,
+                        clawRollRotat
+                )
         );
-
-        //elbow arm up & down
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
-                new ElbowArmCommand(elbowArm,90)
-        );
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
-                new ElbowArmCommand(elbowArm,10 )
-        );
-
-        //opening and closing the hangArm
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whileActiveOnce(
-                new HangArmCommand(hangArm, 1)
-        );
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whileActiveOnce(
-                new HangArmCommand(hangArm, -1)
-        );
-
         //claw open&close
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
                 new ClawCommand(claw,Claw.OPEN)
         );
-
         //Claw roll rotation
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
                 new ClawRollRotateCommand(clawRollRotat,ClawRollRotate.DEFAULT)
         );
-
         //Claw up & down
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).toggleWhenPressed(
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).toggleWhenPressed(
                 new ClawUpDownCommand(clawUpDown, ClawUpDown.COLLECT)
         );
-    }
 
-    @Override
-    public void run() {
-        super.run();
-        telemetry.addData("Extender",extenderArm.getLength());
-        telemetry.update();
     }
 }

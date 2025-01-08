@@ -12,7 +12,7 @@ public class ClawUpDown extends SubsystemBase {
     public ClawUpDown(HardwareMap hardwareMap){
         clawUpDown = hardwareMap.get(Servo.class , "clawUpDown");
     }
-    public void SetPos(double pos){
+    public void setPos(double pos){
         clawUpDown.setPosition(pos);
     }
 }

@@ -16,7 +16,7 @@ public class Tuning extends CommandOpMode {
     @Override
     public void run() {
         super.run();
-        clawUpDown.SetPos(gamepad2.right_trigger);
+        clawUpDown.setPos(gamepad2.right_trigger);
         telemetry.addData("Pos",gamepad2.right_trigger);
         telemetry.update();
     }

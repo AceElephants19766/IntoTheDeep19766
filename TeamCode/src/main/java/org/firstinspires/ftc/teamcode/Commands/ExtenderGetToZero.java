@@ -14,7 +14,8 @@ public class ExtenderGetToZero extends SequentialCommandGroup {
                 new ExtenderArmCommand(extenderArm,2),
                 new InstantCommand(() -> extenderArm.setPower(-0.5)),
                 new WaitUntilCommand(() -> extenderArm.isPressed()).withTimeout(1000),
-                new InstantCommand(() -> extenderArm.setPower(0))
+                new InstantCommand(() -> extenderArm.setPower(0)),
+                new InstantCommand(() -> extenderArm.resetEncoder())
         );
         addRequirements(extenderArm);
     }

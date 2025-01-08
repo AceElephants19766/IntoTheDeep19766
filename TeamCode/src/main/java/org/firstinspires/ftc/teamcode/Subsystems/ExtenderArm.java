@@ -20,7 +20,8 @@ public class ExtenderArm extends SubsystemBase {
     public static double kI = 0;
     public static double kD = 0;
 
-    private final double RPM = 537.7;
+    private final double TPR = 537.7;
+    private double offset = 0;
 
     public static  final double COLLECT = 0;
     public static final double SCORE = 30;
@@ -41,8 +42,16 @@ public class ExtenderArm extends SubsystemBase {
         extenderArm.setPower(power);
     }
 
+    public double getTicks () {
+        return (extenderArm.getCurrentPosition() + offset);
+    }
+
+    public void resetEncoder(){
+        offset = -extenderArm.getCurrentPosition();
+    }
+
     public double getLength() {
-        return (extenderArm.getCurrentPosition() / RPM) * 12;
+        return (getTicks() / TPR) * 12;
     }
 
     public boolean isPressed(){

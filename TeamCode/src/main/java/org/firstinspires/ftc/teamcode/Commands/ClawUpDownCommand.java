@@ -17,11 +17,11 @@ public class ClawUpDownCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        clawUpDown.SetPos(pos);
+        clawUpDown.setPos(pos);
     }
 
     @Override
     public void end(boolean interrupted) {
-        clawUpDown.SetPos(ClawUpDown.SCORING);
+        clawUpDown.setPos(ClawUpDown.SCORING);
     }
 }

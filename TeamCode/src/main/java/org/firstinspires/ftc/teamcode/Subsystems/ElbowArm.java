@@ -12,9 +12,9 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 public class ElbowArm extends SubsystemBase {
     private DcMotor elbowArm;
     private PIDController pidController;
-    public static double kP = 0.04;
+    public static double kP = 0.033;
     public static double kI = 0;
-    public static double kD = 0;
+    public static double kD = 0.003;
     public static double TOL = 2;
 
     private final double TPR = 537.7;
