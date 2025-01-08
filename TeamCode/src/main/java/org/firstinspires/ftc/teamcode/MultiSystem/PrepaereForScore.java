@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 public class PrepaereForScore extends SequentialCommandGroup {
     public PrepaereForScore (ElbowArm elbowArm, ExtenderArm extenderArm, ClawUpDown clawUpDown, ClawRollRotate clawRollRotate){
         addCommands(
-                new ElbowArmCommand(elbowArm,90),
+                new ElbowArmCommand(elbowArm,120),
                 new WaitUntilCommand(() -> elbowArm.getPidController().getPositionError() < 40),
                 new ExtenderArmCommand(extenderArm,40),
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORING)),

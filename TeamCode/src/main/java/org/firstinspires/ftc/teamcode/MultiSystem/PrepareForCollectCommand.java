@@ -14,7 +14,7 @@ public class PrepareForCollectCommand extends SequentialCommandGroup {
     public PrepareForCollectCommand(ElbowArm elbowArm, ExtenderArm extenderArm, ClawUpDown clawUpDown, ClawRollRotate clawRollRotate){
         addCommands(
                 new ElbowArmCommand(elbowArm,20),
-                new ExtenderArmCommand(extenderArm,0),
+                new ExtenderArmCommand(extenderArm,15),
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.COLLECT)),
                 new InstantCommand(()-> clawRollRotate.SetPose(ClawRollRotate.DEFAULT))
         );

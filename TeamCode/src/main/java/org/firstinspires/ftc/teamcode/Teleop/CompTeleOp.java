@@ -36,6 +36,8 @@ public class CompTeleOp extends CommandOpMode {
     public ElbowArm elbowArm;
 
     public DriveTrainMecanum driveTrainMecanum;
+
+    boolean firstIteration = true;
     @Override
     public void initialize() {
         //Subsystems
@@ -95,5 +97,14 @@ public class CompTeleOp extends CommandOpMode {
                 new ClawUpDownCommand(clawUpDown, ClawUpDown.COLLECT)
         );
 
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        if(firstIteration) {
+            elbowArm.resetEncoder();
+            firstIteration = false;
+        }
     }
 }

@@ -19,6 +19,8 @@ public class ElbowArm extends SubsystemBase {
 
     private final double TPR = 537.7;
 
+    private double offset = 0;
+
     public ElbowArm(HardwareMap hardwareMap) {
         elbowArm = hardwareMap.get(DcMotor.class, "elbow");
         elbowArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -32,9 +34,16 @@ public class ElbowArm extends SubsystemBase {
     public void setPower(double power) {
         elbowArm.setPower(power);
     }
+    public double getTicks () {
+        return (elbowArm.getCurrentPosition() + offset);
+    }
+
+    public void resetEncoder(){
+        offset = -elbowArm.getCurrentPosition();
+    }
 
     public double getAngle() {
-        return ((elbowArm.getCurrentPosition() / TPR)/4) * 360;
+        return ((getTicks() / TPR)/4) * 360;
     }
 
     public PIDController getPidController() {
