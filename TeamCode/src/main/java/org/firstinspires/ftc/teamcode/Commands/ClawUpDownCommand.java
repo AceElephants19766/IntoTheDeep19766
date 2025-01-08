@@ -6,8 +6,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.ClawUpDown;
 
 public class ClawUpDownCommand extends CommandBase {
 
-    public ClawUpDown clawUpDown;
-    public double pos;
+    private ClawUpDown clawUpDown;
+    private double pos;
 
     public ClawUpDownCommand(ClawUpDown clawUpDown, double pos){
         this.clawUpDown = clawUpDown;

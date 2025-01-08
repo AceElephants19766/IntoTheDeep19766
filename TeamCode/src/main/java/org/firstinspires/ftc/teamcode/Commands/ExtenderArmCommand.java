@@ -5,8 +5,9 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 
 public class ExtenderArmCommand extends CommandBase {
-    public ExtenderArm extenderArm;
-    public int targetInCm;
+    private ExtenderArm extenderArm;
+    private int targetInCm;
+
 
     public ExtenderArmCommand (ExtenderArm extenderArm, int targetInCm){
         this.extenderArm = extenderArm;
@@ -37,4 +38,5 @@ public class ExtenderArmCommand extends CommandBase {
     public void end(boolean interrupted) {
         extenderArm.setPower(0);
     }
+
 }

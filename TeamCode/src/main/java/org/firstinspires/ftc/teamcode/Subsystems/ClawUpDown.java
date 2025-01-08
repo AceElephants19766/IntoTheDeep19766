@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class ClawUpDown extends SubsystemBase {
-    public Servo clawUpDown;
+    private Servo clawUpDown;
     public static final double COLLECT = 0.35;
     public static final double SCORING = 0;
 

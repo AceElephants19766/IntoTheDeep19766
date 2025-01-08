@@ -6,8 +6,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 
 public class ClawCommand  extends CommandBase {
 
-    public Claw claw;
-    public double pos;
+    private Claw claw;
+    private double pos;
 
 
     public ClawCommand (Claw claw , double pos){

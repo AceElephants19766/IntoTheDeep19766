@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class ClawRollRotate extends SubsystemBase {
-    public Servo clawRotate;
+    private Servo clawRotate;
     public static final double COLLECTING = 0.38;
     public static final double SCORING = 1;
 

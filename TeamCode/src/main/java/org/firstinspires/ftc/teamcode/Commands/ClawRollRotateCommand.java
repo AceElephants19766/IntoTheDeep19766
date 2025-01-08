@@ -5,8 +5,9 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
 
 public class ClawRollRotateCommand extends CommandBase {
-    public ClawRollRotate clawRollRotat;
-    public double pos;
+    private ClawRollRotate clawRollRotat;
+    private double pos;
+
     public ClawRollRotateCommand(ClawRollRotate clawRotat, double pos){
         this.clawRollRotat = clawRotat;
         this.pos = pos;

@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
 
 public class DriveCommand extends CommandBase {
 
-    public GamepadEx gamepadEx1;
+    private GamepadEx gamepadEx1;
     private DriveTrainMecanum driveTrainMecanum;
 
     public DriveCommand (DriveTrainMecanum driveTrainMecanum, GamepadEx gamepadEx1){
