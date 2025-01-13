@@ -111,24 +111,5 @@ public class CompTeleOp extends CommandOpMode {
             extenderArm.resetEncoder();
             firstIteration = false;
         }
-
-        boolean extender = false;
-
-        if (gamepad2.right_stick_y != 0){
-            extender = true;
-        }
-
-        while (extender){
-            if (gamepad2.right_stick_y > 0){
-                extenderArm.setPower(-0.5);
-            }
-            else if (gamepad2.right_stick_y < 0){
-                extenderArm.setPower(0.5);
-            }
-            if (gamepad2.right_stick_y == 0){
-                extender = false;
-                extenderArm.setPower(0);
-            }
-        }
     }
 }
