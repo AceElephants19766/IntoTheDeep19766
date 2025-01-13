@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Commands.ClawCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawUpDownCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
+import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScore;
@@ -23,6 +24,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 
 @TeleOp
 public class CompTeleOp extends CommandOpMode {
+
+
 
     public GamepadEx gamepadEx1;
     public GamepadEx gamepadEx2;
@@ -68,6 +71,7 @@ public class CompTeleOp extends CommandOpMode {
         elbowArm.setDefaultCommand(
                 new ElbowKeepPos(elbowArm)
         );
+        //Collecting
         gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
                 new PrepareForCollectCommand(
                         elbowArm,
@@ -76,6 +80,7 @@ public class CompTeleOp extends CommandOpMode {
                         clawRollRotat
                 )
         );
+        //Scoring
         gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
                 new PrepaereForScore(
                         elbowArm,
@@ -103,8 +108,27 @@ public class CompTeleOp extends CommandOpMode {
     public void run() {
         super.run();
         if(firstIteration) {
-            elbowArm.resetEncoder();
+            extenderArm.resetEncoder();
             firstIteration = false;
+        }
+
+        boolean extender = false;
+
+        if (gamepad2.right_stick_y != 0){
+            extender = true;
+        }
+
+        while (extender){
+            if (gamepad2.right_stick_y > 0){
+                extenderArm.setPower(-0.5);
+            }
+            else if (gamepad2.right_stick_y < 0){
+                extenderArm.setPower(0.5);
+            }
+            if (gamepad2.right_stick_y == 0){
+                extender = false;
+                extenderArm.setPower(0);
+            }
         }
     }
 }
