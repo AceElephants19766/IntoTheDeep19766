@@ -13,9 +13,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 public class PrepareForCollectCommand extends SequentialCommandGroup {
     public PrepareForCollectCommand(ElbowArm elbowArm, ExtenderArm extenderArm, ClawUpDown clawUpDown, ClawRollRotate clawRollRotate){
         addCommands(
-
+                new ExtenderArmCommand(extenderArm,2),
                 new ElbowArmCommand(elbowArm,0),
-                new ExtenderArmCommand(extenderArm,0),
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.COLLECT)),
                 new InstantCommand(()-> clawRollRotate.SetPose(ClawRollRotate.DEFAULT))
         );

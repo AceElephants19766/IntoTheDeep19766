@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -11,6 +12,8 @@ import org.firstinspires.ftc.teamcode.Commands.ClawUpDownCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
+import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
+import org.firstinspires.ftc.teamcode.Commands.ExtenderArmJoystickCommand;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScore;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectCommand;
@@ -24,9 +27,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 
 @TeleOp
 public class CompTeleOp extends CommandOpMode {
-
-
-
     public GamepadEx gamepadEx1;
     public GamepadEx gamepadEx2;
 
@@ -40,9 +40,12 @@ public class CompTeleOp extends CommandOpMode {
 
     public DriveTrainMecanum driveTrainMecanum;
 
+    public Trigger joystickLeftYUpCondition;
+    public Trigger joystickLeftYDownCondition;
+
     boolean firstIteration = true;
     @Override
-    public void initialize() {
+    public void  initialize() {
         //Subsystems
         claw = new Claw(hardwareMap);
         clawRollRotat = new ClawRollRotate(hardwareMap);
@@ -64,6 +67,27 @@ public class CompTeleOp extends CommandOpMode {
                         gamepadEx1
                 )
         );
+
+        joystickLeftYUpCondition = new Trigger(() -> gamepadEx2.getLeftY() > 0.1);
+
+        joystickLeftYDownCondition = new Trigger(() -> gamepadEx2.getLeftY() < -0.1);
+
+        joystickLeftYUpCondition.whenActive(
+                new ExtenderArmJoystickCommand(
+                        extenderArm,
+                        () -> extenderArm.getLength(),5
+                ).interruptOn(() -> !joystickLeftYUpCondition.get())
+        );
+
+        joystickLeftYDownCondition.whenActive(
+                new ExtenderArmJoystickCommand(
+                        extenderArm,
+                        () -> extenderArm.getLength(),-5
+                ).interruptOn(
+                        () -> !joystickLeftYDownCondition.get() || extenderArm.isPressed()
+                )
+        );
+
         //IMU Reset
         gamepadEx1.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(
                 new ResetImu(driveTrainMecanum)
@@ -107,9 +131,8 @@ public class CompTeleOp extends CommandOpMode {
     @Override
     public void run() {
         super.run();
-        if(firstIteration) {
-            extenderArm.resetEncoder();
-            firstIteration = false;
-        }
+        telemetry.addData("Trigger up true",joystickLeftYUpCondition.get());
+        telemetry.addData("Trigger down true",joystickLeftYDownCondition.get());
+        telemetry.update();
     }
 }

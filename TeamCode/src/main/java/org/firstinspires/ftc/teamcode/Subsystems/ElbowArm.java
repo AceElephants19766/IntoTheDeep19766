@@ -26,6 +26,7 @@ public class ElbowArm extends SubsystemBase {
     public ElbowArm(HardwareMap hardwareMap) {
         elbowArm = hardwareMap.get(DcMotor.class, "elbow");
         elbowArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        resetEncoder();
 
         pidController = new PIDController(kP, kI, kD);
         pidController.setTolerance(TOL);

@@ -16,7 +16,7 @@ public class ExtenderArm extends SubsystemBase {
     private TouchSensor touchSensor;
 
     private PIDController pidController;
-    public static double kP = 0.2;
+    public static double kP = 0.3;
     public static double kI = 0;
     public static double kD = 0;
 
@@ -31,11 +31,12 @@ public class ExtenderArm extends SubsystemBase {
         extenderArm = hardwareMap.get(DcMotor.class, "extenderArm");
         extenderArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         extenderArm.setDirection(DcMotorSimple.Direction.REVERSE);
+        resetEncoder();
 
         touchSensor = hardwareMap.get(TouchSensor.class,"extenderTouchSens");
 
         pidController = new PIDController(kP, kI, kD);
-        pidController.setTolerance(0.2);
+        pidController.setTolerance(2);
     }
 
     public void setPower(double power) {
@@ -68,6 +69,7 @@ public class ExtenderArm extends SubsystemBase {
         FtcDashboard.getInstance().getTelemetry().addData("extenderTarget", pidController.getSetPoint());
         FtcDashboard.getInstance().getTelemetry().addData("extenderCurrentPos", getLength());
         FtcDashboard.getInstance().getTelemetry().addData("extender power", extenderArm.getPower());
+        FtcDashboard.getInstance().getTelemetry().addData("extender is finished",getPidController().atSetPoint());
         FtcDashboard.getInstance().getTelemetry().update();
     }
 }
