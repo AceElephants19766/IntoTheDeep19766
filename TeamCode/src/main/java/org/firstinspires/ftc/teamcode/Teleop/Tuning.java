@@ -21,7 +21,7 @@ public class Tuning extends CommandOpMode {
     public void run() {
         super.run();
         clawUpDown.setPos(gamepad2.right_trigger);
-        clawRollRotate.SetPose(gamepad2.left_trigger);
+        clawRollRotate.setPose(gamepad2.left_trigger);
         telemetry.addData(" Up down Pos",gamepad2.right_trigger);
         telemetry.addData("Roll Pos",gamepad2.left_trigger);
         telemetry.update();

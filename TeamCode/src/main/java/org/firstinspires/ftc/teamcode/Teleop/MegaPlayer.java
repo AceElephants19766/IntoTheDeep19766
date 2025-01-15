@@ -94,21 +94,26 @@ public class MegaPlayer extends CommandOpMode {
         gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whileActiveOnce(
                 new HangArmCommand(hangArm, -1)
         );
+        //claw up down safe pos
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                new ClawUpDownCommand(clawUpDown,0.64)
+        );
 
         //claw open&close
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
                 new ClawCommand(claw,Claw.OPEN)
         );
 
-        //Claw roll rotation
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
-                new ClawRollRotateCommand(clawRollRotat,ClawRollRotate.DEFAULT)
-        );
+//        //Claw roll rotation
+//        gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
+//                new ClawRollRotateCommand(clawRollRotat,ClawRollRotate.DEFAULT)
+//        );
 
         //Claw up & down
         gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).toggleWhenPressed(
                 new ClawUpDownCommand(clawUpDown, ClawUpDown.COLLECT)
         );
+
     }
 
     @Override

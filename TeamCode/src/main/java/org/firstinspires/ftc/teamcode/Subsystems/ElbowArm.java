@@ -14,14 +14,17 @@ public class ElbowArm extends SubsystemBase {
     private DcMotor elbowArm;
     private PIDController pidController;
 
-    public static double kP = 0.033;
-    public static double kI = 0;
+    public static double kP = 0.045;
+    public static double kI = 0.3;
     public static double kD = 0.003;
     public static double TOL = 2;
 
     private final double TPR = 537.7;
-
     private double offset = 0;
+
+    public static final int DEFAULT = 20;
+    public static final int COLLECT = 0;
+    public static final int SCORING = 100;
 
     public ElbowArm(HardwareMap hardwareMap) {
         elbowArm = hardwareMap.get(DcMotor.class, "elbow");

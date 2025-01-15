@@ -4,12 +4,9 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
 
-import java.util.Calendar;
-
 public class ElbowArmCommand extends CommandBase {
     private ElbowArm elbowArm;
     private int targetInDeg;
-    private long startTime;
 
     public ElbowArmCommand (ElbowArm elbowArm, int targetInDeg){
         this.elbowArm = elbowArm;

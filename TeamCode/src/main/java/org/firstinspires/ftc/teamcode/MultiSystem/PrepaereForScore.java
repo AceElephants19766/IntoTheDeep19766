@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.MultiSystem;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
 import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
@@ -15,11 +14,11 @@ import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 public class PrepaereForScore extends SequentialCommandGroup {
     public PrepaereForScore (ElbowArm elbowArm, ExtenderArm extenderArm, ClawUpDown clawUpDown, ClawRollRotate clawRollRotate){
         addCommands(
-                new ElbowArmCommand(elbowArm,100),
+                new ElbowArmCommand(elbowArm,ElbowArm.SCORING),
                 new WaitUntilCommand(() -> elbowArm.getPidController().getPositionError() < 40),
-                new ExtenderArmCommand(extenderArm,48).withTimeout(2000),
+                new ExtenderArmCommand(extenderArm,42).withTimeout(2000),
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORING)),
-                new InstantCommand(()-> clawRollRotate.SetPose(ClawRollRotate.DEFAULT))
+                new InstantCommand(()-> clawRollRotate.setPose(ClawRollRotate.DEFAULT))
         );
         addRequirements(
                 extenderArm,

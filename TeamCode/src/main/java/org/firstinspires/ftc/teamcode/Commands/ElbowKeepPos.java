@@ -11,6 +11,12 @@ public class ElbowKeepPos extends CommandBase {
         this.elbowArm = elbowArm;
         addRequirements(elbowArm);
     }
+
+    @Override
+    public void initialize() {
+        elbowArm.getPidController().setSetPoint(ElbowArm.DEFAULT);
+    }
+
     @Override
     public void execute() {
         elbowArm.setPower(

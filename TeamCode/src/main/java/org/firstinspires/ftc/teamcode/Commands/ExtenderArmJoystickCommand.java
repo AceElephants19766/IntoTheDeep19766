@@ -8,10 +8,21 @@ import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 
 import java.util.function.DoubleSupplier;
 
-public class ExtenderArmJoystickCommand  extends PerpetualCommand {
-    public ExtenderArmJoystickCommand (ExtenderArm extenderArm, DoubleSupplier currentLength , int jump){
-        super(
-                new ExtenderArmCommand(extenderArm, (int) (currentLength.getAsDouble() + jump))
-        );
+public class ExtenderArmJoystickCommand extends CommandBase {
+    public ExtenderArm extenderArm;
+    public double power;
+    public ExtenderArmJoystickCommand (ExtenderArm extenderArm, double power){
+        this.extenderArm = extenderArm;
+        this.power = power;
+        addRequirements(extenderArm);
+    }
+    @Override
+    public void execute() {
+        extenderArm.setPower(power);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        extenderArm.setPower(0);
     }
 }

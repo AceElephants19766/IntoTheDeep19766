@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -8,11 +10,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Commands.ClawCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateCommand;
+import org.firstinspires.ftc.teamcode.Commands.ClawSetPose;
 import org.firstinspires.ftc.teamcode.Commands.ClawUpDownCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
-import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmJoystickCommand;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScore;
@@ -40,10 +42,9 @@ public class CompTeleOp extends CommandOpMode {
 
     public DriveTrainMecanum driveTrainMecanum;
 
-    public Trigger joystickLeftYUpCondition;
-    public Trigger joystickLeftYDownCondition;
+    public Trigger joystickRightYUpCondition;
+    public Trigger joystickRightYDownCondition;
 
-    boolean firstIteration = true;
     @Override
     public void  initialize() {
         //Subsystems
@@ -68,32 +69,25 @@ public class CompTeleOp extends CommandOpMode {
                 )
         );
 
-        joystickLeftYUpCondition = new Trigger(() -> gamepadEx2.getLeftY() > 0.1);
-
-        joystickLeftYDownCondition = new Trigger(() -> gamepadEx2.getLeftY() < -0.1);
-
-        joystickLeftYUpCondition.whenActive(
-                new ExtenderArmJoystickCommand(
-                        extenderArm,
-                        () -> extenderArm.getLength(),5
-                ).interruptOn(() -> !joystickLeftYUpCondition.get())
+        elbowArm.setDefaultCommand(
+                new ElbowKeepPos(elbowArm)
         );
 
-        joystickLeftYDownCondition.whenActive(
-                new ExtenderArmJoystickCommand(
-                        extenderArm,
-                        () -> extenderArm.getLength(),-5
-                ).interruptOn(
-                        () -> !joystickLeftYDownCondition.get() || extenderArm.isPressed()
-                )
+        joystickRightYUpCondition = new Trigger(() -> -gamepadEx2.getRightY() > 0.1);
+
+        joystickRightYDownCondition = new Trigger(() -> -gamepadEx2.getRightY() < -0.1);
+
+        joystickRightYUpCondition.whileActiveOnce(
+                new ExtenderArmJoystickCommand(extenderArm,0.5)
+        );
+
+        joystickRightYDownCondition.whileActiveOnce(
+                new ExtenderArmJoystickCommand(extenderArm,-0.5)
         );
 
         //IMU Reset
         gamepadEx1.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(
                 new ResetImu(driveTrainMecanum)
-        );
-        elbowArm.setDefaultCommand(
-                new ElbowKeepPos(elbowArm)
         );
         //Collecting
         gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
@@ -126,13 +120,28 @@ public class CompTeleOp extends CommandOpMode {
                 new ClawUpDownCommand(clawUpDown, ClawUpDown.COLLECT)
         );
 
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new ElbowArmCommand(elbowArm,ElbowArm.DEFAULT)
+        );
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+
+                new SequentialCommandGroup(
+                        new ElbowArmCommand(elbowArm, ElbowArm.COLLECT),
+                        new WaitCommand(500),
+                        new ClawSetPose(claw,Claw.CLOSE),
+                        new WaitCommand(500),
+                        new ElbowArmCommand(elbowArm, ElbowArm.DEFAULT)
+                )
+        );
     }
 
     @Override
     public void run() {
         super.run();
-        telemetry.addData("Trigger up true",joystickLeftYUpCondition.get());
-        telemetry.addData("Trigger down true",joystickLeftYDownCondition.get());
+        telemetry.addData("Trigger up true", joystickRightYUpCondition.get());
+        telemetry.addData("Trigger up values", gamepadEx2.getRightY());
+        telemetry.addData("Trigger down values", joystickRightYDownCondition.get());
+        telemetry.addData("Trigger down true",gamepadEx2.getRightY());
         telemetry.update();
     }
 }

@@ -16,11 +16,11 @@ public class ClawRollRotateCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        clawRollRotat.SetPose(pos);
+        clawRollRotat.setPose(pos);
     }
 
     @Override
     public void end(boolean interrupted) {
-        clawRollRotat.SetPose(ClawRollRotate.COLLECTING);
+        clawRollRotat.setPose(ClawRollRotate.SPECIAL);
     }
 }
