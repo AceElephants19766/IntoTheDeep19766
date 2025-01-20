@@ -24,7 +24,7 @@ public class ElbowArm extends SubsystemBase {
 
     public static final int DEFAULT = 20;
     public static final int COLLECT = 0;
-    public static final int SCORING = 100;
+    public static final int SCORING = 120;
 
     public ElbowArm(HardwareMap hardwareMap) {
         elbowArm = hardwareMap.get(DcMotor.class, "elbow");
