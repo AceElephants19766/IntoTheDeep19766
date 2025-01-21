@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -10,13 +8,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Commands.ClawCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateCommand;
-import org.firstinspires.ftc.teamcode.Commands.ClawSetPose;
 import org.firstinspires.ftc.teamcode.Commands.ClawUpDownCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmJoystickCommand;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
+import org.firstinspires.ftc.teamcode.MultiSystem.CollectSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScore;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
@@ -124,13 +122,9 @@ public class CompTeleOp extends CommandOpMode {
                 new ElbowArmCommand(elbowArm,ElbowArm.DEFAULT)
         );
         gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-
-                new SequentialCommandGroup(
-                        new ElbowArmCommand(elbowArm, ElbowArm.COLLECT),
-                        new WaitCommand(500),
-                        new ClawSetPose(claw,Claw.CLOSE),
-                        new WaitCommand(500),
-                        new ElbowArmCommand(elbowArm, ElbowArm.DEFAULT)
+                new CollectSample(
+                        elbowArm,
+                        claw
                 )
         );
     }
