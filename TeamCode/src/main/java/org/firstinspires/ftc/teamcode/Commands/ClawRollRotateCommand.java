@@ -21,6 +21,6 @@ public class ClawRollRotateCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        clawRollRotat.setPose(ClawRollRotate.SPECIAL);
+        clawRollRotat.setPose(ClawRollRotate.SCORING);
     }
 }

@@ -5,11 +5,8 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 
 public class ClawCommand  extends CommandBase {
-
     private Claw claw;
     private double pos;
-
-
     public ClawCommand (Claw claw , double pos){
         this.claw = claw;
         this.pos = pos;
@@ -23,6 +20,6 @@ public class ClawCommand  extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        claw.SetPose(0);
+        claw.SetPose(Claw.CLOSE);
     }
 }

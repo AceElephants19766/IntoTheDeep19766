@@ -7,8 +7,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class ClawUpDown extends SubsystemBase {
     private Servo clawUpDown;
-    public static final double COLLECT = 0.38;
-    public static final double SCORING = 0.15;
+    public static final double COLLECT = 0.97;
+    public static final double SCORINGBACKWARD = 0.54;
+    public static final double SCORING = 0.73;
 
     public ClawUpDown(HardwareMap hardwareMap){
         clawUpDown = hardwareMap.get(Servo.class , "clawUpDown");

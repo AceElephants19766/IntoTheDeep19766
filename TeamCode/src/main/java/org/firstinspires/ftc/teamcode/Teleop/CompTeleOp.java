@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.Commands.ClawCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawUpDownCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
-import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmJoystickCommand;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
@@ -44,7 +43,8 @@ public class CompTeleOp extends CommandOpMode {
     public Trigger joystickRightYDownCondition;
 
     @Override
-    public void  initialize() {
+    public void initialize() {
+
         //Subsystems
         claw = new Claw(hardwareMap);
         clawRollRotat = new ClawRollRotate(hardwareMap);
@@ -66,27 +66,38 @@ public class CompTeleOp extends CommandOpMode {
                         gamepadEx1
                 )
         );
+        //IMU Reset
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(
+                new ResetImu(driveTrainMecanum)
+        );
 
         elbowArm.setDefaultCommand(
                 new ElbowKeepPos(elbowArm)
         );
 
         joystickRightYUpCondition = new Trigger(() -> -gamepadEx2.getRightY() > 0.1);
+        joystickRightYUpCondition.whileActiveOnce(
+                new ExtenderArmJoystickCommand(extenderArm, 0.5)
+        );
 
         joystickRightYDownCondition = new Trigger(() -> -gamepadEx2.getRightY() < -0.1);
-
-        joystickRightYUpCondition.whileActiveOnce(
-                new ExtenderArmJoystickCommand(extenderArm,0.5)
-        );
-
         joystickRightYDownCondition.whileActiveOnce(
-                new ExtenderArmJoystickCommand(extenderArm,-0.5)
+                new ExtenderArmJoystickCommand(extenderArm, -0.5)
         );
 
-        //IMU Reset
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(
-                new ResetImu(driveTrainMecanum)
+        //claw open&close
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
+                new ClawCommand(claw, Claw.OPEN)
         );
+        //Claw roll rotation
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
+                new ClawRollRotateCommand(clawRollRotat, ClawRollRotate.COLLECTING)
+        );
+        //Claw up & down
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).toggleWhenPressed(
+                new ClawUpDownCommand(clawUpDown, ClawUpDown.COLLECT)
+        );
+
         //Collecting
         gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
                 new PrepareForCollectCommand(
@@ -96,6 +107,8 @@ public class CompTeleOp extends CommandOpMode {
                         clawRollRotat
                 )
         );
+
+        //todo: maybe we will change it to backward scoring
         //Scoring
         gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
                 new PrepaereForScore(
@@ -105,37 +118,13 @@ public class CompTeleOp extends CommandOpMode {
                         clawRollRotat
                 )
         );
-        //claw open&close
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
-                new ClawCommand(claw,Claw.OPEN)
-        );
-        //Claw roll rotation
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
-                new ClawRollRotateCommand(clawRollRotat,ClawRollRotate.DEFAULT)
-        );
-        //Claw up & down
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).toggleWhenPressed(
-                new ClawUpDownCommand(clawUpDown, ClawUpDown.COLLECT)
-        );
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                new ElbowArmCommand(elbowArm,ElbowArm.DEFAULT)
-        );
+        //collecting a sample
         gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 new CollectSample(
                         elbowArm,
                         claw
                 )
         );
-    }
-
-    @Override
-    public void run() {
-        super.run();
-        telemetry.addData("Trigger up true", joystickRightYUpCondition.get());
-        telemetry.addData("Trigger up values", gamepadEx2.getRightY());
-        telemetry.addData("Trigger down values", joystickRightYDownCondition.get());
-        telemetry.addData("Trigger down true",gamepadEx2.getRightY());
-        telemetry.update();
     }
 }

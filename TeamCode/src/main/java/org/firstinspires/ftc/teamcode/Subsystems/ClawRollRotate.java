@@ -5,15 +5,15 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class ClawRollRotate extends SubsystemBase {
+public class  ClawRollRotate extends SubsystemBase {
     private Servo clawRotate;
 
-    public static final double SPECIAL = 0.33;
-    public static final double DEFAULT = 0;
+    public static final double SCORING = 0.0;
+    public static final double COLLECTING = 0.34;
 
     public ClawRollRotate(HardwareMap hardwareMap) {
         clawRotate = hardwareMap.get(Servo.class, "clawRotate");
-        clawRotate.setPosition(ClawRollRotate.DEFAULT);
+        clawRotate.setPosition(ClawRollRotate.COLLECTING);
     }
 
     public void setPose(double pose){

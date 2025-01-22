@@ -17,7 +17,7 @@ public class ElbowArm extends SubsystemBase {
     public static double kP = 0.045;
     public static double kI = 0.3;
     public static double kD = 0.003;
-    public static double TOL = 2;
+    public static double TOL = 1;
 
     private final double TPR = 537.7;
     private double offset = 0;
