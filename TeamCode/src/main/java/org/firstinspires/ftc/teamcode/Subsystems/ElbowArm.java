@@ -4,10 +4,8 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
-import com.arcrobotics.ftclib.controller.wpilibcontroller.ArmFeedforward;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @Config
 public class ElbowArm extends SubsystemBase {
@@ -23,8 +21,10 @@ public class ElbowArm extends SubsystemBase {
     private double offset = 0;
 
     public static final int DEFAULT = 20;
-    public static final int COLLECT = 0;
-    public static final int SCORING = 120;
+    public static final int COLLECTSAMPLE = 0;
+    public static final int AFTERCOLLECTSPECIMEN = 40;
+    public static final int SCORINGSAMPLE = 125;
+    public static final int SCORINGSPECIME = 55;
 
     public ElbowArm(HardwareMap hardwareMap) {
         elbowArm = hardwareMap.get(DcMotor.class, "elbow");

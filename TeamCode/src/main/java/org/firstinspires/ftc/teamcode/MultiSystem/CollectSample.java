@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
 public class CollectSample extends SequentialCommandGroup {
     public CollectSample(ElbowArm elbowArm, Claw claw){
         addCommands(
-                new ElbowArmCommand(elbowArm, ElbowArm.COLLECT),
+                new ElbowArmCommand(elbowArm, ElbowArm.COLLECTSAMPLE),
                 new WaitCommand(500),
                 new ClawSetPose(claw, Claw.CLOSE),
                 new WaitCommand(500),

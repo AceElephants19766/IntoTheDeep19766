@@ -13,7 +13,7 @@ public class Claw  extends SubsystemBase {
 
     public Claw (HardwareMap hardwareMap) {
         claw = hardwareMap.get(Servo.class, "claw");
-        SetPose(Claw.OPEN);
+        SetPose(Claw.CLOSE);
     }
     public void SetPose (double pose){
         claw.setPosition(pose);

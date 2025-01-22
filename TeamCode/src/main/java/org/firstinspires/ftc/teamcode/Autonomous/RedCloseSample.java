@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Commands.ActionCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawSetPose;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
 import org.firstinspires.ftc.teamcode.MultiSystem.CollectSample;
-import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScore;
+import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScoreSample;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveTrain;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
@@ -99,7 +99,7 @@ public class RedCloseSample extends CommandOpMode {
                         new ActionCommand(goToSample.build(), autoDriveTrain),
                         new CollectSample(elbowArm, claw),
                         new ActionCommand(openTheElbow.build(),autoDriveTrain),
-                        new PrepaereForScore(elbowArm, extenderArm, clawUpDown, clawRollRotat),
+                        new PrepaereForScoreSample(elbowArm, extenderArm, clawUpDown, clawRollRotat),
                         new ActionCommand(goToBasket.build(), autoDriveTrain),
                         new ClawSetPose(claw,Claw.OPEN)
                 )

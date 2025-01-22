@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 
 @Autonomous
-public class ScoringPreloadSample extends CommandOpMode {
+public class p extends CommandOpMode {
 
     //Subsystem
     private AutoDriveTrain autoDriveTrain;
@@ -57,32 +57,31 @@ public class ScoringPreloadSample extends CommandOpMode {
                 )
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(
-                        new Pose2d(-50, -50, Math.toRadians(-135)),
+                        new Pose2d(-55, -54, Math.toRadians(45)),
                         Math.toRadians(180)
                 );
         TrajectoryActionBuilder park = goToBasket.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
                 .splineToSplineHeading(
-                        new Pose2d(36, -60, Math.toRadians(-90)),
+                        new Pose2d(40, -58, Math.toRadians(90)),
                         Math.toRadians(0)
                 );
-
         schedule(
-                new InstantCommand(),
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
                                 new ActionCommand(goToBasket.build()),
                                 new SequentialCommandGroup(
                                         new WaitUntilCommand(
-                                                () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.x < -40
+                                                () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.x < -25
                                         ),
                                         new PrepaereForScoreSample(elbowArm, extenderArm, clawUpDown, clawRollRotat)
                                 )
+
                         ),
+                        new WaitCommand(500),
                         new ClawSetPose(claw, Claw.OPEN),
-                        //todo like the other one
-                        new ActionCommand(park.build()),
-                        new PrepareForCollectSample(elbowArm, extenderArm, clawUpDown, clawRollRotat)
+                        new PrepareForCollectSample(elbowArm,extenderArm,clawUpDown,clawRollRotat),
+                        new ActionCommand(park.build())
                 )
         );
 

@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.ClawUpDown;
 import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 
-public class PrepareForCollectCommand extends SequentialCommandGroup {
-    public PrepareForCollectCommand(ElbowArm elbowArm, ExtenderArm extenderArm, ClawUpDown clawUpDown, ClawRollRotate clawRollRotate){
+public class PrepareForCollectSample extends SequentialCommandGroup {
+    public PrepareForCollectSample(ElbowArm elbowArm, ExtenderArm extenderArm, ClawUpDown clawUpDown, ClawRollRotate clawRollRotate){
         addCommands(
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.COLLECT)),
                 new InstantCommand(()-> clawRollRotate.setPose(ClawRollRotate.COLLECTING)),
