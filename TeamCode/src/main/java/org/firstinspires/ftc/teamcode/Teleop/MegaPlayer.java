@@ -5,9 +5,8 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Commands.ClawCommand;
-import org.firstinspires.ftc.teamcode.Commands.ClawUpDownCommand;
-import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateCommand;
+import org.firstinspires.ftc.teamcode.Commands.ClawToggleCommand;
+import org.firstinspires.ftc.teamcode.Commands.ClawUpDownToggleCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
@@ -96,12 +95,12 @@ public class MegaPlayer extends CommandOpMode {
         );
         //claw up down safe pos
         gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                new ClawUpDownCommand(clawUpDown,0.64)
+                new ClawUpDownToggleCommand(clawUpDown,0.64)
         );
 
         //claw open&close
         gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
-                new ClawCommand(claw,Claw.OPEN)
+                new ClawToggleCommand(claw,Claw.OPEN)
         );
 
 //        //Claw roll rotation
@@ -111,7 +110,7 @@ public class MegaPlayer extends CommandOpMode {
 
         //Claw up & down
         gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).toggleWhenPressed(
-                new ClawUpDownCommand(clawUpDown, ClawUpDown.COLLECT)
+                new ClawUpDownToggleCommand(clawUpDown, ClawUpDown.COLLECT)
         );
 
     }

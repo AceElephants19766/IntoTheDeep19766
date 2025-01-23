@@ -7,6 +7,8 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import java.util.function.DoubleSupplier;
+
 @Config
 public class ElbowArm extends SubsystemBase {
     private DcMotor elbowArm;
@@ -21,10 +23,11 @@ public class ElbowArm extends SubsystemBase {
     private double offset = 0;
 
     public static final int DEFAULT = 20;
-    public static final int COLLECTSAMPLE = 0;
-    public static final int AFTERCOLLECTSPECIMEN = 40;
-    public static final int SCORINGSAMPLE = 125;
-    public static final int SCORINGSPECIME = 55;
+    public static final int COLLECT_SAMPLE = 0;
+    public static final int AFTER_COLLECT_SPECIMEN = 40;
+    public static final int SCORING_SAMPLE = 125;
+    public static final int SCORING_SPECIMEN = 15 ;
+    public static final int SPECIMEN_COLLECT = 15;
 
     public ElbowArm(HardwareMap hardwareMap) {
         elbowArm = hardwareMap.get(DcMotor.class, "elbow");
@@ -48,8 +51,8 @@ public class ElbowArm extends SubsystemBase {
         offset = -elbowArm.getCurrentPosition();
     }
 
-    public double getAngle() {
-        return ((getTicks() / TPR)/4) * 360;
+    public DoubleSupplier getAngle() {
+        return ()->((getTicks() / TPR)/4) * 360;
     }
 
     public PIDController getPidController() {
@@ -59,7 +62,7 @@ public class ElbowArm extends SubsystemBase {
     @Override
     public void periodic() {
         FtcDashboard.getInstance().getTelemetry().addData("elbowTarget", pidController.getSetPoint());
-        FtcDashboard.getInstance().getTelemetry().addData("ElbowCurrentPos", getAngle());
+        FtcDashboard.getInstance().getTelemetry().addData("ElbowCurrentPos", getAngle().getAsDouble());
         FtcDashboard.getInstance().getTelemetry().addData("elbow power", elbowArm.getPower());
         FtcDashboard.getInstance().getTelemetry().update();
     }

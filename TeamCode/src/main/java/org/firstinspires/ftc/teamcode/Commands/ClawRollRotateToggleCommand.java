@@ -4,11 +4,11 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
 
-public class ClawRollRotateCommand extends CommandBase {
+public class ClawRollRotateToggleCommand extends CommandBase {
     private ClawRollRotate clawRollRotat;
     private double pos;
 
-    public ClawRollRotateCommand(ClawRollRotate clawRotat, double pos){
+    public ClawRollRotateToggleCommand(ClawRollRotate clawRotat, double pos){
         this.clawRollRotat = clawRotat;
         this.pos = pos;
         addRequirements(clawRotat);
@@ -21,6 +21,6 @@ public class ClawRollRotateCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        clawRollRotat.setPose(ClawRollRotate.SCORING);
+        clawRollRotat.setPose(ClawRollRotate.DEFAULT);
     }
 }

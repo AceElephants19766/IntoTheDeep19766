@@ -23,8 +23,8 @@ public class ExtenderArm extends SubsystemBase {
     private final double TPR = 537.7;
     private double offset = 0;
 
-    public static  final double COLLECT = 0;
-    public static final double SCORE = 30;
+    public static  final int COLLECT = 0;
+    public static final int SCORE = 30;
     public ExtenderArm(HardwareMap hardwareMap) {
         register();
 

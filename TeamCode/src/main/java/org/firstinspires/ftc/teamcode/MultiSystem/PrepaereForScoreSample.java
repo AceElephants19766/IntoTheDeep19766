@@ -14,11 +14,11 @@ import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 public class PrepaereForScoreSample extends SequentialCommandGroup {
     public PrepaereForScoreSample(ElbowArm elbowArm, ExtenderArm extenderArm, ClawUpDown clawUpDown, ClawRollRotate clawRollRotate){
         addCommands(
-                new ElbowArmCommand(elbowArm,ElbowArm.SCORINGSAMPLE),
+                new ElbowArmCommand(elbowArm,ElbowArm.SCORING_SAMPLE),
                 new WaitUntilCommand(() -> elbowArm.getPidController().getPositionError() < 40),
                 new ExtenderArmCommand(extenderArm,42).withTimeout(2000),
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORINGBACKWARD)),
-                new InstantCommand(()-> clawRollRotate.setPose(ClawRollRotate.SCORING))
+                new InstantCommand(()-> clawRollRotate.setPose(ClawRollRotate.DEFAULT))
         );
         addRequirements(
                 extenderArm,

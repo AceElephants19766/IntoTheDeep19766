@@ -4,12 +4,11 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 
 
-import org.firstinspires.ftc.teamcode.Commands.ClawCommand;
-import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateCommand;
+import org.firstinspires.ftc.teamcode.Commands.ClawToggleCommand;
+import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateToggleCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Commands.HangArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
@@ -66,11 +65,11 @@ public class MechnumDrive extends CommandOpMode
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
-                new ClawCommand(claw,0.5)
+                new ClawToggleCommand(claw,0.5)
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
-                new ClawRollRotateCommand(clawRotat,0.5)
+                new ClawRollRotateToggleCommand(clawRotat,0.5)
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whileActiveOnce(

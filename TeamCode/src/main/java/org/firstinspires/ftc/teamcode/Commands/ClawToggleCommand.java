@@ -4,10 +4,10 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 
-public class ClawCommand  extends CommandBase {
+public class ClawToggleCommand extends CommandBase {
     private Claw claw;
     private double pos;
-    public ClawCommand (Claw claw , double pos){
+    public ClawToggleCommand(Claw claw , double pos){
         this.claw = claw;
         this.pos = pos;
         addRequirements(claw);

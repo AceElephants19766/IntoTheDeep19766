@@ -4,12 +4,12 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ClawUpDown;
 
-public class ClawUpDownCommand extends CommandBase {
+public class ClawUpDownToggleCommand extends CommandBase {
 
     private ClawUpDown clawUpDown;
     private double pos;
 
-    public ClawUpDownCommand(ClawUpDown clawUpDown, double pos){
+    public ClawUpDownToggleCommand(ClawUpDown clawUpDown, double pos){
         this.clawUpDown = clawUpDown;
         this.pos = pos;
         addRequirements(clawUpDown);
