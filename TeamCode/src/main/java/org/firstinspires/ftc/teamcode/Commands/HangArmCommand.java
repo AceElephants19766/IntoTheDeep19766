@@ -19,10 +19,6 @@ public class HangArmCommand extends CommandBase {
         hangArm.setPower(power);
     }
 
-    @Override
-    public boolean isFinished() {
-        return hangArm.isPressed();
-    }
 
     @Override
     public void end(boolean interrupted) {

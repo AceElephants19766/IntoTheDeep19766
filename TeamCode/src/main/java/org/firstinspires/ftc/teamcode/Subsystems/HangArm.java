@@ -12,14 +12,14 @@ public class HangArm extends SubsystemBase {
     public HangArm(HardwareMap hardwareMap) {
         hangArm = hardwareMap.get(DcMotor.class, "hangArm");
 
-        touchSensor = hardwareMap.get(TouchSensor.class, "HangTouchSen");
+//        touchSensor = hardwareMap.get(TouchSensor.class, "HangTouchSen");
     }
 
     public void setPower(double power) {
         hangArm.setPower(power);
     }
 
-    public boolean isPressed() {
-        return touchSensor.isPressed();
-    }
+//    public boolean isPressed() {
+//        return touchSensor.isPressed();
+//    }
 }
