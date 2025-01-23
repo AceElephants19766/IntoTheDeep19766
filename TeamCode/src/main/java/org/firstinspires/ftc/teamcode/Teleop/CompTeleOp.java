@@ -97,7 +97,7 @@ public class CompTeleOp extends CommandOpMode {
                 new ExtenderArmJoystickCommand(extenderArm, -0.5)
         );
 
-        joystickLeftYUpCondition = new Trigger (() -> gamepadEx2.getLeftY() > 0.1);
+        joystickLeftYUpCondition = new Trigger (() -> -gamepadEx2.getLeftY() > 0.1);
        joystickLeftYUpCondition.whileActiveContinuous(
                new InstantCommand(() -> {
                    elbowArm.getPidController().setSetPoint(elbowArm.getAngle().getAsDouble()+(ctr+= 0.1));
@@ -118,6 +118,7 @@ public class CompTeleOp extends CommandOpMode {
         extenderReset = new Trigger(()-> extenderArm.isPressed());
         extenderReset.whenActive(
                 new ResetExtnderEncoder(extenderArm)
+
         );
 
         //claw open&close
