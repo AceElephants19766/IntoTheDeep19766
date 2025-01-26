@@ -97,25 +97,24 @@ public class CompTeleOp extends CommandOpMode {
                 new ExtenderArmJoystickCommand(extenderArm, -0.5)
         );
 
-        joystickLeftYUpCondition = new Trigger (() -> gamepadEx2.getLeftY() > 0.1);
-       joystickLeftYUpCondition.whileActiveContinuous(
-               new InstantCommand(() -> {
-                   elbowArm.getPidController().setSetPoint(elbowArm.getAngle().getAsDouble()+(ctr+= 0.1));
-               })
-       );
-       joystickLeftYUpCondition.whenInactive(()->ctr=0);
-
-        joystickLeftYDownCondition = new Trigger (() -> gamepadEx2.getLeftY() < -0.1);
-        joystickLeftYDownCondition.whileActiveContinuous(
+        joystickLeftYUpCondition = new Trigger(() -> gamepadEx2.getLeftY() > 0.1);
+        joystickLeftYUpCondition.whileActiveContinuous(
                 new InstantCommand(() -> {
-                    elbowArm.getPidController().setSetPoint(elbowArm.getAngle().getAsDouble()-(ctr+= 0.1));
+                    elbowArm.getPidController().setSetPoint(elbowArm.getAngle().getAsDouble() + (ctr += 0.2));
                 })
         );
-        joystickLeftYUpCondition.whenInactive(()->ctr=0);
+        joystickLeftYUpCondition.whenInactive(() -> ctr = 0);
+
+        joystickLeftYDownCondition = new Trigger(() -> gamepadEx2.getLeftY() < -0.1);
+        joystickLeftYDownCondition.whileActiveContinuous(
+                new InstantCommand(() -> {
+                    elbowArm.getPidController().setSetPoint(elbowArm.getAngle().getAsDouble() - (ctr += 0.1));
+                })
+        );
+        joystickLeftYUpCondition.whenInactive(() -> ctr = 0);
 
 
-
-        extenderReset = new Trigger(()-> extenderArm.isPressed());
+        extenderReset = new Trigger(() -> extenderArm.isPressed());
         extenderReset.whenActive(
                 new ResetExtnderEncoder(extenderArm)
 
@@ -144,9 +143,7 @@ public class CompTeleOp extends CommandOpMode {
                 )
         );
 
-
-        //todo: maybe we will change it to backward scoring
-        //Scoring
+        //Scoring a sample
         gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
                 new PrepaereForScoreSample(
                         elbowArm,
@@ -160,6 +157,7 @@ public class CompTeleOp extends CommandOpMode {
         gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 new CollectSample(
                         elbowArm,
+                        extenderArm,
                         claw
                 )
         );
@@ -169,13 +167,14 @@ public class CompTeleOp extends CommandOpMode {
                         () -> elbowArm.getPidController().setSetPoint(ElbowArm.SCORING_SPECIMEN)
                 )
         );
-        //after collecting specimen lifts the extender
+        //after collecting specimen lifts the elbow
         gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
                 new SequentialCommandGroup(
-                        new ElbowArmCommand(elbowArm,ElbowArm.AFTER_COLLECT_SPECIMEN),
-                        new ClawSetPose(claw,Claw.OPEN)
+                        new ElbowArmCommand(elbowArm, ElbowArm.AFTER_COLLECT_SPECIMEN),
+                        new ClawSetPose(claw, Claw.OPEN)
                 )
         );
+
         gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
                 new PreaperForScoreSpecimen(
                         elbowArm,
@@ -184,6 +183,7 @@ public class CompTeleOp extends CommandOpMode {
                         clawRollRotat
                 )
         );
+
         gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
                 new PrepareForCollectSpecimen(
                         extenderArm,
@@ -198,8 +198,9 @@ public class CompTeleOp extends CommandOpMode {
     @Override
     public void run() {
         super.run();
-        telemetry.addData("is Pressed",extenderArm.isPressed());
-        telemetry.addData("extender",extenderArm.getLength());
+        telemetry.addData("is Pressed", extenderArm.isPressed());
+        telemetry.addData("extender", extenderArm.getLength());
+        telemetry.addData("elbow",elbowArm.getDeg());
         telemetry.addData("ctr", ctr);
         telemetry.update();
     }

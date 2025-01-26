@@ -24,7 +24,9 @@ public class ExtenderArm extends SubsystemBase {
     private double offset = 0;
 
     public static  final int COLLECT = 0;
-    public static final int SCORE = 30;
+    public static final int SCORE = 47;
+    public static final int COLLECTSAMPLE = 17;
+    public static final int SCORINGSPACIMEN = 18;
     public ExtenderArm(HardwareMap hardwareMap) {
         register();
 
@@ -64,12 +66,12 @@ public class ExtenderArm extends SubsystemBase {
         return pidController;
     }
 
-    @Override
-    public void periodic() {
-        FtcDashboard.getInstance().getTelemetry().addData("extenderTarget", pidController.getSetPoint());
-        FtcDashboard.getInstance().getTelemetry().addData("extenderCurrentPos", getLength());
-        FtcDashboard.getInstance().getTelemetry().addData("extender power", extenderArm.getPower());
-        FtcDashboard.getInstance().getTelemetry().addData("extender is finished",getPidController().atSetPoint());
-        FtcDashboard.getInstance().getTelemetry().update();
-    }
+//    @Override
+//    public void periodic() {
+//        FtcDashboard.getInstance().getTelemetry().addData("extenderTarget", pidController.getSetPoint());
+//        FtcDashboard.getInstance().getTelemetry().addData("extenderCurrentPos", getLength());
+//        FtcDashboard.getInstance().getTelemetry().addData("extender power", extenderArm.getPower());
+//        FtcDashboard.getInstance().getTelemetry().addData("extender is finished",getPidController().atSetPoint());
+//        FtcDashboard.getInstance().getTelemetry().update();
+//    }
 }

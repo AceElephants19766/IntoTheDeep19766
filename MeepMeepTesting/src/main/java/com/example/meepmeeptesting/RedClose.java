@@ -27,36 +27,44 @@ public class RedClose {
                         new Vector2d(-10, -35)
                         , Math.toRadians(90) //tangent
                 );
-
-        TrajectoryActionBuilder BackingUpAfterSpicimen = PrepaerForSpicimen.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .splineToConstantHeading(new Vector2d(-10, -42), Math.toRadians(90));
-
-        TrajectoryActionBuilder goToSample = BackingUpAfterSpicimen.endTrajectory().fresh()
+        TrajectoryActionBuilder goToSample = PrepaerForSpicimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .splineToConstantHeading(
                         new Vector2d(-49, -40),
                         Math.toRadians(90)
                 );
-        TrajectoryActionBuilder openTheElbow = goToSample.endTrajectory().fresh()
-                .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(
-                        new Pose2d(-49, -45, Math.toRadians(180)),
-                        Math.toRadians(0)
-                );
-        TrajectoryActionBuilder goToBasket = openTheElbow.endTrajectory().fresh()
-                .setTangent(Math.toRadians(180))
+        TrajectoryActionBuilder goToBasket = goToSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
                 .splineToSplineHeading(
-                        new Pose2d(-50, -50, Math.toRadians(-135)),
+                        new Pose2d(-50, -50, Math.toRadians(45)),
                         Math.toRadians(-90)
+                );
+        TrajectoryActionBuilder goToSecSample = goToBasket.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(
+                        new Pose2d(-56, -40,Math.toRadians(90)),
+                        Math.toRadians(90)
+                );
+        TrajectoryActionBuilder goToBasket2 = goToSecSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(
+                        new Pose2d(-50, -50, Math.toRadians(45)),
+                        Math.toRadians(-90)
+                );
+        TrajectoryActionBuilder goToThiSample = goToBasket.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(
+                        new Pose2d(-54, -28,Math.toRadians(180)),
+                        Math.toRadians(90)
                 );
         myBot.runAction(
                 new SequentialAction(
                         PrepaerForSpicimen.build(),
-                        BackingUpAfterSpicimen.build(),
                         goToSample.build(),
-                        openTheElbow.build(),
-                        goToBasket.build()
+                        goToBasket.build(),
+                        goToSecSample.build(),
+                        goToBasket2.build(),
+                        goToThiSample.build()
                 )
         );
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_OFFICIAL)

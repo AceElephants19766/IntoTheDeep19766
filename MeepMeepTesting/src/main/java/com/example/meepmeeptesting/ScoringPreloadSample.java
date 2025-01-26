@@ -24,13 +24,26 @@ public class ScoringPreloadSample {
                 )
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(
-                        new Pose2d(-50, -50, Math.toRadians(-135)),
+                        new Pose2d(-50, -50, Math.toRadians(45)),
                         Math.toRadians(180)
                 );
+        TrajectoryActionBuilder goToParkAtBar = goToBasket.endTrajectory().fresh()
+                .setTangent(Math.toRadians(90))
+                .splineToSplineHeading(
+                        new Pose2d(-25,-10,Math.toRadians(0)),
+                        Math.toRadians(0)
+                );
+        TrajectoryActionBuilder parkAtBar = goToParkAtBar.endTrajectory().fresh()
+                .setTangent(Math.toRadians(0))
+                .splineToConstantHeading(
+                        new Vector2d(-25,-10),
+                        Math.toRadians(0)
+                );
+
         TrajectoryActionBuilder park = goToBasket.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
                 .splineToSplineHeading(
-                        new Pose2d(36, -60, Math.toRadians(-90)),
+                        new Pose2d(36, -62, Math.toRadians(90)),
                         Math.toRadians(0)
                 );
 
@@ -38,7 +51,8 @@ public class ScoringPreloadSample {
         myBot.runAction(
                 new SequentialAction(
                         goToBasket.build(),
-                        park.build()
+                        goToParkAtBar.build(),
+                        parkAtBar.build()
                 )
         );
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_OFFICIAL)

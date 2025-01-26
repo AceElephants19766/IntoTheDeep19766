@@ -31,18 +31,33 @@ public class RedFar {
                 .setTangent(Math.toRadians(-90))
                 .splineToConstantHeading(new Vector2d(10, -42), Math.toRadians(90));
 
-        TrajectoryActionBuilder goLeftSample = BackingUpAfterSpicimen.endTrajectory().fresh()
+        TrajectoryActionBuilder goToPushSample = BackingUpAfterSpicimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(90))
                 .splineToConstantHeading(
-                        new Vector2d(49, -40),
-                        Math.toRadians(90)
+                        new Vector2d(33, -35),
+                        Math.toRadians(0)
                 );
+        TrajectoryActionBuilder goToPushSample2 = goToPushSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(90))
+                .splineToSplineHeading(
+                        new Pose2d(33, -15, Math.toRadians(0)),
+                        Math.toRadians(-90)
+                );
+        TrajectoryActionBuilder goToPushSample3 = goToPushSample2.endTrajectory().fresh()
+                .setTangent(Math.toRadians(0))
+                .splineToConstantHeading(
+                        new Vector2d(45,-15),
+                        Math.toRadians(0)
+                );
+
 
         myBot.runAction(
                 new SequentialAction(
                         PrepaerForSpicimen.build(),
                         BackingUpAfterSpicimen.build(),
-                        goLeftSample.build()
+                        goToPushSample.build(),
+                        goToPushSample2.build(),
+                        goToPushSample3.build()
                 )
         );
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_OFFICIAL)

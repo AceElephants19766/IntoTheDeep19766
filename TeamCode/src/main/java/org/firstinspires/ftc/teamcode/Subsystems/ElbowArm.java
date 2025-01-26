@@ -23,11 +23,11 @@ public class ElbowArm extends SubsystemBase {
     private double offset = 0;
 
     public static final int DEFAULT = 20;
-    public static final int COLLECT_SAMPLE = 0;
+    public static final int COLLECT_SAMPLE = 5;
     public static final int AFTER_COLLECT_SPECIMEN = 40;
     public static final int SCORING_SAMPLE = 125;
-    public static final int SCORING_SPECIMEN = 15 ;
-    public static final int SPECIMEN_COLLECT = 15;
+    public static final int SCORING_SPECIMEN = 80 ;
+    public static final int SPECIMEN_COLLECT = 17;
 
     public ElbowArm(HardwareMap hardwareMap) {
         elbowArm = hardwareMap.get(DcMotor.class, "elbow");
@@ -54,6 +54,10 @@ public class ElbowArm extends SubsystemBase {
     public DoubleSupplier getAngle() {
         return ()->((getTicks() / TPR)/4) * 360;
     }
+    public double getDeg(){
+        return ((getTicks() / TPR)/4)*360;
+    }
+
 
     public PIDController getPidController() {
         return pidController;
