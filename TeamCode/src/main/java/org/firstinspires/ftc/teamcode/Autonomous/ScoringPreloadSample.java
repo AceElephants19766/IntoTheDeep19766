@@ -2,16 +2,19 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Commands.ActionCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawSetPose;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
+import org.firstinspires.ftc.teamcode.MultiSystem.CollectSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScoreSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSample;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveTrain;
@@ -45,7 +48,7 @@ public class ScoringPreloadSample extends CommandOpMode {
         elbowArm = new ElbowArm(hardwareMap);
         hangArm = new HangArm(hardwareMap);
 
-        Pose2d initialPose = new Pose2d(-8, -62, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(-32, -62, Math.toRadians(90));
         autoDriveTrain = new AutoDriveTrain(hardwareMap, initialPose);
 
         elbowArm.setDefaultCommand(
@@ -57,8 +60,14 @@ public class ScoringPreloadSample extends CommandOpMode {
                 )
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(
-                        new Pose2d(-50, -50, Math.toRadians(-135)),
+                        new Pose2d(-53, -53, Math.toRadians(45)),
                         Math.toRadians(180)
+                );
+        TrajectoryActionBuilder goToSample = goToBasket.endTrajectory().fresh()
+                .setTangent(Math.toRadians(90))
+                .splineToSplineHeading(
+                        new Pose2d(-47, -33,Math.toRadians(90)),
+                        Math.toRadians(90)
                 );
         TrajectoryActionBuilder park = goToBasket.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
@@ -79,10 +88,13 @@ public class ScoringPreloadSample extends CommandOpMode {
                                         new PrepaereForScoreSample(elbowArm, extenderArm, clawUpDown, clawRollRotat)
                                 )
                         ),
+                        new WaitCommand(500),
                         new ClawSetPose(claw, Claw.OPEN),
-                        //todo like the other one
-                        new ActionCommand(park.build()),
-                        new PrepareForCollectSample(elbowArm, extenderArm, clawUpDown, clawRollRotat)
+                        new PrepareForCollectSample(elbowArm,extenderArm,clawUpDown,clawRollRotat),
+                        new ActionCommand(goToSample.build()),
+                        new CollectSample(elbowArm, extenderArm, claw, clawRollRotat)
+//                        new ActionCommand(park.build()),
+//                        new PrepareForCollectSample(elbowArm, extenderArm, clawUpDown, clawRollRotat)
                 )
         );
 

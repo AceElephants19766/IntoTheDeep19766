@@ -24,13 +24,19 @@ public class RedClose {
                 )
                 .setTangent(Math.toRadians(90))
                 .splineToConstantHeading(
-                        new Vector2d(-10, -35)
+                        new Vector2d(-10, -38)
                         , Math.toRadians(90) //tangent
                 );
-        TrajectoryActionBuilder goToSample = PrepaerForSpicimen.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
+        TrajectoryActionBuilder BackingUpAfterSpecimen = PrepaerForSpicimen.endTrajectory().fresh()
+                .setTangent(Math.toRadians(90))
                 .splineToConstantHeading(
-                        new Vector2d(-49, -40),
+                        new Vector2d(-10, -45),
+                        Math.toRadians(90)
+                );
+        TrajectoryActionBuilder goToSample = BackingUpAfterSpecimen.endTrajectory().fresh()
+                .setTangent(Math.toRadians(180))
+                .splineToConstantHeading(
+                        new Vector2d(-47, -35),
                         Math.toRadians(90)
                 );
         TrajectoryActionBuilder goToBasket = goToSample.endTrajectory().fresh()
@@ -39,13 +45,7 @@ public class RedClose {
                         new Pose2d(-50, -50, Math.toRadians(45)),
                         Math.toRadians(-90)
                 );
-        TrajectoryActionBuilder goToSecSample = goToBasket.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(
-                        new Pose2d(-56, -40,Math.toRadians(90)),
-                        Math.toRadians(90)
-                );
-        TrajectoryActionBuilder goToBasket2 = goToSecSample.endTrajectory().fresh()
+        TrajectoryActionBuilder goToBasket2 = goToBasket.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .splineToLinearHeading(
                         new Pose2d(-50, -50, Math.toRadians(45)),
@@ -62,7 +62,6 @@ public class RedClose {
                         PrepaerForSpicimen.build(),
                         goToSample.build(),
                         goToBasket.build(),
-                        goToSecSample.build(),
                         goToBasket2.build(),
                         goToThiSample.build()
                 )

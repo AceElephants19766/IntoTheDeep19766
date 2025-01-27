@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.StartEndCommand;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -17,7 +18,9 @@ import org.firstinspires.ftc.teamcode.Commands.ClawUpDownToggleCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
+import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmJoystickCommand;
+import org.firstinspires.ftc.teamcode.Commands.ResetElbowEncoder;
 import org.firstinspires.ftc.teamcode.Commands.ResetExtnderEncoder;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
 import org.firstinspires.ftc.teamcode.MultiSystem.CollectSample;
@@ -86,15 +89,18 @@ public class CompTeleOp extends CommandOpMode {
         elbowArm.setDefaultCommand(
                 new ElbowKeepPos(elbowArm)
         );
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.START).whenPressed(
+                new ResetElbowEncoder(elbowArm)
+        );
 
         joystickRightYUpCondition = new Trigger(() -> -gamepadEx2.getRightY() > 0.1);
         joystickRightYUpCondition.whileActiveOnce(
-                new ExtenderArmJoystickCommand(extenderArm, 0.5)
+                new ExtenderArmJoystickCommand(extenderArm, 0.6)
         );
 
         joystickRightYDownCondition = new Trigger(() -> -gamepadEx2.getRightY() < -0.1);
         joystickRightYDownCondition.whileActiveOnce(
-                new ExtenderArmJoystickCommand(extenderArm, -0.5)
+                new ExtenderArmJoystickCommand(extenderArm, -0.6)
         );
 
         joystickLeftYUpCondition = new Trigger(() -> gamepadEx2.getLeftY() > 0.1);
@@ -158,30 +164,12 @@ public class CompTeleOp extends CommandOpMode {
                 new CollectSample(
                         elbowArm,
                         extenderArm,
-                        claw
+                        claw,
+                        clawRollRotat
                 )
         );
         gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).toggleWhenPressed(
-                new StartEndCommand(
-                        () -> elbowArm.getPidController().setSetPoint(ElbowArm.AFTER_COLLECT_SPECIMEN),
-                        () -> elbowArm.getPidController().setSetPoint(ElbowArm.SCORING_SPECIMEN)
-                )
-        );
-        //after collecting specimen lifts the elbow
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
-                new SequentialCommandGroup(
-                        new ElbowArmCommand(elbowArm, ElbowArm.AFTER_COLLECT_SPECIMEN),
-                        new ClawSetPose(claw, Claw.OPEN)
-                )
-        );
-
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-                new PreaperForScoreSpecimen(
-                        elbowArm,
-                        extenderArm,
-                        clawUpDown,
-                        clawRollRotat
-                )
+                new ElbowArmCommand(elbowArm, ElbowArm.SCORING_SPECIMEN)
         );
 
         gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
@@ -191,6 +179,13 @@ public class CompTeleOp extends CommandOpMode {
                         clawRollRotat,
                         clawUpDown,
                         claw
+                )
+        );
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+                new SequentialCommandGroup(
+                        new ElbowArmCommand(elbowArm,10),
+                        new WaitCommand(300),
+                        new ExtenderArmCommand(extenderArm,2)
                 )
         );
     }
