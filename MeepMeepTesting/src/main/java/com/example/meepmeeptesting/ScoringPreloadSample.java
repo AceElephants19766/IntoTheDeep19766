@@ -24,19 +24,30 @@ public class ScoringPreloadSample {
                 )
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(
-                        new Pose2d(-50, -50, Math.toRadians(45)),
+                        new Pose2d(-52, -46, Math.toRadians(45)),
                         Math.toRadians(180)
                 );
-        TrajectoryActionBuilder goToSample = goToBasket.endTrajectory().fresh()
-                .setTangent(Math.toRadians(90))
-                .splineToSplineHeading(
-                        new Pose2d(-47, -33,Math.toRadians(90)),
-                        Math.toRadians(90)
+        TrajectoryActionBuilder goToSample = myBot.getDrive().actionBuilder(
+                        new Pose2d(-50, -46, Math.toRadians(45))
+                )
+                .setTangent(Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(-47,-40),
+                        Math.toRadians(90));
+        //                .setTangent(Math.toRadians(0))
+//                .splineToSplineHeading(new Pose2d(-33,-25,Math.toRadians(180)),
+//                        Math.toRadians(90));
+
+        TrajectoryActionBuilder goToBasket2 = goToSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(
+                        new Pose2d(-52, -46, Math.toRadians(45)),
+                        Math.toRadians(180)
                 );
+
         TrajectoryActionBuilder goToParkAtBar = goToBasket.endTrajectory().fresh()
-                .setTangent(Math.toRadians(90))
+                .setTangent(Math.toRadians(0))
                 .splineToSplineHeading(
-                        new Pose2d(-25,-10,Math.toRadians(0)),
+                        new Pose2d(-25,-10,Math.toRadians(180)),
                         Math.toRadians(0)
                 );
         TrajectoryActionBuilder parkAtBar = goToParkAtBar.endTrajectory().fresh()
@@ -56,7 +67,9 @@ public class ScoringPreloadSample {
         myBot.runAction(
                 new SequentialAction(
                         goToBasket.build(),
-                        goToSample.build()
+                        goToSample.build(),
+                        goToBasket2.build(),
+                        goToParkAtBar.build()
 //                        goToParkAtBar.build(),
 //                        parkAtBar.build()
                 )

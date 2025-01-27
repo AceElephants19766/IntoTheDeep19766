@@ -15,7 +15,7 @@ public class ElbowArm extends SubsystemBase {
     private PIDController pidController;
 
     public static double kP = 0.045;
-    public static double kI = 0.3;
+    public static double kI = 0.2;
     public static double kD = 0.003;
     public static double TOL = 1;
 

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -15,8 +16,9 @@ import org.firstinspires.ftc.teamcode.Commands.ActionCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawSetPose;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
 import org.firstinspires.ftc.teamcode.MultiSystem.CollectSample;
-import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScoreSample;
+import org.firstinspires.ftc.teamcode.MultiSystem.PreaperForScoreSampleAuto;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSample;
+import org.firstinspires.ftc.teamcode.MultiSystem.ScoringBasketAutonomuos;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveTrain;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
@@ -49,6 +51,7 @@ public class ScoringPreloadSample extends CommandOpMode {
         hangArm = new HangArm(hardwareMap);
 
         Pose2d initialPose = new Pose2d(-32, -62, Math.toRadians(90));
+        Pose2d basket = new Pose2d(-48, -43, Math.toRadians(40));
         autoDriveTrain = new AutoDriveTrain(hardwareMap, initialPose);
 
         elbowArm.setDefaultCommand(
@@ -60,16 +63,28 @@ public class ScoringPreloadSample extends CommandOpMode {
                 )
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(
-                        new Pose2d(-53, -53, Math.toRadians(45)),
+                        basket,
                         Math.toRadians(180)
                 );
+
         TrajectoryActionBuilder goToSample = goToBasket.endTrajectory().fresh()
-                .setTangent(Math.toRadians(90))
-                .splineToSplineHeading(
-                        new Pose2d(-47, -33,Math.toRadians(90)),
-                        Math.toRadians(90)
+                .setTangent(Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(-47, -40),
+                        Math.toRadians(90));
+
+        TrajectoryActionBuilder goToBasket2 = goToSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(
+                        basket,
+                        Math.toRadians(180)
                 );
-        TrajectoryActionBuilder park = goToBasket.endTrajectory().fresh()
+        TrajectoryActionBuilder goToParkAtBar = goToBasket.endTrajectory().fresh()
+                .setTangent(Math.toRadians(0))
+                .splineToSplineHeading(
+                        new Pose2d(-25, -10, Math.toRadians(180)),
+                        Math.toRadians(0)
+                );
+        TrajectoryActionBuilder park = goToSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
                 .splineToSplineHeading(
                         new Pose2d(36, -60, Math.toRadians(-90)),
@@ -85,18 +100,33 @@ public class ScoringPreloadSample extends CommandOpMode {
                                         new WaitUntilCommand(
                                                 () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.x < -40
                                         ),
-                                        new PrepaereForScoreSample(elbowArm, extenderArm, clawUpDown, clawRollRotat)
+                                        new ScoringBasketAutonomuos(elbowArm, extenderArm, clawUpDown, claw)
+                                )
+                        ),
+                        new ParallelCommandGroup(
+                                new ActionCommand(goToSample.build()).andThen(
+                                ),
+                                new SequentialCommandGroup(
+                                        new WaitCommand(700),
+                                        new PrepareForCollectSample(elbowArm, extenderArm, clawUpDown, clawRollRotat)
                                 )
                         ),
                         new WaitCommand(500),
-                        new ClawSetPose(claw, Claw.OPEN),
-                        new PrepareForCollectSample(elbowArm,extenderArm,clawUpDown,clawRollRotat),
-                        new ActionCommand(goToSample.build()),
-                        new CollectSample(elbowArm, extenderArm, claw, clawRollRotat)
+                        new CollectSample(elbowArm, extenderArm, claw, clawRollRotat),
+                        new ParallelCommandGroup(
+                                new ActionCommand(goToBasket2.build()),
+                                new SequentialCommandGroup(
+                                        new WaitUntilCommand(
+                                                () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.x < -41
+                                        ),
+                                        new ScoringBasketAutonomuos(elbowArm, extenderArm, clawUpDown, claw)
+                                )
+                        )
+
+
 //                        new ActionCommand(park.build()),
 //                        new PrepareForCollectSample(elbowArm, extenderArm, clawUpDown, clawRollRotat)
                 )
         );
-
     }
 }

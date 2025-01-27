@@ -17,7 +17,7 @@ public class PrepareForCollectSample extends SequentialCommandGroup {
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.COLLECT)),
                 new InstantCommand(()-> clawRollRotate.setPose(ClawRollRotate.SPECIAL)),
                 new WaitCommand(700),
-                new ExtenderArmCommand(extenderArm,2),
+                new ExtenderArmCommand(extenderArm,0),
                 new ElbowArmCommand(elbowArm,ElbowArm.DEFAULT)
         );
         addRequirements(
