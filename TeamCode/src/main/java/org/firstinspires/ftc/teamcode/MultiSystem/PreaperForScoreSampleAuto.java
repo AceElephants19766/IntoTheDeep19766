@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.MultiSystem;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
 import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
@@ -15,9 +16,10 @@ public class PreaperForScoreSampleAuto extends SequentialCommandGroup {
     public PreaperForScoreSampleAuto(ElbowArm elbowArm, ExtenderArm extenderArm) {
         addCommands(
                 new ElbowArmCommand(elbowArm, ElbowArm.SCORING_SAMPLE),
-                new WaitUntilCommand(() -> elbowArm.getPidController().getPositionError() < 40),
+                new WaitUntilCommand(() -> elbowArm.getPidController().getPositionError() < 20),
+                new WaitCommand(1000),
                 new ExtenderArmCommand(extenderArm, ExtenderArm.SCORE).withTimeout(2000)
-                );
+        );
         addRequirements(
                 extenderArm
         );

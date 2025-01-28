@@ -33,6 +33,7 @@ public class ScoringPreloadSample {
                 .setTangent(Math.toRadians(0))
                 .strafeToLinearHeading(new Vector2d(-47,-40),
                         Math.toRadians(90));
+
         //                .setTangent(Math.toRadians(0))
 //                .splineToSplineHeading(new Pose2d(-33,-25,Math.toRadians(180)),
 //                        Math.toRadians(90));
@@ -44,16 +45,10 @@ public class ScoringPreloadSample {
                         Math.toRadians(180)
                 );
 
-        TrajectoryActionBuilder goToParkAtBar = goToBasket.endTrajectory().fresh()
+        TrajectoryActionBuilder goToParkAtBar = goToBasket2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
                 .splineToSplineHeading(
                         new Pose2d(-25,-10,Math.toRadians(180)),
-                        Math.toRadians(0)
-                );
-        TrajectoryActionBuilder parkAtBar = goToParkAtBar.endTrajectory().fresh()
-                .setTangent(Math.toRadians(0))
-                .splineToConstantHeading(
-                        new Vector2d(-25,-10),
                         Math.toRadians(0)
                 );
 
@@ -70,8 +65,6 @@ public class ScoringPreloadSample {
                         goToSample.build(),
                         goToBasket2.build(),
                         goToParkAtBar.build()
-//                        goToParkAtBar.build(),
-//                        parkAtBar.build()
                 )
         );
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_OFFICIAL)

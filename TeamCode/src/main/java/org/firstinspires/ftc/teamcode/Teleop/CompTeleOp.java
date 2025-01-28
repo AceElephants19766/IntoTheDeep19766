@@ -58,6 +58,7 @@ public class CompTeleOp extends CommandOpMode {
     public Trigger joystickLeftYDownCondition;
 
     double ctr = 0;
+    double jump = 1;
 
     @Override
     public void initialize() {
@@ -89,7 +90,7 @@ public class CompTeleOp extends CommandOpMode {
         elbowArm.setDefaultCommand(
                 new ElbowKeepPos(elbowArm)
         );
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.START).whenPressed(
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.START).whenPressed(
                 new ResetElbowEncoder(elbowArm)
         );
 
@@ -106,7 +107,7 @@ public class CompTeleOp extends CommandOpMode {
         joystickLeftYUpCondition = new Trigger(() -> gamepadEx2.getLeftY() > 0.1);
         joystickLeftYUpCondition.whileActiveContinuous(
                 new InstantCommand(() -> {
-                    elbowArm.getPidController().setSetPoint(elbowArm.getAngle().getAsDouble() + (ctr += 0.2));
+                    elbowArm.getPidController().setSetPoint(elbowArm.getAngle().getAsDouble() + (ctr += 0.7));
                 })
         );
         joystickLeftYUpCondition.whenInactive(() -> ctr = 0);
@@ -114,7 +115,12 @@ public class CompTeleOp extends CommandOpMode {
         joystickLeftYDownCondition = new Trigger(() -> gamepadEx2.getLeftY() < -0.1);
         joystickLeftYDownCondition.whileActiveContinuous(
                 new InstantCommand(() -> {
-                    elbowArm.getPidController().setSetPoint(elbowArm.getAngle().getAsDouble() - (ctr += 0.1));
+                    if (elbowArm.getAngle().getAsDouble() < 20) {
+                        jump = 0.1 ;
+                    }else {
+                        jump =1;
+                    }
+                    elbowArm.getPidController().setSetPoint(elbowArm.getAngle().getAsDouble() - (ctr += jump));
                 })
         );
         joystickLeftYUpCondition.whenInactive(() -> ctr = 0);
@@ -183,9 +189,9 @@ public class CompTeleOp extends CommandOpMode {
         );
         gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
                 new SequentialCommandGroup(
-                        new ElbowArmCommand(elbowArm,10),
+                        new ElbowArmCommand(elbowArm, 30),
                         new WaitCommand(300),
-                        new ExtenderArmCommand(extenderArm,2)
+                        new ExtenderArmCommand(extenderArm, 2)
                 )
         );
     }
@@ -195,7 +201,7 @@ public class CompTeleOp extends CommandOpMode {
         super.run();
         telemetry.addData("is Pressed", extenderArm.isPressed());
         telemetry.addData("extender", extenderArm.getLength());
-        telemetry.addData("elbow",elbowArm.getDeg());
+        telemetry.addData("elbow", elbowArm.getDeg());
         telemetry.addData("ctr", ctr);
         telemetry.update();
     }

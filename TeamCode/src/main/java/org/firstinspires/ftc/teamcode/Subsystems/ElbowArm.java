@@ -45,6 +45,7 @@ public class ElbowArm extends SubsystemBase {
     public void setPower(double power) {
         elbowArm.setPower(power);
     }
+
     public double getTicks () {
         return (elbowArm.getCurrentPosition() + offset);
     }

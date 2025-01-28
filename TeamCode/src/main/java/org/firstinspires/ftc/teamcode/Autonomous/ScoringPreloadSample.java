@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Commands.ActionCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawSetPose;
+import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
 import org.firstinspires.ftc.teamcode.MultiSystem.CollectSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.PreaperForScoreSampleAuto;
@@ -51,7 +52,7 @@ public class ScoringPreloadSample extends CommandOpMode {
         hangArm = new HangArm(hardwareMap);
 
         Pose2d initialPose = new Pose2d(-32, -62, Math.toRadians(90));
-        Pose2d basket = new Pose2d(-48, -43, Math.toRadians(40));
+        Pose2d basket = new Pose2d(-52, -53, Math.toRadians(40));
         autoDriveTrain = new AutoDriveTrain(hardwareMap, initialPose);
 
         elbowArm.setDefaultCommand(
@@ -69,7 +70,7 @@ public class ScoringPreloadSample extends CommandOpMode {
 
         TrajectoryActionBuilder goToSample = goToBasket.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
-                .strafeToLinearHeading(new Vector2d(-47, -40),
+                .strafeToLinearHeading(new Vector2d(-48, -37),
                         Math.toRadians(90));
 
         TrajectoryActionBuilder goToBasket2 = goToSample.endTrajectory().fresh()
@@ -81,13 +82,7 @@ public class ScoringPreloadSample extends CommandOpMode {
         TrajectoryActionBuilder goToParkAtBar = goToBasket.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
                 .splineToSplineHeading(
-                        new Pose2d(-25, -10, Math.toRadians(180)),
-                        Math.toRadians(0)
-                );
-        TrajectoryActionBuilder park = goToSample.endTrajectory().fresh()
-                .setTangent(Math.toRadians(0))
-                .splineToSplineHeading(
-                        new Pose2d(36, -60, Math.toRadians(-90)),
+                        new Pose2d(-25, -6, Math.toRadians(180)),
                         Math.toRadians(0)
                 );
 
@@ -100,12 +95,15 @@ public class ScoringPreloadSample extends CommandOpMode {
                                         new WaitUntilCommand(
                                                 () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.x < -40
                                         ),
+                                        new InstantCommand(() -> {
+                                            FtcDashboard.getInstance().getTelemetry().addLine("tyyyyy");
+                                            FtcDashboard.getInstance().getTelemetry().update();
+                                        }),
                                         new ScoringBasketAutonomuos(elbowArm, extenderArm, clawUpDown, claw)
                                 )
                         ),
                         new ParallelCommandGroup(
-                                new ActionCommand(goToSample.build()).andThen(
-                                ),
+                                new ActionCommand(goToSample.build()),
                                 new SequentialCommandGroup(
                                         new WaitCommand(700),
                                         new PrepareForCollectSample(elbowArm, extenderArm, clawUpDown, clawRollRotat)
@@ -121,11 +119,15 @@ public class ScoringPreloadSample extends CommandOpMode {
                                         ),
                                         new ScoringBasketAutonomuos(elbowArm, extenderArm, clawUpDown, claw)
                                 )
-                        )
-
-
-//                        new ActionCommand(park.build()),
-//                        new PrepareForCollectSample(elbowArm, extenderArm, clawUpDown, clawRollRotat)
+                        ),
+                        new ParallelCommandGroup(
+                                new ActionCommand(goToParkAtBar.build()),
+                                new SequentialCommandGroup(
+                                        new WaitCommand(700),
+                                        new PrepareForCollectSample(elbowArm, extenderArm, clawUpDown, clawRollRotat)
+                                )
+                        ),
+                        new ElbowArmCommand(elbowArm, ElbowArm.SCORING_SAMPLE)
                 )
         );
     }
