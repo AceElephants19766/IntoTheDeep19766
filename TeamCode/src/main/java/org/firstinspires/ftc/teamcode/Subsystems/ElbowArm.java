@@ -27,8 +27,11 @@ public class ElbowArm extends SubsystemBase {
     public static final int COLLECT_SAMPLE = 5;
     public static final int SCORING_SAMPLE = 125;
 
-    public static final int SPECIMEN_COLLECT = 17;
+    public static final int SPECIMEN_COLLECT = 20;
+    public static final int AFTER_COLLECTING_SPECIMEN = 60;
     public static final int SCORING_SPECIMEN = 80 ;
+    public static final int AUTO_SCORING_SPECIMEN = 100 ;
+
     public static final int AFTER_COLLECT_SPECIMEN = 60;
 
     public ElbowArm(HardwareMap hardwareMap) {

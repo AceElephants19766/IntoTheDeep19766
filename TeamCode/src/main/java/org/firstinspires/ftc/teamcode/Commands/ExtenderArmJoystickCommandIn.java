@@ -1,18 +1,17 @@
 package org.firstinspires.ftc.teamcode.Commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.command.PerpetualCommand;
-import com.arcrobotics.ftclib.command.RunCommand;
 
+import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 
-import java.util.function.DoubleSupplier;
-
-public class ExtenderArmJoystickCommand extends CommandBase {
+public class ExtenderArmJoystickCommandIn extends CommandBase {
     public ExtenderArm extenderArm;
+    public ElbowArm elbowArm;
     public double power;
-    public ExtenderArmJoystickCommand (ExtenderArm extenderArm, double power){
+    public ExtenderArmJoystickCommandIn(ExtenderArm extenderArm, ElbowArm elbowArm, double power){
         this.extenderArm = extenderArm;
+        this.elbowArm = elbowArm;
         this.power = power;
         addRequirements(extenderArm);
     }

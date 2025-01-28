@@ -13,7 +13,7 @@ public class  ClawRollRotate extends SubsystemBase {
 
     public ClawRollRotate(HardwareMap hardwareMap) {
         clawRotate = hardwareMap.get(Servo.class, "clawRotate");
-        clawRotate.setPosition(ClawRollRotate.SPECIAL);
+        clawRotate.setPosition(ClawRollRotate.DEFAULT);
     }
 
     public void setPose(double pose){
