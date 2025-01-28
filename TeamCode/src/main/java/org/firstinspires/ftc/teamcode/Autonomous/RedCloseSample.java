@@ -21,6 +21,7 @@ import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmJoystickCommandIn;
 import org.firstinspires.ftc.teamcode.MultiSystem.CollectSample;
+import org.firstinspires.ftc.teamcode.MultiSystem.GoToBasketAndScore;
 import org.firstinspires.ftc.teamcode.MultiSystem.PreaperForScoreSpecimen;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScoreSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSample;
@@ -78,6 +79,17 @@ public class RedCloseSample extends CommandOpMode {
                         new Pose2d(-53, -53, Math.toRadians(45)),
                         Math.toRadians(180)
                 );
+        TrajectoryActionBuilder goToSample = goToBasket.endTrajectory().fresh()
+                .setTangent(Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(-49.5, -37),
+                        Math.toRadians(90));
+
+        TrajectoryActionBuilder goToBasket2 = goToSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(
+                        new Pose2d(-53, -53, Math.toRadians(45)),
+                        Math.toRadians(135)
+                );
 
         TrajectoryActionBuilder goToParkAtBar = goToBasket.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
@@ -93,23 +105,20 @@ public class RedCloseSample extends CommandOpMode {
         schedule(
                 new InstantCommand(),
                 new SequentialCommandGroup(
+                        new GoToBasketAndScore(autoDriveTrain,goToBasket,elbowArm,extenderArm,clawUpDown,claw),
                         new ParallelCommandGroup(
-                                new ActionCommand(goToBasket.build()),
-                                new SequentialCommandGroup(
-                                        new WaitUntilCommand(
-                                                () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.x < -48
-                                        ),
-                                        new ScoringBasketAutonomuos(elbowArm, extenderArm, clawUpDown, claw)
-                                )
-                        ),
-                        new ParallelCommandGroup(
-                                new ActionCommand(goToParkAtBar.build()),
+                                new ActionCommand(goToSample.build()),
                                 new SequentialCommandGroup(
                                         new WaitCommand(700),
-                                        new ExtenderArmCommand(extenderArm,ExtenderArm.COLLECT),
-                                        new ElbowArmCommand(elbowArm,160)
+                                        new ExtenderArmCommand(extenderArm,ExtenderArm.COLLECT)
                                 )
-                        )
+                        ),
+                        new WaitCommand(1000),
+                        new CollectSample(elbowArm, extenderArm, claw, clawRollRotat),
+                        new GoToBasketAndScore(autoDriveTrain,goToBasket2,elbowArm,extenderArm,clawUpDown,claw),
+                        new PrepareForCollectSample(elbowArm,extenderArm,clawUpDown,clawRollRotat),
+                        new ActionCommand(goToParkAtBar.build()),
+                        new ElbowArmCommand(elbowArm,150)
                 )
         );
     }
