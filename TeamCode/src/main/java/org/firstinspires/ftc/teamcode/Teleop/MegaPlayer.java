@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateToggleCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawToggleCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawUpDownToggleCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
@@ -12,9 +13,7 @@ import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderGetToZero;
-import org.firstinspires.ftc.teamcode.Commands.HangArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
-import org.firstinspires.ftc.teamcode.Configure;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawUpDown;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
@@ -87,13 +86,6 @@ public class MegaPlayer extends CommandOpMode {
                 new ElbowArmCommand(elbowArm,10 )
         );
 
-        //opening and closing the hangArm
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whileActiveOnce(
-                new HangArmCommand(hangArm, 1)
-        );
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whileActiveOnce(
-                new HangArmCommand(hangArm, -1)
-        );
         //claw up down safe pos
         gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
                 new ClawUpDownToggleCommand(clawUpDown,0.64)
@@ -104,10 +96,10 @@ public class MegaPlayer extends CommandOpMode {
                 new ClawToggleCommand(claw,Claw.OPEN)
         );
 
-//        //Claw roll rotation
-//        gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
-//                new ClawRollRotateCommand(clawRollRotat,ClawRollRotate.DEFAULT)
-//        );
+        //Claw roll rotation
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
+                new ClawRollRotateToggleCommand(clawRollRotat,ClawRollRotate.DEFAULT)
+        );
 
         //Claw up & down
         gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).toggleWhenPressed(

@@ -6,9 +6,7 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Commands.HangArmCommand;
 import org.firstinspires.ftc.teamcode.Test.CommandTests.RightElbowRunForSecondsCommandGroup;
 import org.firstinspires.ftc.teamcode.Test.CommandTests.RightElbowSetPower;
 import org.firstinspires.ftc.teamcode.Test.CommandTests.RightElbowToggle;
@@ -46,13 +44,6 @@ public class Test extends CommandOpMode {
                 new RightElbowToggle(rightElbow)
         );
 
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whileActiveOnce(
-                new HangArmCommand(hangArm,-1)
-        );
-
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whileActiveOnce(
-                new HangArmCommand(hangArm,1)
-        );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
                 new SequentialCommandGroup(

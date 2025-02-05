@@ -107,7 +107,7 @@ public class ScoringPreloadSample extends CommandOpMode {
                                 new ActionCommand(goToSample.build()),
                                 new SequentialCommandGroup(
                                         new WaitCommand(700),
-                                        new PrepareForCollectSample(elbowArm, extenderArm, clawUpDown, clawRollRotat)
+                                        new PrepareForCollectSample(elbowArm, extenderArm,claw, clawUpDown, clawRollRotat)
                                 )
                         ),
                         new WaitCommand(500),
@@ -125,7 +125,7 @@ public class ScoringPreloadSample extends CommandOpMode {
                                 new ActionCommand(goToParkAtBar.build()),
                                 new SequentialCommandGroup(
                                         new WaitCommand(700),
-                                        new PrepareForCollectSample(elbowArm, extenderArm, clawUpDown, clawRollRotat)
+                                        new PrepareForCollectSample(elbowArm, extenderArm,claw,clawUpDown, clawRollRotat)
                                 )
                         ),
                         new ElbowArmCommand(elbowArm, ElbowArm.SCORING_SAMPLE)

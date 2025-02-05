@@ -5,7 +5,6 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.Commands.HangArmCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 
 @Disabled
@@ -31,12 +30,6 @@ public class ServoTest1 extends CommandOpMode {
 //                new CollectingElbowServoCommand(collectingArmServo, 1)
 //        );
 
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whileActiveOnce(
-                new HangArmCommand(hangArm, -0.5)
-        );
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whileActiveOnce(
-                new HangArmCommand(hangArm, 0.5)
-        );
     }
 
 }

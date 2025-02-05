@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -9,24 +8,16 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.Commands.ActionCommand;
-import org.firstinspires.ftc.teamcode.Commands.ClawSetPose;
 import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
-import org.firstinspires.ftc.teamcode.Commands.ExtenderArmJoystickCommandIn;
 import org.firstinspires.ftc.teamcode.MultiSystem.CollectSample;
-import org.firstinspires.ftc.teamcode.MultiSystem.GoToBasketAndScore;
-import org.firstinspires.ftc.teamcode.MultiSystem.PreaperForScoreSpecimen;
-import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScoreSample;
+import org.firstinspires.ftc.teamcode.AutoMultysystem.GoToBasketAndScore;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSample;
-import org.firstinspires.ftc.teamcode.MultiSystem.ScoreSpecimen;
-import org.firstinspires.ftc.teamcode.MultiSystem.ScoringBasketAutonomuos;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveTrain;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
@@ -116,7 +107,7 @@ public class RedCloseSample extends CommandOpMode {
                         new WaitCommand(1000),
                         new CollectSample(elbowArm, extenderArm, claw, clawRollRotat),
                         new GoToBasketAndScore(autoDriveTrain,goToBasket2,elbowArm,extenderArm,clawUpDown,claw),
-                        new PrepareForCollectSample(elbowArm,extenderArm,clawUpDown,clawRollRotat),
+                        new PrepareForCollectSample(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat),
                         new ActionCommand(goToParkAtBar.build()),
                         new ElbowArmCommand(elbowArm,150)
                 )

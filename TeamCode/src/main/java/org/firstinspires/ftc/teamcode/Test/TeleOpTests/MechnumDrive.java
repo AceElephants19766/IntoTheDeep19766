@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.teamcode.Commands.ClawToggleCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateToggleCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
-import org.firstinspires.ftc.teamcode.Commands.HangArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
 import org.firstinspires.ftc.teamcode.Test.CommandTests.RightElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
@@ -70,13 +69,6 @@ public class MechnumDrive extends CommandOpMode
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
                 new ClawRollRotateToggleCommand(clawRotat,0.5)
-        );
-
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whileActiveOnce(
-                new HangArmCommand(hangArm,-0.5)
-        );
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whileActiveOnce(
-                new HangArmCommand(hangArm,0.5)
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whileActiveOnce(

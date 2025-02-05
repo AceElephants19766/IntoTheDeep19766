@@ -25,6 +25,7 @@ import org.firstinspires.ftc.teamcode.MultiSystem.CollectSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScoreSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSpecimen;
+import org.firstinspires.ftc.teamcode.MultiSystem.SamplePrScoreAndPrCollect;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawUpDown;
@@ -84,6 +85,7 @@ public class CompTeleOp extends CommandOpMode {
         gamepadEx1.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(
                 new ResetImu(driveTrainMecanum)
         );
+        //elbow
         elbowArm.setDefaultCommand(
                 new ElbowKeepPos(elbowArm)
         );
@@ -91,17 +93,25 @@ public class CompTeleOp extends CommandOpMode {
                 new ResetElbowEncoder(elbowArm)
         );
 
+        extenderReset = new Trigger(() -> extenderArm.isPressed());
+        extenderReset.whenActive(
+                new ResetExtnderEncoder(extenderArm)
+
+        );
+
+        //extender open by hand
         joystickRightYUpCondition = new Trigger(() -> -gamepadEx2.getRightY() > 0.1);
         joystickRightYUpCondition.whileActiveOnce(
-                new ExtenderArmJoystickCommandOut(extenderArm,elbowArm, 0.6)
+                new ExtenderArmJoystickCommandOut(extenderArm, elbowArm, 0.6)
 
         );
-
+        //extender close by hand
         joystickRightYDownCondition = new Trigger(() -> -gamepadEx2.getRightY() < -0.1);
         joystickRightYDownCondition.whileActiveOnce(
-                new ExtenderArmJoystickCommandIn(extenderArm, elbowArm,-0.6)
+                new ExtenderArmJoystickCommandIn(extenderArm, elbowArm, -0.6)
         );
 
+        //elbow up by hand
         joystickLeftYUpCondition = new Trigger(() -> gamepadEx2.getLeftY() > 0.1);
         joystickLeftYUpCondition.whileActiveContinuous(
                 new InstantCommand(() -> {
@@ -110,88 +120,33 @@ public class CompTeleOp extends CommandOpMode {
         );
         joystickLeftYUpCondition.whenInactive(() -> ctr = 0);
 
+        //elbow down bu hand
         joystickLeftYDownCondition = new Trigger(() -> gamepadEx2.getLeftY() < -0.1);
         joystickLeftYDownCondition.whileActiveContinuous(
                 new InstantCommand(() -> {
                     if (elbowArm.getAngle().getAsDouble() < 20) {
-                        jump = 0.1 ;
-                    }else {
-                        jump =1;
+                        jump = 0.1;
+                    } else {
+                        jump = 1;
                     }
                     elbowArm.getPidController().setSetPoint(elbowArm.getAngle().getAsDouble() - (ctr += jump));
                 })
         );
         joystickLeftYUpCondition.whenInactive(() -> ctr = 0);
 
-
-        extenderReset = new Trigger(() -> extenderArm.isPressed());
-        extenderReset.whenActive(
-                new ResetExtnderEncoder(extenderArm)
-
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new PrepaereForScoreSample(elbowArm,extenderArm,clawUpDown,clawRollRotat)
         );
 
-        //claw open&close
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
-                new ClawToggleCommand(claw, Claw.OPEN)
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                new PrepareForCollectSample(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat)
+        );
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(
+                new SamplePrScoreAndPrCollect(elbowArm,extenderArm,claw,clawRollRotat,clawUpDown)
         );
         //Claw roll rotation
         gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
                 new ClawRollRotateToggleCommand(clawRollRotat, ClawRollRotate.SPECIAL)
-        );
-        //Claw up & down
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).toggleWhenPressed(
-                new ClawUpDownToggleCommand(clawUpDown, ClawUpDown.COLLECT)
-        );
-
-        //Collecting
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
-                new PrepareForCollectSample(
-                        elbowArm,
-                        extenderArm,
-                        clawUpDown,
-                        clawRollRotat
-                )
-        );
-
-        //Scoring a sample
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
-                new PrepaereForScoreSample(
-                        elbowArm,
-                        extenderArm,
-                        clawUpDown,
-                        clawRollRotat
-                )
-        );
-
-        //collecting a sample
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new CollectSample(
-                        elbowArm,
-                        extenderArm,
-                        claw,
-                        clawRollRotat
-                )
-        );
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).toggleWhenPressed(
-                new ElbowArmCommand(elbowArm, ElbowArm.SCORING_SPECIMEN)
-        );
-
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
-                new PrepareForCollectSpecimen(
-                        extenderArm,
-                        elbowArm,
-                        clawRollRotat,
-                        clawUpDown,
-                        claw
-                )
-        );
-
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-                new SequentialCommandGroup(
-                        new ElbowArmCommand(elbowArm, 30),
-                        new WaitCommand(300),
-                        new ExtenderArmCommand(extenderArm, 2)
-                )
         );
     }
 
