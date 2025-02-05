@@ -81,7 +81,7 @@ public class RedCloseSample extends CommandOpMode {
                 );
         TrajectoryActionBuilder goToSample = goToBasket.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
-                .strafeToLinearHeading(new Vector2d(-49.5, -37),
+                .strafeToLinearHeading(new Vector2d(-49.5, -39),
                         Math.toRadians(90));
 
         TrajectoryActionBuilder goToBasket2 = goToSample.endTrajectory().fresh()

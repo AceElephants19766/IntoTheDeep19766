@@ -44,8 +44,6 @@ public class RedCloseSpecimen {
                         new Pose2d(-25,-10,Math.toRadians(180)),
                         Math.toRadians(0)
                 );
-
-
         myBot.runAction(
                 new SequentialAction(
                         PrepaerForSpicimen.build(),

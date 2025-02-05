@@ -9,8 +9,8 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Commands.ClawToggleCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateToggleCommand;
+import org.firstinspires.ftc.teamcode.Commands.ClawToggleCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawUpDownToggleCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
@@ -34,7 +34,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 
 @TeleOp
-public class CompTeleOp extends CommandOpMode {
+
+public class NewTeleop extends CommandOpMode {
     public GamepadEx gamepadEx1;
     public GamepadEx gamepadEx2;
 
@@ -59,7 +60,8 @@ public class CompTeleOp extends CommandOpMode {
 
     @Override
     public void initialize() {
-
+        gamepadEx1 = new GamepadEx(gamepad1);
+        gamepadEx2 = new GamepadEx(gamepad2);
 
         //Subsystems
         claw = new Claw(hardwareMap);
@@ -68,9 +70,6 @@ public class CompTeleOp extends CommandOpMode {
         extenderArm = new ExtenderArm(hardwareMap);
         elbowArm = new ElbowArm(hardwareMap);
         hangArm = new HangArm(hardwareMap);
-
-        gamepadEx1 = new GamepadEx(gamepad1);
-        gamepadEx2 = new GamepadEx(gamepad2);
 
         driveTrainMecanum = new DriveTrainMecanum(hardwareMap);
 
@@ -93,6 +92,7 @@ public class CompTeleOp extends CommandOpMode {
         gamepadEx2.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(
                 new ResetElbowEncoder(elbowArm)
         );
+
         //extender limit switch
         extenderReset = new Trigger(() -> extenderArm.isPressed());
         extenderReset.whenActive(
@@ -103,13 +103,13 @@ public class CompTeleOp extends CommandOpMode {
         //extender open by hand
         joystickRightYUpCondition = new Trigger(() -> -gamepadEx2.getRightY() > 0.1);
         joystickRightYUpCondition.whileActiveOnce(
-                new ExtenderArmJoystickCommandOut(extenderArm,elbowArm, 0.6)
+                new ExtenderArmJoystickCommandOut(extenderArm, elbowArm, 0.6)
 
         );
         //extender close by hand
         joystickRightYDownCondition = new Trigger(() -> -gamepadEx2.getRightY() < -0.1);
         joystickRightYDownCondition.whileActiveOnce(
-                new ExtenderArmJoystickCommandIn(extenderArm, elbowArm,-0.6)
+                new ExtenderArmJoystickCommandIn(extenderArm, elbowArm, -0.6)
         );
 
         //elbow up by hand
@@ -126,19 +126,16 @@ public class CompTeleOp extends CommandOpMode {
         joystickLeftYDownCondition.whileActiveContinuous(
                 new InstantCommand(() -> {
                     if (elbowArm.getAngle().getAsDouble() < 20) {
-                        jump = 0.1 ;
-                    }else {
-                        jump =1;
+                        jump = 0.1;
+                    } else {
+                        jump = 1;
                     }
                     elbowArm.getPidController().setSetPoint(elbowArm.getAngle().getAsDouble() - (ctr += jump));
                 })
         );
         joystickLeftYUpCondition.whenInactive(() -> ctr = 0);
 
-        //claw open&close
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
-                new ClawToggleCommand(claw, Claw.OPEN)
-        );
+
         //Claw roll rotation
         gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
                 new ClawRollRotateToggleCommand(clawRollRotat, ClawRollRotate.SPECIAL)
@@ -210,3 +207,4 @@ public class CompTeleOp extends CommandOpMode {
         telemetry.update();
     }
 }
+
