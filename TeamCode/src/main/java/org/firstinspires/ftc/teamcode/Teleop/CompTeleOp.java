@@ -56,7 +56,8 @@ public class CompTeleOp extends CommandOpMode {
     public Trigger joystickLeftYUpCondition;
     public Trigger joystickLeftYDownCondition;
 
-    ToggleButtonReader toggleButtonReader = new ToggleButtonReader(gamepadEx2, GamepadKeys.Button.RIGHT_BUMPER);
+    public ToggleButtonReader toggleButtonReader;
+
     double ctr = 0;
     double jump = 1;
 
@@ -137,6 +138,7 @@ public class CompTeleOp extends CommandOpMode {
         joystickLeftYUpCondition.whenInactive(() -> ctr = 0);
 
         //preaper for score and collect
+        ToggleButtonReader toggleButtonReader = new ToggleButtonReader(gamepadEx2, GamepadKeys.Button.RIGHT_BUMPER);
         gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
                 new SamplePrScoreAndPrCollect(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat,toggleButtonReader)
         );
