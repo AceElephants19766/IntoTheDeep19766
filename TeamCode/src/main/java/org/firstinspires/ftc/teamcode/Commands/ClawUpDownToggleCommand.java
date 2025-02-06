@@ -22,6 +22,6 @@ public class ClawUpDownToggleCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        clawUpDown.setPos(ClawUpDown.SCORING);
+        clawUpDown.setPos(ClawUpDown.COLLECT);
     }
 }

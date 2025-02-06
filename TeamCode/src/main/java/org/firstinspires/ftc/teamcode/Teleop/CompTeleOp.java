@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.gamepad.ToggleButtonReader;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Commands.ClawToggleCommand;
@@ -55,6 +56,7 @@ public class CompTeleOp extends CommandOpMode {
     public Trigger joystickLeftYUpCondition;
     public Trigger joystickLeftYDownCondition;
 
+    ToggleButtonReader toggleButtonReader = new ToggleButtonReader(gamepadEx2, GamepadKeys.Button.RIGHT_BUMPER);
     double ctr = 0;
     double jump = 1;
 
@@ -134,15 +136,9 @@ public class CompTeleOp extends CommandOpMode {
         );
         joystickLeftYUpCondition.whenInactive(() -> ctr = 0);
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new PrepaereForScoreSample(elbowArm,extenderArm,clawUpDown,clawRollRotat)
-        );
-
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                new PrepareForCollectSample(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat)
-        );
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(
-                new SamplePrScoreAndPrCollect(elbowArm,extenderArm,claw,clawRollRotat,clawUpDown)
+        //preaper for score and collect
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
+                new SamplePrScoreAndPrCollect(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat,toggleButtonReader)
         );
         //Claw roll rotation
         gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
@@ -153,10 +149,11 @@ public class CompTeleOp extends CommandOpMode {
     @Override
     public void run() {
         super.run();
-        telemetry.addData("is Pressed", extenderArm.isPressed());
-        telemetry.addData("extender", extenderArm.getLength());
-        telemetry.addData("elbow", elbowArm.getDeg());
-        telemetry.addData("ctr", ctr);
+//        telemetry.addData("is Pressed", extenderArm.isPressed());
+//        telemetry.addData("extender", extenderArm.getLength());
+//        telemetry.addData("elbow", elbowArm.getDeg());
+//        telemetry.addData("ctr", ctr);
+        telemetry.addData("toggle reader", toggleButtonReader.getState());
         telemetry.update();
     }
 }
