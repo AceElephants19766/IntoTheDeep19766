@@ -93,7 +93,7 @@ public class MegaPlayer extends CommandOpMode {
 
         //claw open&close
         gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
-                new ClawToggleCommand(claw,Claw.OPEN)
+                new ClawToggleCommand(claw)
         );
 
         //Claw roll rotation

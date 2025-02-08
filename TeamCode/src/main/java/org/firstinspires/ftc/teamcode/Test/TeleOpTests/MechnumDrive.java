@@ -64,7 +64,7 @@ public class MechnumDrive extends CommandOpMode
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
-                new ClawToggleCommand(claw,0.5)
+                new ClawToggleCommand(claw)
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(

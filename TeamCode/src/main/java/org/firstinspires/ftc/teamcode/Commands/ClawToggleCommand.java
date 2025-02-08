@@ -6,16 +6,14 @@ import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 
 public class ClawToggleCommand extends CommandBase {
     private Claw claw;
-    private double pos;
-    public ClawToggleCommand(Claw claw , double pos){
+    public ClawToggleCommand(Claw claw){
         this.claw = claw;
-        this.pos = pos;
         addRequirements(claw);
     }
 
     @Override
     public void initialize() {
-        claw.SetPose(pos);
+        claw.SetPose(Claw.OPEN);
     }
 
     @Override

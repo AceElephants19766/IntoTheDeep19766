@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.Commands.ResetElbowEncoder;
 import org.firstinspires.ftc.teamcode.Commands.ResetExtnderEncoder;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
 import org.firstinspires.ftc.teamcode.MultiSystem.CollectSample;
+import org.firstinspires.ftc.teamcode.MultiSystem.PreaperForScoreSpecimen;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScoreSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSpecimen;
@@ -88,6 +89,7 @@ public class CompTeleOp extends CommandOpMode {
         gamepadEx1.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(
                 new ResetImu(driveTrainMecanum)
         );
+
         //elbow
         elbowArm.setDefaultCommand(
                 new ElbowKeepPos(elbowArm)
@@ -137,25 +139,47 @@ public class CompTeleOp extends CommandOpMode {
         );
         joystickLeftYUpCondition.whenInactive(() -> ctr = 0);
 
-        //preaper for score and collect
-        ToggleButtonReader toggleButtonReader = new ToggleButtonReader(gamepadEx2, GamepadKeys.Button.RIGHT_BUMPER);
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
-                new SamplePrScoreAndPrCollect(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat,toggleButtonReader)
-        );
         //Claw roll rotation
         gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
                 new ClawRollRotateToggleCommand(clawRollRotat, ClawRollRotate.SPECIAL)
+        );
+        //claw open close
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
+                new ClawToggleCommand(claw)
+        );
+
+        //preaper for score and collect
+//        toggleButtonReader = new ToggleButtonReader(gamepadEx2, GamepadKeys.Button.RIGHT_BUMPER);
+//        gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
+//                new SamplePrScoreAndPrCollect(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat,toggleButtonReader)
+//        );
+
+        //Preaper for collect sample
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
+                new PrepareForCollectSample(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat)
+        );
+        //Preaper for score sample
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
+                new PrepaereForScoreSample(elbowArm,extenderArm,clawUpDown,clawRollRotat)
+        );
+        //preaper for collect specimen
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+                new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw)
+        );
+        //preaper for score specimen
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
+                new PreaperForScoreSpecimen(elbowArm,extenderArm,clawRollRotat,clawUpDown)
         );
     }
 
     @Override
     public void run() {
         super.run();
-//        telemetry.addData("is Pressed", extenderArm.isPressed());
-//        telemetry.addData("extender", extenderArm.getLength());
-//        telemetry.addData("elbow", elbowArm.getDeg());
-//        telemetry.addData("ctr", ctr);
-        telemetry.addData("toggle reader", toggleButtonReader.getState());
+        telemetry.addData("is Pressed", extenderArm.isPressed());
+        telemetry.addData("extender", extenderArm.getLength());
+        telemetry.addData("elbow", elbowArm.getDeg());
+        telemetry.addData("ctr", ctr);
+//        telemetry.addData("toggle reader", toggleButtonReader.getState());
         telemetry.update();
     }
 }
