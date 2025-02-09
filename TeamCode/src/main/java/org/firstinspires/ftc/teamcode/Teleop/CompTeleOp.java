@@ -162,13 +162,17 @@ public class CompTeleOp extends CommandOpMode {
         gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
                 new PrepaereForScoreSample(elbowArm,extenderArm,clawUpDown,clawRollRotat)
         );
+
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new CollectSample(elbowArm,extenderArm,claw)
+        );
         //preaper for collect specimen
         gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
                 new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw)
         );
         //preaper for score specimen
         gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
-                new PreaperForScoreSpecimen(elbowArm,extenderArm,clawRollRotat,clawUpDown)
+                new PreaperForScoreSpecimen(elbowArm,extenderArm,claw,clawRollRotat,clawUpDown)
         );
     }
 

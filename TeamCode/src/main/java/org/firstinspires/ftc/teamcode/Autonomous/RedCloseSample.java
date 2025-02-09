@@ -105,7 +105,7 @@ public class RedCloseSample extends CommandOpMode {
                                 )
                         ),
                         new WaitCommand(1000),
-                        new CollectSample(elbowArm, extenderArm, claw, clawRollRotat),
+                        new CollectSample(elbowArm, extenderArm, claw),
                         new GoToBasketAndScore(autoDriveTrain,goToBasket2,elbowArm,extenderArm,clawUpDown,claw),
                         new PrepareForCollectSample(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat),
                         new ActionCommand(goToParkAtBar.build()),

@@ -15,18 +15,13 @@ import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 
 public class CollectSample extends SequentialCommandGroup {
-    public CollectSample(ElbowArm elbowArm, ExtenderArm extenderArm, Claw claw, ClawRollRotate clawRollRotate){
+    public CollectSample(ElbowArm elbowArm, ExtenderArm extenderArm, Claw claw){
         addCommands(
-                new InstantCommand(()-> clawRollRotate.setPose(ClawRollRotate.DEFAULT)),
-                new ExtenderArmCommand(extenderArm,0),
-                new ElbowArmCommand(elbowArm, ElbowArm.COLLECT_SAMPLE),
-                new WaitCommand(500),
-                new ExtenderArmCommand(extenderArm,ExtenderArm.COLLECTSAMPLE),
-                new WaitUntilCommand(() -> elbowArm.getPidController().getPositionError() < 6),
-                new WaitCommand(500),
                 new ClawSetPose(claw, Claw.CLOSE),
-                new WaitCommand(1000),
-                new ElbowArmCommand(elbowArm, ElbowArm.DEFAULT)
+                new WaitCommand(500),
+                new ElbowArmCommand(elbowArm, ElbowArm.COLLECT_SAMPLE),
+                new WaitUntilCommand(() -> elbowArm.getPidController().getPositionError() < 10),
+                new ExtenderArmCommand(extenderArm,ExtenderArm.COLLECTSAMPLE)
         );
     }
 }

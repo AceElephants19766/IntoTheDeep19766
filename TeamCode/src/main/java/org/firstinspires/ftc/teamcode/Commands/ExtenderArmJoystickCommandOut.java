@@ -22,12 +22,11 @@ public class ExtenderArmJoystickCommandOut extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (elbowArm.getAngle().getAsDouble() <90 && extenderArm.getLength() > 35){
+        if (elbowArm.getAngle().getAsDouble() <90 && extenderArm.getLength() > 30){
             return true;
         } else {
             return  false;
         }
-
     }
 
     @Override

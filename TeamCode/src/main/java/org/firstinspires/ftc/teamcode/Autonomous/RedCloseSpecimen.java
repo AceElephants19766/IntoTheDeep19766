@@ -88,7 +88,7 @@ public class RedCloseSpecimen extends CommandOpMode {
                                                 new WaitUntilCommand(
                                                         () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.x > -20
                                                 ),
-                                                new PreaperForScoreSpecimen(elbowArm, extenderArm, clawRollRotat,clawUpDown)
+                                                new PreaperForScoreSpecimen(elbowArm, extenderArm, claw,clawRollRotat,clawUpDown)
                                         )
                                 ),
                         new WaitCommand(500),
