@@ -15,13 +15,14 @@ import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 public class PrepareForCollectSample extends SequentialCommandGroup {
     public PrepareForCollectSample(ElbowArm elbowArm, ExtenderArm extenderArm, Claw claw, ClawUpDown clawUpDown, ClawRollRotate clawRollRotate){
         addCommands(
-                new InstantCommand(()->clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD)),
+                new InstantCommand(()->clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN)),
                 new InstantCommand(() -> claw.SetPose(Claw.OPEN)),
                 new WaitCommand(200),
                 new InstantCommand(()->clawUpDown.setPos(ClawUpDown.COLLECT)),
                 new WaitCommand(700),
                 new ExtenderArmCommand(extenderArm,ExtenderArm.COLLECT),
-                new ElbowArmCommand(elbowArm,ElbowArm.DEFAULT)
+                new ElbowArmCommand(elbowArm,ElbowArm.DEFAULT),
+                new ExtenderArmCommand(extenderArm,ExtenderArm.P_F_COLLECTSAMPLE)
         );
         addRequirements(
                 extenderArm,

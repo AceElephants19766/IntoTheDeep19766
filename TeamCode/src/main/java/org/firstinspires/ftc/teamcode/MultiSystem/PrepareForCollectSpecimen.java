@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.MultiSystem;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
 import org.firstinspires.ftc.teamcode.Commands.ClawSetPose;
 import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
@@ -15,10 +16,12 @@ import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 public class PrepareForCollectSpecimen extends SequentialCommandGroup {
     public PrepareForCollectSpecimen(ExtenderArm extenderArm, ElbowArm elbowArm, ClawRollRotate clawRollRotate, ClawUpDown clawUpDown, Claw claw) {
         addCommands(
-                new ExtenderArmCommand(extenderArm, ExtenderArm.COLLECT),
+                new ExtenderArmCommand(extenderArm, ExtenderArm.COLLECT).raceWith(
+                        new WaitUntilCommand(()->extenderArm.isPressed())
+                ),
                 new ElbowArmCommand(elbowArm, ElbowArm.SPECIMEN_COLLECT),
                 new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.DEFAULT), clawRollRotate),
-                new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORING), clawUpDown),
+                new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN), clawUpDown),
                 new ClawSetPose(claw, Claw.OPEN)
         );
         addRequirements(

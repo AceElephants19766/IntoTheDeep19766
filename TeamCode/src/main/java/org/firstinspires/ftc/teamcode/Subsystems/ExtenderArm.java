@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
@@ -25,7 +24,7 @@ public class ExtenderArm extends SubsystemBase {
 
     public static  final int COLLECT = 0;
     public static final int SCORE = 47;
-    public static final int COLLECTSAMPLE = 0;
+    public static final int P_F_COLLECTSAMPLE = 16;
 
     public static final int SCORINGSPACIMEN = 15;
     public ExtenderArm(HardwareMap hardwareMap) {

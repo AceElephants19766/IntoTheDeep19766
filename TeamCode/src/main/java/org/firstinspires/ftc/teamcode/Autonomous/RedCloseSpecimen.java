@@ -15,8 +15,6 @@ import org.firstinspires.ftc.teamcode.Commands.ActionCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawSetPose;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
 import org.firstinspires.ftc.teamcode.MultiSystem.PreaperForScoreSpecimen;
-import org.firstinspires.ftc.teamcode.MultiSystem.ScoreSpecimen;
-import org.firstinspires.ftc.teamcode.MultiSystem.ScoringBasketAutonomuos;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveTrain;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
@@ -92,7 +90,6 @@ public class RedCloseSpecimen extends CommandOpMode {
                                         )
                                 ),
                         new WaitCommand(500),
-                        new ScoreSpecimen(elbowArm, extenderArm, clawUpDown, clawRollRotat, claw),
                         new ActionCommand(BackingUpAfterSpecimen.build(), autoDriveTrain),
                         new ClawSetPose(claw, Claw.OPEN),
                         new ActionCommand(goToParkAtBar.build())

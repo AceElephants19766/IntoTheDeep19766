@@ -9,9 +9,12 @@ public class ClawUpDown extends SubsystemBase {
     private Servo clawUpDown;
 
     public static final double COLLECT = 1;
-    public static final double PREAPER_SCORING_BACKWARD = 0.4;
-    public static final double SCORE_SPECIMEN = 0.1;
     public static final double SCORING = 0.73;
+
+    public static final double P_F_COLLECT_SPECIMEN = 0.67;
+    public static final double PREAPER_SCORING_BACKWARD_SPECIMEN = 0.4;
+    public static final double SCORE_SPECIMEN = 0.1;
+
 
     public ClawUpDown(HardwareMap hardwareMap){
         clawUpDown = hardwareMap.get(Servo.class , "clawUpDown");

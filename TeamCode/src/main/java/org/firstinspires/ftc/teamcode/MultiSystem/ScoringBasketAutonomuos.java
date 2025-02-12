@@ -15,7 +15,7 @@ public class ScoringBasketAutonomuos extends SequentialCommandGroup {
         addCommands(
                 new PreaperForScoreSampleAuto(elbowArm, extenderArm),
                 new WaitCommand(500),
-                new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD)),
+                new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN)),
                 new WaitCommand(500),
                 new ClawSetPose(claw, Claw.OPEN),
                 new WaitCommand(600),

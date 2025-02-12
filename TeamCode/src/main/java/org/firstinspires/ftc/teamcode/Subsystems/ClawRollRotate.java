@@ -10,7 +10,7 @@ public class  ClawRollRotate extends SubsystemBase {
 
     public static final double DEFAULT = 0;
     public static final double SPECIAL = 0.36;
-    public static final double SCORE_SPECIMEN = 0.37;
+    public static final double SCORE_SPECIMEN = 0.67;
 
     public ClawRollRotate(HardwareMap hardwareMap) {
         clawRotate = hardwareMap.get(Servo.class, "clawRotate");
