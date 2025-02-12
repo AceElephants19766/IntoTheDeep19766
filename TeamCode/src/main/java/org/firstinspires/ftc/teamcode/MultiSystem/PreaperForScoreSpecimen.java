@@ -16,14 +16,18 @@ import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 public class PreaperForScoreSpecimen extends SequentialCommandGroup {
     public PreaperForScoreSpecimen(ElbowArm elbowArm, ExtenderArm extenderArm, Claw claw, ClawRollRotate clawRollRotate, ClawUpDown clawUpDown) {
         addCommands(
-                new InstantCommand(() -> claw.SetPose(Claw.CLOSE)),
-                new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
-                new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.SCORE_SPECIMEN)),
+                new InstantCommand(() -> claw.SetPose(Claw.CLOSE),claw),
                 new WaitCommand(1000),
-                new ElbowArmCommand(elbowArm, ElbowArm.SCORING_SPECIMEN)
-        );
+                new ElbowArmCommand(elbowArm, ElbowArm.SCORING_SPECIMEN),
+                new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD), clawUpDown),
+                new WaitCommand(1000),
+                new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.SCORE_SPECIMEN),clawRollRotate),
+
+                new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown)
+                );
         addRequirements(
                 extenderArm,
+                claw,
                 clawRollRotate,
                 clawUpDown
         );

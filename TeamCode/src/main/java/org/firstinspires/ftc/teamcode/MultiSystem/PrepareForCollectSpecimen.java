@@ -20,7 +20,6 @@ public class PrepareForCollectSpecimen extends SequentialCommandGroup {
                 new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.DEFAULT), clawRollRotate),
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORING), clawUpDown),
                 new ClawSetPose(claw, Claw.OPEN)
-
         );
         addRequirements(
                 extenderArm,

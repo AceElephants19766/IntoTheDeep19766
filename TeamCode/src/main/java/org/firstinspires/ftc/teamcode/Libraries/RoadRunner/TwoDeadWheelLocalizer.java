@@ -28,8 +28,8 @@ import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.messages.TwoDeadWheel
 @Config
 public final class TwoDeadWheelLocalizer implements Localizer {
     public static class Params {
-        public double parYTicks = -1795.261528147561; // y position of the parallel encoder (in tick units)
-        public double perpXTicks = 1395.1498987449816; // x position of the perpendicular encoder (in tick units)
+        public double parYTicks = -1711.6977242239545; // y position of the parallel encoder (in tick units)
+        public double perpXTicks = 904.6122167112635; // x position of the perpendicular encoder (in tick units)
     }
 
     public static Params PARAMS = new Params();

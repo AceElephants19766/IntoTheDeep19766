@@ -7,9 +7,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class ClawUpDown extends SubsystemBase {
     private Servo clawUpDown;
+
     public static final double COLLECT = 1;
-    public static final double SCORINGBACKWARD = 0.52;
-    public static final double SCORE_SPECIMEN = 0.4;
+    public static final double PREAPER_SCORING_BACKWARD = 0.4;
+    public static final double SCORE_SPECIMEN = 0.1;
     public static final double SCORING = 0.73;
 
     public ClawUpDown(HardwareMap hardwareMap){

@@ -23,5 +23,9 @@ public class CollectSample extends SequentialCommandGroup {
                 new WaitUntilCommand(() -> elbowArm.getPidController().getPositionError() < 10),
                 new ExtenderArmCommand(extenderArm,ExtenderArm.COLLECTSAMPLE)
         );
+        addRequirements(
+                extenderArm,
+                claw
+        );
     }
 }

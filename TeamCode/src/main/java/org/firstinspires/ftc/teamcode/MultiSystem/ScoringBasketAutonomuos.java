@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.MultiSystem;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
 import org.firstinspires.ftc.teamcode.Commands.ClawSetPose;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
@@ -16,7 +15,7 @@ public class ScoringBasketAutonomuos extends SequentialCommandGroup {
         addCommands(
                 new PreaperForScoreSampleAuto(elbowArm, extenderArm),
                 new WaitCommand(500),
-                new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORINGBACKWARD)),
+                new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD)),
                 new WaitCommand(500),
                 new ClawSetPose(claw, Claw.OPEN),
                 new WaitCommand(600),

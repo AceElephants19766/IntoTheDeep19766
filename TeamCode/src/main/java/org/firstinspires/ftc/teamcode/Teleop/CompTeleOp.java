@@ -125,7 +125,7 @@ public class CompTeleOp extends CommandOpMode {
         );
         joystickLeftYUpCondition.whenInactive(() -> ctr = 0);
 
-        //elbow down bu hand
+        //elbow down by hand
         joystickLeftYDownCondition = new Trigger(() -> gamepadEx2.getLeftY() < -0.1);
         joystickLeftYDownCondition.whileActiveContinuous(
                 new InstantCommand(() -> {

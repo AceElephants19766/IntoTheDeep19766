@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.TankDrive;
 public final class SplineTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Pose2d beginPose = new Pose2d(0, 0,Math.toRadians(0));
+        Pose2d beginPose = new Pose2d(50, -50, Math.toRadians(90));
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
             MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
 
@@ -19,9 +19,15 @@ public final class SplineTest extends LinearOpMode {
 
             Actions.runBlocking(
                 drive.actionBuilder(beginPose)
-                        .splineTo(new Vector2d(30, 45), Math.PI / 2)
-                        .splineTo(new Vector2d(0, 90), Math.PI)
-                        .build());
+                    .setTangent(Math.toRadians(90))
+                    .lineToY(50)
+                    .turn(Math.toRadians(90))
+                    .lineToX(-50)
+                    .turn(Math.toRadians(90))
+                    .lineToY(-50)
+                    .turn(Math.toRadians(90))
+                    .lineToX(50)
+                    .build());
         } else if (TuningOpModes.DRIVE_CLASS.equals(TankDrive.class)) {
             TankDrive drive = new TankDrive(hardwareMap, beginPose);
 
@@ -29,9 +35,15 @@ public final class SplineTest extends LinearOpMode {
 
             Actions.runBlocking(
                     drive.actionBuilder(beginPose)
-                            .splineTo(new Vector2d(30, 30), Math.PI / 2)
-                            .splineTo(new Vector2d(0, 60), Math.PI)
-                            .build());
+                    .setTangent(Math.toRadians(90))
+                    .lineToY(50)
+                    .turn(Math.toRadians(90))
+                    .lineToX(-50)
+                    .turn(Math.toRadians(90))
+                    .lineToY(-50)
+                    .turn(Math.toRadians(90))
+                    .lineToX(50)
+                    .build());
         } else {
             throw new RuntimeException();
         }
