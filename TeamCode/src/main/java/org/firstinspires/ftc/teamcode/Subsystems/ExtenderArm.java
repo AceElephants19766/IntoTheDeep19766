@@ -8,6 +8,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
+import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
+import org.firstinspires.ftc.teamcode.Commands.ExtenderGetToZero;
+
 @Config
 public class ExtenderArm extends SubsystemBase {
     private DcMotor extenderArm;

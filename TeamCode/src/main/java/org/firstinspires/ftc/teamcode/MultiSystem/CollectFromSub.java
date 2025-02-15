@@ -13,8 +13,8 @@ import java.util.function.DoubleSupplier;
 public class CollectFromSub extends ParallelCommandGroup {
     public  CollectFromSub(ElbowArm elbowArm, ExtenderArm extenderArm, DoubleSupplier rightTriggerSupplier){
         addCommands(
-                new ExtenderArmCommand(extenderArm,(int)(rightTriggerSupplier.getAsDouble()*30)),
-                new ElbowArmCommand(elbowArm,(int)extenderArm.getLength())
+                new ExtenderArmCommand(extenderArm,(int)(rightTriggerSupplier.getAsDouble()*30))
+//                new ElbowArmCommand(elbowArm,Math.acos((int)(extenderArm.getLength())/35)
         );
     }
 }

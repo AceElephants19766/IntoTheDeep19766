@@ -111,7 +111,7 @@ public class ScoringPreloadSample extends CommandOpMode {
                                 )
                         ),
                         new WaitCommand(500),
-                        new CollectSample(elbowArm, extenderArm, claw),
+                        new CollectSample(elbowArm, extenderArm, claw,clawUpDown),
                         new ParallelCommandGroup(
                                 new ActionCommand(goToBasket2.build()),
                                 new SequentialCommandGroup(

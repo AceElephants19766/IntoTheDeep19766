@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Commands.ResetElbowEncoder;
 import org.firstinspires.ftc.teamcode.Commands.ResetExtnderEncoder;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
 import org.firstinspires.ftc.teamcode.MultiSystem.CollectSample;
-import org.firstinspires.ftc.teamcode.MultiSystem.Default;
+import org.firstinspires.ftc.teamcode.MultiSystem.AfterCollectSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.PreaperForScoreSpecimen;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScoreSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSample;
@@ -153,7 +153,7 @@ public class CompTeleOp extends CommandOpMode {
 
         //default of all of the system of the arm
         gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                new Default(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat)
+                new AfterCollectSample(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat)
         );
 
         //Preaper for collect sample
@@ -162,7 +162,7 @@ public class CompTeleOp extends CommandOpMode {
         );
         //collect sample
         gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new CollectSample(elbowArm,extenderArm,claw)
+                new CollectSample(elbowArm,extenderArm,claw,clawUpDown)
         );
         //Preaper for score sample
         gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(

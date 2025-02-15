@@ -8,13 +8,13 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class  ClawRollRotate extends SubsystemBase {
     private Servo clawRotate;
 
-    public static final double DEFAULT = 0;
-    public static final double SPECIAL = 0.36;
-    public static final double SCORE_SPECIMEN = 0.67;
+    public static final double DEFAULT = 0.2;
+    public static final double SPECIAL = 0.6;
+    public static final double SCORE_SPECIMEN = 1;
 
     public ClawRollRotate(HardwareMap hardwareMap) {
         clawRotate = hardwareMap.get(Servo.class, "clawRotate");
-        clawRotate.setPosition(ClawRollRotate.DEFAULT);
+        clawRotate.setPosition(ClawRollRotate.SCORE_SPECIMEN );
     }
 
     public void setPose(double pose){

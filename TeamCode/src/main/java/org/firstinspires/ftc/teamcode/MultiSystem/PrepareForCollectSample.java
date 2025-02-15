@@ -22,6 +22,7 @@ public class PrepareForCollectSample extends SequentialCommandGroup {
                 new WaitCommand(700),
                 new ExtenderArmCommand(extenderArm,ExtenderArm.COLLECT),
                 new ElbowArmCommand(elbowArm,ElbowArm.DEFAULT),
+                new WaitCommand(500),
                 new ExtenderArmCommand(extenderArm,ExtenderArm.P_F_COLLECTSAMPLE)
         );
         addRequirements(

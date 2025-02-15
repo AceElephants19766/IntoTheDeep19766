@@ -36,7 +36,6 @@ public class ExtenderArmCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        extenderArm.setPower(0);
+        extenderArm.setPower(0.001);
     }
-
 }

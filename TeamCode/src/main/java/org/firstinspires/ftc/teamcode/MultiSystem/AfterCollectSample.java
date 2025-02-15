@@ -11,12 +11,12 @@ import org.firstinspires.ftc.teamcode.Subsystems.ClawUpDown;
 import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 
-public class Default extends SequentialCommandGroup {
-    public Default(ElbowArm elbowArm, ExtenderArm extenderArm, Claw claw,ClawUpDown clawUpDown, ClawRollRotate clawRollRotate){
+public class AfterCollectSample extends SequentialCommandGroup {
+    public AfterCollectSample(ElbowArm elbowArm, ExtenderArm extenderArm, Claw claw, ClawUpDown clawUpDown, ClawRollRotate clawRollRotate){
         addCommands(
-                new InstantCommand(() -> claw.SetPose(Claw.OPEN)),
+                new ElbowArmCommand(elbowArm, ElbowArm.DEFAULT),
                 new InstantCommand(()->clawRollRotate.setPose(ClawRollRotate.DEFAULT)),
-                new InstantCommand(()->clawUpDown.setPos(ClawUpDown.COLLECT)),
+                new InstantCommand(()->clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN )),
                 new ExtenderArmCommand(extenderArm, ExtenderArm.COLLECT),
                 new ElbowArmCommand(elbowArm, ElbowArm.DEFAULT)
         );

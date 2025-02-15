@@ -15,10 +15,9 @@ public class ClawUpDown extends SubsystemBase {
     public static final double PREAPER_SCORING_BACKWARD_SPECIMEN = 0.4;
     public static final double SCORE_SPECIMEN = 0.1;
 
-
     public ClawUpDown(HardwareMap hardwareMap){
         clawUpDown = hardwareMap.get(Servo.class , "clawUpDown");
-        clawUpDown.setPosition(ClawUpDown.COLLECT);
+        clawUpDown.setPosition(ClawUpDown.SCORE_SPECIMEN);
     }
     public void setPos(double pos){
         clawUpDown.setPosition(pos);

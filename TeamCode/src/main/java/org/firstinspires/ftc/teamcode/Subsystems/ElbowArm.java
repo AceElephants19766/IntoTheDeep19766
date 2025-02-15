@@ -22,12 +22,12 @@ public class ElbowArm extends SubsystemBase {
     private final double TPR = 537.7;
     private double offset = 0;
 
-    public static final int DEFAULT = 20;
+    public static final int DEFAULT = 25;
 
-    public static final int COLLECT_SAMPLE = 20;
+    public static final int COLLECT_SAMPLE = 25;
     public static final int SCORING_SAMPLE = 130;
 
-    public static final int SPECIMEN_COLLECT = 20;
+    public static final int SPECIMEN_COLLECT = 25;
     public static final int  SCORING_SPECIMEN = 110;
 
     public static final int AUTO_SCORING_SPECIMEN = 100;
