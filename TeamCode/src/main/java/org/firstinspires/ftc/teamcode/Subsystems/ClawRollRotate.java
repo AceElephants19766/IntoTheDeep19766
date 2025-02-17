@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class  ClawRollRotate extends SubsystemBase {
     private Servo clawRotate;
 
-    public static final double DEFAULT = 1;
+    public static final double DEFAULT = 0;
     public static final double SPECIAL = 0.45;
     public static final double SCORE_SPECIMEN = 1;
 
