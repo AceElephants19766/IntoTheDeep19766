@@ -14,9 +14,9 @@ import java.util.function.DoubleSupplier;
 public class CollectFromSub extends ParallelCommandGroup {
     public  CollectFromSub(ElbowArm elbowArm, ExtenderArm extenderArm, DoubleSupplier rightTriggerSupplier){
         addCommands(
-                new InstantCommand(()->extenderArm.getPidController().setSetPoint((int)(rightTriggerSupplier.getAsDouble()*30))),
+                new InstantCommand(()->extenderArm.getPidController().setSetPoint((int)(rightTriggerSupplier.getAsDouble()*42))),
                 new InstantCommand(()-> {
-                    int ang = (int)(Math.toDegrees(Math.acos((15.0/(38+(rightTriggerSupplier.getAsDouble()*30)))))) -53;
+                    int ang = (int)(Math.toDegrees(Math.acos((17.0/(38+(rightTriggerSupplier.getAsDouble()*30)))))) -53;
                     if (ang>5){
                         elbowArm.getPidController().setSetPoint(ang);
                     }
