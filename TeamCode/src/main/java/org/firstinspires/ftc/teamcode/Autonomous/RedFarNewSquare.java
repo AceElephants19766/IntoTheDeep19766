@@ -55,14 +55,14 @@ public class RedFarNewSquare extends CommandOpMode {
                 new ElbowKeepPos(elbowArm)
         );
 
-        TrajectoryActionBuilder PrepaerForSpicimen = autoDriveTrain.getMecanumDrive().actionBuilder(
+        TrajectoryActionBuilder PreLoad = autoDriveTrain.getMecanumDrive().actionBuilder(
                         initialPose
                 )
                 .setTangent(Math.toRadians(90))
                 .strafeTo(
                         new Vector2d(-4, -30)
                 );
-        TrajectoryActionBuilder BackUp = PrepaerForSpicimen.endTrajectory().fresh()
+        TrajectoryActionBuilder BackUp = PreLoad.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .strafeTo(
                         new Vector2d(-4,-40)
@@ -102,7 +102,7 @@ public class RedFarNewSquare extends CommandOpMode {
                 .strafeTo(
                         new Vector2d(-2,-40)
                 );
-
+        //sec sample
         TrajectoryActionBuilder goToSampleSec = BackUpSec.endTrajectory().fresh()
                 .setTangent(-90)
                 .strafeTo(
@@ -126,11 +126,13 @@ public class RedFarNewSquare extends CommandOpMode {
                 .strafeToLinearHeading(
                         new Vector2d(52, -59),
                         Math.toRadians(-90));
+
         TrajectoryActionBuilder goToScoreSec = goToHUmanPlayerSec.endTrajectory().fresh()
                 .setTangent(Math.toRadians(90))
                 .strafeTo(
                         new Vector2d(0, -30)
                 );
+        // third sample
         TrajectoryActionBuilder goToHUmanPlayerThird = goToScoreSec.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .strafeToLinearHeading(
@@ -141,20 +143,33 @@ public class RedFarNewSquare extends CommandOpMode {
                 .strafeTo(
                         new Vector2d(3, -30)
                 );
-        TrajectoryActionBuilder goToHUmanPlayerForth = goToScoreThird.endTrajectory().fresh()
+        TrajectoryActionBuilder BackUpThird = goToScoreThird.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .strafeTo(
+                        new Vector2d(-4,-40)
+                );
+        //forth sample
+        TrajectoryActionBuilder goToHUmanPlayerForth = BackUpThird.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .strafeToLinearHeading(
                         new Vector2d(45, -59),
                         Math.toRadians(-90));
+
         TrajectoryActionBuilder goToScoreForth = goToHUmanPlayerForth.endTrajectory().fresh()
                 .setTangent(Math.toRadians(90))
                 .strafeTo(
                         new Vector2d(3, -30)
                 );
+
         TrajectoryActionBuilder goToScoreForth1 = goToScoreForth.endTrajectory().fresh()
                 .setTangent(Math.toRadians(90))
                 .strafeTo(
                         new Vector2d(7, -30)
+                );
+        TrajectoryActionBuilder BackUpForth = goToScoreForth1.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .strafeTo(
+                        new Vector2d(-4,-40)
                 );
         TrajectoryActionBuilder park = goToScoreForth.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
@@ -164,8 +179,9 @@ public class RedFarNewSquare extends CommandOpMode {
 
         schedule(
                 new SequentialCommandGroup(
+                        // go to score pre load
                         new ParallelCommandGroup(
-                                new ActionCommand(PrepaerForSpicimen.build()),
+                                new ActionCommand(PreLoad.build()),
                                 new SequentialCommandGroup(
                                         new WaitUntilCommand(
                                                 () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y > -50
@@ -173,17 +189,22 @@ public class RedFarNewSquare extends CommandOpMode {
                                         new PreaperForScoreSpecimen(elbowArm, extenderArm, claw, clawRollRotat, clawUpDown)
                                 )
                         ),
+                        //score pre load
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
                         new WaitCommand(200),
                         new ClawSetPose(claw,Claw.OPEN),
+                        //back up after scoring
                         new ActionCommand(BackUp.build()),
+                        //sec sample
                         new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
                         new ActionCommand(goToSample.build()),
                         new ActionCommand(goToSample2.build()),
                         new ActionCommand(goToHUmanPlayer.build()),
+                        //collect sec sample
                         new ClawSetPose(claw,Claw.CLOSE),
                         new WaitCommand(100),
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN), clawUpDown),
+                        //go to score sec sample
                         new ParallelCommandGroup(
                                 new ActionCommand(goToScore.build()),
                                 new SequentialCommandGroup(
@@ -193,17 +214,21 @@ public class RedFarNewSquare extends CommandOpMode {
                                         new PreaperForScoreSpecimen(elbowArm, extenderArm, claw, clawRollRotat, clawUpDown)
                                 )
                         ),
+                        //score sec sample
                         new WaitCommand(100),
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
                         new WaitCommand(200),
                         new ClawSetPose(claw,Claw.OPEN),
+                        //back up after scoring sec sample
                         new ActionCommand(BackUpSec.build()),
                         new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
                         new ActionCommand(goToSampleSec.build()),
                         new ActionCommand(goToSample2Sec.build()),
                         new ActionCommand(goToHUmanPlayerSec.build()),
+                        //collect third sample
                         new ClawSetPose(claw,Claw.CLOSE),
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN), clawUpDown),
+                        //go to score third sample
                         new ParallelCommandGroup(
                                 new ActionCommand(goToScoreThird.build()),
                                 new SequentialCommandGroup(
@@ -213,14 +238,19 @@ public class RedFarNewSquare extends CommandOpMode {
                                         new PreaperForScoreSpecimen(elbowArm, extenderArm, claw, clawRollRotat, clawUpDown)
                                 )
                         ),
+                        //score third sample
                         new WaitCommand(100),
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
                         new WaitCommand(200),
                         new ClawSetPose(claw,Claw.OPEN),
+                        //back up after scoring third sample
+                        new ActionCommand(BackUpThird.build()),
                         new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
                         new ActionCommand(goToHUmanPlayerForth.build()),
+                        //collect forth sample
                         new ClawSetPose(claw,Claw.CLOSE),
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN), clawUpDown),
+                        //go to score forth sample
                         new ParallelCommandGroup(
                                 new ActionCommand(goToScoreForth.build()),
                                 new SequentialCommandGroup(
@@ -234,6 +264,8 @@ public class RedFarNewSquare extends CommandOpMode {
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
                         new WaitCommand(200),
                         new ClawSetPose(claw,Claw.OPEN),
+                        //back up after scoring forth sample
+                        new ActionCommand(BackUpForth.build()),
                         new ActionCommand(park.build())
                 )
         );

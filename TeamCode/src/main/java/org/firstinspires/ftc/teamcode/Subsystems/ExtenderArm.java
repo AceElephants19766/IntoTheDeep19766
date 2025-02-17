@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
@@ -70,12 +71,12 @@ public class ExtenderArm extends SubsystemBase {
         return pidController;
     }
 
-//    @Override
-//    public void periodic() {
-//        FtcDashboard.getInstance().getTelemetry().addData("extenderTarget", pidController.getSetPoint());
-//        FtcDashboard.getInstance().getTelemetry().addData("extenderCurrentPos", getLength());
-//        FtcDashboard.getInstance().getTelemetry().addData("extender power", extenderArm.getPower());
-//        FtcDashboard.getInstance().getTelemetry().addData("extender is finished",getPidController().atSetPoint());
-//        FtcDashboard.getInstance().getTelemetry().update();
-//    }
+    @Override
+    public void periodic() {
+        FtcDashboard.getInstance().getTelemetry().addData("extenderTarget", pidController.getSetPoint());
+        FtcDashboard.getInstance().getTelemetry().addData("extenderCurrentPos", getLength());
+        FtcDashboard.getInstance().getTelemetry().addData("extender power", extenderArm.getPower());
+        FtcDashboard.getInstance().getTelemetry().addData("extender is finished",getPidController().atSetPoint());
+        FtcDashboard.getInstance().getTelemetry().update();
+    }
 }

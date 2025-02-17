@@ -5,11 +5,11 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 
-public class ExtenderArmJoystickCommandOut extends CommandBase {
+public class ExtenderArmSetPower extends CommandBase {
     public ExtenderArm extenderArm;
     public ElbowArm elbowArm;
     public double power;
-    public ExtenderArmJoystickCommandOut(ExtenderArm extenderArm, ElbowArm elbowArm, double power){
+    public ExtenderArmSetPower(ExtenderArm extenderArm, ElbowArm elbowArm, double power){
         this.extenderArm = extenderArm;
         this.elbowArm = elbowArm;
         this.power = power;
@@ -18,15 +18,6 @@ public class ExtenderArmJoystickCommandOut extends CommandBase {
     @Override
     public void execute() {
         extenderArm.setPower(power);
-    }
-
-    @Override
-    public boolean isFinished() {
-        if (elbowArm.getAngle().getAsDouble() <90 && extenderArm.getLength() > 30){
-            return true;
-        } else {
-            return  false;
-        }
     }
 
     @Override

@@ -17,9 +17,9 @@ public class CollectSample extends SequentialCommandGroup {
     public CollectSample(ElbowArm elbowArm, ExtenderArm extenderArm, Claw claw, ClawUpDown clawUpDown){
         addCommands(
                 new ElbowArmCommand(elbowArm,10),
-                new WaitCommand(500),
+                new WaitCommand(200),
                 new ClawSetPose(claw, Claw.CLOSE),
-                new WaitCommand(500),
+                new WaitCommand(200),
                 new InstantCommand(()->clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN)),
                 new ExtenderArmCommand(extenderArm,ExtenderArm.COLLECT),
                 new ElbowArmCommand(elbowArm, ElbowArm.DEFAULT)

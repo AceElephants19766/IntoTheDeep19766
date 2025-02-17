@@ -17,4 +17,8 @@ public class Claw  extends SubsystemBase {
     public void SetPose (double pose){
         claw.setPosition(pose);
     }
+
+    public double getPos(){
+        return claw.getPosition();
+    }
 }

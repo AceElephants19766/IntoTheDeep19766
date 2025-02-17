@@ -1,22 +1,24 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.gamepad.ToggleButtonReader;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Commands.ClawToggleCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateToggleCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
-import org.firstinspires.ftc.teamcode.Commands.ExtenderArmJoystickCommandIn;
-import org.firstinspires.ftc.teamcode.Commands.ExtenderArmJoystickCommandOut;
+import org.firstinspires.ftc.teamcode.Commands.ExtenderArmSetPower;
+import org.firstinspires.ftc.teamcode.Commands.ExtenderkeepPos;
 import org.firstinspires.ftc.teamcode.Commands.ResetElbowEncoder;
 import org.firstinspires.ftc.teamcode.Commands.ResetExtnderEncoder;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
+import org.firstinspires.ftc.teamcode.MultiSystem.CollectFromSub;
 import org.firstinspires.ftc.teamcode.MultiSystem.CollectSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.AfterCollectSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.PreaperForScoreSpecimen;
@@ -54,9 +56,10 @@ public class CompTeleOp extends CommandOpMode {
     public Trigger joystickLeftYUpCondition;
     public Trigger joystickLeftYDownCondition;
 
-    public Trigger rightTrigger;
+    public Trigger gamepad2rightTrigger;
 
-    public ToggleButtonReader toggleButtonReader;
+    public DoubleSupplier rightTriggerSupplier;
+
 
     double ctr = 0;
     double jump = 1;
@@ -84,6 +87,15 @@ public class CompTeleOp extends CommandOpMode {
                         gamepadEx1
                 )
         );
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whileActiveContinuous(
+                new InstantCommand(()-> {
+                    driveTrainMecanum.fieldOrientedDrive(
+                            (Math.pow((gamepadEx1.getLeftX() * 1.1), 5)) * 0.3,
+                            (Math.pow(gamepadEx1.getLeftY(), 5)) * 0.3,
+                            Math.pow(gamepadEx1.getRightX(), 5) * 0.25
+                    );
+                }, driveTrainMecanum)
+        );
         //IMU Reset
         gamepadEx1.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(
                 new ResetImu(driveTrainMecanum)
@@ -103,20 +115,30 @@ public class CompTeleOp extends CommandOpMode {
 
         );
         //collect from submersible
-        DoubleSupplier rightTriggerSupplier = () -> gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
-        rightTrigger = new Trigger(()-> rightTriggerSupplier.getAsDouble() > 0.1);
+        rightTriggerSupplier = () -> gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
+        gamepad2rightTrigger = new Trigger(()-> rightTriggerSupplier.getAsDouble() > 0.1);
+        gamepad2rightTrigger.whileActiveContinuous(
+                new CollectFromSub(elbowArm,extenderArm,rightTriggerSupplier)
+        );
 
+        gamepad2rightTrigger.whileActiveOnce(
+                new ExtenderkeepPos(extenderArm)
+        ).whenInactive(
+                new SequentialCommandGroup(
+                        new WaitCommand(500),
+                        new InstantCommand(()-> extenderArm.setPower(0),extenderArm)
+                )
+        );
 
         //extender open by hand
         joystickRightYUpCondition = new Trigger(() -> -gamepadEx2.getRightY() > 0.1);
         joystickRightYUpCondition.whileActiveOnce(
-                new ExtenderArmJoystickCommandOut(extenderArm, elbowArm, 0.6)
-
+                new ExtenderArmSetPower(extenderArm, elbowArm, 0.6)
         );
         //extender close by hand
         joystickRightYDownCondition = new Trigger(() -> -gamepadEx2.getRightY() < -0.1);
         joystickRightYDownCondition.whileActiveOnce(
-                new ExtenderArmJoystickCommandIn(extenderArm, elbowArm, -0.6)
+                new ExtenderArmSetPower(extenderArm, elbowArm, -0.6)
         );
 
         //elbow up by hand
@@ -147,8 +169,12 @@ public class CompTeleOp extends CommandOpMode {
                 new ClawRollRotateToggleCommand(clawRollRotat, ClawRollRotate.SPECIAL)
         );
         //claw open close
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
-                new ClawToggleCommand(claw)
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                new ConditionalCommand(
+                        new InstantCommand(()-> claw.SetPose(Claw.CLOSE),claw),
+                        new InstantCommand(()-> claw.SetPose(Claw.OPEN),claw),
+                        ()-> claw.getPos() == Claw.OPEN
+                )
         );
 
         //default of all of the system of the arm
@@ -182,12 +208,13 @@ public class CompTeleOp extends CommandOpMode {
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown)
         );
 
-
-        //preaper for score and collect
-//        toggleButtonReader = new ToggleButtonReader(gamepadEx2, GamepadKeys.Button.RIGHT_BUMPER);
-//        gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
-//                new SamplePrScoreAndPrCollect(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat,toggleButtonReader)
-//        );
+        //on start normal positions for the servos
+        schedule(
+                new InstantCommand(),
+                new InstantCommand(()-> claw.SetPose(Claw.OPEN)),
+                new InstantCommand(()-> clawUpDown.setPos(ClawUpDown.COLLECT)),
+                new InstantCommand(()-> clawRollRotat.setPose(ClawRollRotate.DEFAULT))
+        );
     }
 
     @Override
@@ -197,6 +224,7 @@ public class CompTeleOp extends CommandOpMode {
         telemetry.addData("extender", extenderArm.getLength());
         telemetry.addData("elbow", elbowArm.getDeg());
         telemetry.addData("ctr", ctr);
+        telemetry.addData("erech",Math.toDegrees(Math.acos((25.0/(38+(rightTriggerSupplier.getAsDouble()*30)))))-53);
 //        telemetry.addData("toggle reader", toggleButtonReader.getState());
         telemetry.update();
     }
