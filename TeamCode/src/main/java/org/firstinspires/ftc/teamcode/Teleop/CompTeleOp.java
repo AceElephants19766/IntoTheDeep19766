@@ -193,7 +193,7 @@ public class CompTeleOp extends CommandOpMode {
         );
         //preaper for collect sample from sub
         gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                new ElbowArmCommand(elbowArm, 10)
+                new ElbowArmCommand(elbowArm, 13)
         );
         //after collect sample
         gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
@@ -227,7 +227,6 @@ public class CompTeleOp extends CommandOpMode {
         telemetry.addData("ctr", ctr);
         telemetry.addData("kg", ElbowArm.getkG()*Math.signum(elbowArm.getPidController().getPositionError()));
         telemetry.addData("erech",Math.toDegrees(Math.acos((25.0/(38+(rightTriggerSupplier.getAsDouble()*30)))))-53);
-//        telemetry.addData("toggle reader", toggleButtonReader.getState());
         telemetry.update();
     }
 }

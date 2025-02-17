@@ -19,7 +19,7 @@ public class ElbowArm extends SubsystemBase {
     private PIDController pidController;
 
     public static double kP = 0.01;
-    public static double kI = 0; //0.1
+    public static double kI = 0.001; //0.1
     public static double kD = 0.0001;
     public static double kG = 0.08;
     public static double TOL = 1;
@@ -88,9 +88,6 @@ public class ElbowArm extends SubsystemBase {
 
     @Override
     public void periodic() {
-/*        if (elbowArmLeft.getCurrentPosition() < 37) {
-            pidController.setI(0.005);
-        }*/
         FtcDashboard.getInstance().getTelemetry().addData("elbowTarget", pidController.getSetPoint());
         FtcDashboard.getInstance().getTelemetry().addData("ElbowCurrentPos", getAngle().getAsDouble());
         FtcDashboard.getInstance().getTelemetry().addData("elbow power", elbowArmLeft.getPower());
