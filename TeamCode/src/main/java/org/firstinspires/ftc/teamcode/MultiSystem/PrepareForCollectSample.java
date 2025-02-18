@@ -28,6 +28,7 @@ public class PrepareForCollectSample extends ConditionalCommand {
                         new ExtenderArmCommand(extenderArm,ExtenderArm.P_F_COLLECTSAMPLE)
                 ),
                 new SequentialCommandGroup(
+                        new InstantCommand(() -> claw.SetPose(Claw.OPEN)),
                         new InstantCommand(()->clawUpDown.setPos(ClawUpDown.COLLECT)),
                         new ElbowArmCommand(elbowArm,ElbowArm.DEFAULT),
                         new WaitCommand(500),

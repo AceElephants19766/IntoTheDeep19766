@@ -16,7 +16,7 @@ public class CollectFromSub extends ParallelCommandGroup {
         addCommands(
                 new InstantCommand(()->extenderArm.getPidController().setSetPoint((int)(rightTriggerSupplier.getAsDouble()*42))),
                 new InstantCommand(()-> {
-                    int ang = (int)(Math.toDegrees(Math.acos((19.0/(38+(rightTriggerSupplier.getAsDouble()*30)))))) -53;
+                    int ang = (int)(Math.toDegrees(Math.acos((17.0/(38+(rightTriggerSupplier.getAsDouble()*30)))))) -48;
                     if (ang>7){
                         elbowArm.getPidController().setSetPoint(ang);
                     }

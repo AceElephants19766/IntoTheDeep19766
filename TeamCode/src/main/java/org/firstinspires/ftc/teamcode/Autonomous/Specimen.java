@@ -9,7 +9,6 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
-import com.arcrobotics.ftclib.command.button.Trigger;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Commands.ActionCommand;
@@ -21,13 +20,12 @@ import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveTrain;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawUpDown;
-import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
 import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 
 @Autonomous
-public class RedFarNewSquare extends CommandOpMode {
+public class Specimen extends CommandOpMode {
     //Subsystem
     private AutoDriveTrain autoDriveTrain;
 
@@ -87,8 +85,9 @@ public class RedFarNewSquare extends CommandOpMode {
 
         TrajectoryActionBuilder goToHUmanPlayer = goToSample3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .strafeTo(
-                        new Vector2d(45, -59)
+                .strafeToLinearHeading(
+                        new Vector2d(45, -59),
+                        Math.toRadians(-90)
                 );
 
         TrajectoryActionBuilder goToScore = goToHUmanPlayer.endTrajectory().fresh()
