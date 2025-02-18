@@ -52,7 +52,7 @@ public class RedFarNewSquare extends CommandOpMode {
         autoDriveTrain = new AutoDriveTrain(hardwareMap, initialPose);
 
         elbowArm.setDefaultCommand(
-                new ElbowKeepPos(elbowArm)
+                new ElbowKeepPos(elbowArm,extenderArm)
         );
 
         TrajectoryActionBuilder PreLoad = autoDriveTrain.getMecanumDrive().actionBuilder(
@@ -184,14 +184,14 @@ public class RedFarNewSquare extends CommandOpMode {
                                 new ActionCommand(PreLoad.build()),
                                 new SequentialCommandGroup(
                                         new WaitUntilCommand(
-                                                () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y > -50
+                                                () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -30
                                         ),
                                         new PreaperForScoreSpecimen(elbowArm, extenderArm, claw, clawRollRotat, clawUpDown)
                                 )
                         ),
                         //score pre load
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
-                        new WaitCommand(200),
+                        new WaitCommand(500),
                         new ClawSetPose(claw,Claw.OPEN),
                         //back up after scoring
                         new ActionCommand(BackUp.build()),
@@ -209,18 +209,22 @@ public class RedFarNewSquare extends CommandOpMode {
                                 new ActionCommand(goToScore.build()),
                                 new SequentialCommandGroup(
                                         new WaitUntilCommand(
-                                                () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.x < 15
+                                                () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y > -55
                                         ),
                                         new PreaperForScoreSpecimen(elbowArm, extenderArm, claw, clawRollRotat, clawUpDown)
                                 )
                         ),
                         //score sec sample
-                        new WaitCommand(100),
-                        new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
-                        new WaitCommand(200),
-                        new ClawSetPose(claw,Claw.OPEN),
-                        //back up after scoring sec sample
-                        new ActionCommand(BackUpSec.build()),
+                        new ParallelCommandGroup(
+                                new ActionCommand(BackUpSec.build()),
+                                new SequentialCommandGroup(
+                                        new WaitUntilCommand(
+                                                () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -30
+                                        ),
+                                        new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
+                                        new ClawSetPose(claw,Claw.OPEN)
+                                )
+                        ),
                         new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
                         new ActionCommand(goToSampleSec.build()),
                         new ActionCommand(goToSample2Sec.build()),
@@ -274,6 +278,13 @@ public class RedFarNewSquare extends CommandOpMode {
     @Override
     public void run() {
         super.run();
+        if (elbowArm.getDeg() < 60){
+            elbowArm.getPidController().setP(0.04);
+            elbowArm.getPidController().setI(0.003);
+        }else {
+            elbowArm.getPidController().setP(0.01);
+            elbowArm.getPidController().setI(0.001);
+        }
         telemetry.addData("elbow",elbowArm.getDeg());
         telemetry.update();
     }

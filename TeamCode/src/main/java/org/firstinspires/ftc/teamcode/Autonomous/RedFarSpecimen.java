@@ -49,7 +49,7 @@ public class RedFarSpecimen extends CommandOpMode {
          autoDriveTrain = new AutoDriveTrain(hardwareMap, initialPose);
 
         elbowArm.setDefaultCommand(
-                new ElbowKeepPos(elbowArm)
+                new ElbowKeepPos(elbowArm,extenderArm)
         );
 
         TrajectoryActionBuilder PrepaerForSpicimen = autoDriveTrain.getMecanumDrive().actionBuilder(

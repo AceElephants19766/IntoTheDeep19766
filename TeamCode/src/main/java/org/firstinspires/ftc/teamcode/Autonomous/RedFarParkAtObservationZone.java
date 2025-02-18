@@ -42,7 +42,7 @@ public class RedFarParkAtObservationZone extends CommandOpMode {
         autoDriveTrain = new AutoDriveTrain(hardwareMap, initialPose);
 
         elbowArm.setDefaultCommand(
-                new ElbowKeepPos(elbowArm)
+                new ElbowKeepPos(elbowArm,extenderArm)
         );
 
         TrajectoryActionBuilder goToParkAtBar = autoDriveTrain.getMecanumDrive().actionBuilder(

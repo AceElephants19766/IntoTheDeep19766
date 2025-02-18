@@ -112,7 +112,7 @@ public class CompTeleOp extends CommandOpMode {
 
         //elbow
         elbowArm.setDefaultCommand(
-                new ElbowKeepPos(elbowArm)
+                new ElbowKeepPos(elbowArm,extenderArm)
         );
         gamepadEx2.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(
                 new ResetElbowEncoder(elbowArm)
@@ -221,12 +221,15 @@ public class CompTeleOp extends CommandOpMode {
     @Override
     public void run() {
         super.run();
-        telemetry.addData("is Pressed", extenderArm.isPressed());
+        telemetry.addData("ff",ElbowArm.getFeedForward(extenderArm.getLength(),elbowArm.getDeg()));
+        telemetry.addLine("");
+//        telemetry.addData("Kp",elbowArm.getPidController().getP());
+//        telemetry.addData("Kp",elbowArm.getPidController().getI());
+//        telemetry.addData("is Pressed", extenderArm.isPressed());
         telemetry.addData("extender", extenderArm.getLength());
         telemetry.addData("elbow", elbowArm.getDeg());
-        telemetry.addData("ctr", ctr);
-        telemetry.addData("kg", ElbowArm.getkG()*Math.signum(elbowArm.getPidController().getPositionError()));
-        telemetry.addData("erech",Math.toDegrees(Math.acos((25.0/(38+(rightTriggerSupplier.getAsDouble()*30)))))-53);
+//        telemetry.addData("ctr", ctr);
+//        telemetry.addData("erech",Math.toDegrees(Math.acos((25.0/(38+(rightTriggerSupplier.getAsDouble()*30)))))-53);
         telemetry.update();
     }
 }

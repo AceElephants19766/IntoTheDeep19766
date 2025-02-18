@@ -24,6 +24,8 @@ public class ExtenderArm extends SubsystemBase {
     public static double kI = 0;
     public static double kD = 0;
 
+    public static final double MAX_OPEN = 44;
+
     private final double TPR = 537.7;
     private double offset = 0;
 

@@ -57,7 +57,7 @@ public class ScoringPreloadSample extends CommandOpMode {
         autoDriveTrain = new AutoDriveTrain(hardwareMap, initialPose);
 
         elbowArm.setDefaultCommand(
-                new ElbowKeepPos(elbowArm)
+                new ElbowKeepPos(elbowArm,extenderArm)
         );
 
         TrajectoryActionBuilder goToBasket = autoDriveTrain.getMecanumDrive().actionBuilder(
