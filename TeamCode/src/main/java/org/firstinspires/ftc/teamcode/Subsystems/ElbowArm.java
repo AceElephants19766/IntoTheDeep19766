@@ -34,7 +34,7 @@ public class ElbowArm extends SubsystemBase {
     public static final int DEFAULT = 20;
 
     public static final int COLLECT_SAMPLE = 20;
-    public static final int SCORING_SAMPLE = 120;
+    public static final int SCORING_SAMPLE = 124;
 
     public static final int SPECIMEN_COLLECT = 20;
     public static final int  SCORING_SPECIMEN = 110;
