@@ -10,155 +10,166 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class squareAuto {
     public static void main(String[] args) {
+
         MeepMeep meepMeep = new MeepMeep(700);
+
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 17.5)
                 .build();
+
+
         Pose2d initialPose = new Pose2d(15, -62, Math.toRadians(-90));
 
+        //scoring preload - done
         TrajectoryActionBuilder PreLoad = myBot.getDrive().actionBuilder(
                         initialPose
                 )
                 .setTangent(Math.toRadians(90))
-                .strafeTo(
-                        new Vector2d(-4, -28)
+                .splineToConstantHeading(
+                        new Vector2d(-4, -28),
+                        Math.toRadians(90)
                 );
-        TrajectoryActionBuilder BackUp = PreLoad.endTrajectory().fresh()
+        TrajectoryActionBuilder BackUpAfterScoringPreload = PreLoad.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .strafeTo(
-                        new Vector2d(-4,-40)
+                .splineToConstantHeading(
+                        new Vector2d(-4, -40),
+                        Math.toRadians(-90)
                 );
 
-        TrajectoryActionBuilder goToSample = BackUp.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .strafeTo(
-                        new Vector2d(36, -33)
+
+
+        //bring sec sample - done
+        TrajectoryActionBuilder goToSample = BackUpAfterScoringPreload.endTrajectory().fresh()
+                .setTangent(Math.toRadians(0))
+                .splineToConstantHeading(
+                        new Vector2d(36, -33),
+                        Math.toRadians(0)
                 );
 
         TrajectoryActionBuilder goToSample2 = goToSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(90))
-                .strafeTo(
-                        new Vector2d(40,-12)
+                .splineToConstantHeading(
+                        new Vector2d(45, -12),
+                        Math.toRadians(0)
                 );
 
-        TrajectoryActionBuilder goToSample3 = goToSample2.endTrajectory().fresh()
-                .strafeTo(
-                        new Vector2d(45, -12)
-                );
-
-        TrajectoryActionBuilder goToHUmanPlayer = goToSample3.endTrajectory().fresh()
+        TrajectoryActionBuilder goToHUmanPlayer = goToSample2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(
+                .splineToConstantHeading(
                         new Vector2d(45, -59),
                         Math.toRadians(-90)
                 );
 
-        TrajectoryActionBuilder goToScore = goToHUmanPlayer.endTrajectory().fresh()
-                .setTangent(Math.toRadians(90))
-                .strafeTo(
-                        new Vector2d(-2, -28)
-                );
 
-        TrajectoryActionBuilder BackUpSec = goToScore.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .strafeTo(
-                        new Vector2d(-2,-40)
-                );
-        //sec sample
-        TrajectoryActionBuilder goToSampleSec = BackUpSec.endTrajectory().fresh()
-                .setTangent(-90)
-                .strafeTo(
-                        new Vector2d(36, -33)
-                );
 
-        TrajectoryActionBuilder goToSample2Sec = goToSampleSec.endTrajectory().fresh()
-                .setTangent(Math.toRadians(90))
-                .strafeTo(
-                        new Vector2d(40, -12)
-                );
-
-        TrajectoryActionBuilder goToSample3Sec = goToSample2Sec.endTrajectory().fresh()
+        //score sec sample - done
+        TrajectoryActionBuilder goToScoreSecSample = goToHUmanPlayer.endTrajectory().fresh()
+                .setTangent(Math.toRadians(180))
                 .strafeToLinearHeading(
+                        new Vector2d(-2, -28),
+                        Math.toRadians(-90)
+                );
+
+        TrajectoryActionBuilder backUpAfterScoringSecSample = goToScoreSecSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .splineToConstantHeading(
+                        new Vector2d(-2, -40),
+                        Math.toRadians(-90)
+                );
+
+
+
+        //bring third sample - done
+        TrajectoryActionBuilder goToThirdSample = backUpAfterScoringSecSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(0))
+                .splineToConstantHeading(
+                        new Vector2d(36, -33),
+                        Math.toRadians(0)
+                );
+
+        TrajectoryActionBuilder goToThirdSample2 = goToThirdSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(90))
+                .splineToConstantHeading(
                         new Vector2d(55, -12),
+                        Math.toRadians(0)
+                );
+
+        TrajectoryActionBuilder goToHUmanPlayerSec = goToThirdSample2.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .splineToConstantHeading(
+                        new Vector2d(55, -59),
                         Math.toRadians(-90)
                 );
 
-        TrajectoryActionBuilder goToHUmanPlayerSec = goToSample3Sec.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(
-                        new Vector2d(45, -59),
-                        Math.toRadians(-90));
 
-        TrajectoryActionBuilder goToScoreSec = goToHUmanPlayerSec.endTrajectory().fresh()
-                .setTangent(Math.toRadians(90))
-                .strafeTo(
-                        new Vector2d(0, -28)
-                );
-        // third sample
-        TrajectoryActionBuilder goToHUmanPlayerThird = goToScoreSec.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(
-                        new Vector2d(45, -59),
-                        Math.toRadians(-90));
-        TrajectoryActionBuilder goToScoreThird = goToHUmanPlayerThird.endTrajectory().fresh()
-                .setTangent(Math.toRadians(90))
-                .strafeTo(
-                        new Vector2d(3, -28)
-                );
-        TrajectoryActionBuilder BackUpThird = goToScoreThird.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .strafeTo(
-                        new Vector2d(-4,-40)
-                );
-        //forth sample
-        TrajectoryActionBuilder goToHUmanPlayerForth = BackUpThird.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(
-                        new Vector2d(45, -59),
-                        Math.toRadians(-90));
 
-        TrajectoryActionBuilder goToScoreForth = goToHUmanPlayerForth.endTrajectory().fresh()
-                .setTangent(Math.toRadians(90))
-                .strafeTo(
-                        new Vector2d(3, -30)
+        //score third sample - done
+        TrajectoryActionBuilder goToScoreThirdSample = goToHUmanPlayerSec.endTrajectory().fresh()
+                .setTangent(Math.toRadians(180))
+                .strafeToLinearHeading(
+                        new Vector2d(-2, -28),
+                        Math.toRadians(-90)
                 );
 
-        TrajectoryActionBuilder goToScoreForth1 = goToScoreForth.endTrajectory().fresh()
-                .setTangent(Math.toRadians(90))
-                .strafeTo(
-                        new Vector2d(7, -28)
+        //bring forth sample from human player
+        TrajectoryActionBuilder goToHUmanPlayerThird = goToScoreThirdSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(180))
+                .strafeToLinearHeading(
+                        new Vector2d(45, -59),
+                        Math.toRadians(-90)
                 );
-        TrajectoryActionBuilder BackUpForth = goToScoreForth1.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .strafeTo(
-                        new Vector2d(-4,-40)
+
+
+        //score forth sample
+        TrajectoryActionBuilder goToScoreForthSample = goToHUmanPlayerThird.endTrajectory().fresh()
+                .setTangent(Math.toRadians(180))
+                .strafeToLinearHeading(
+                        new Vector2d(-2, -28),
+                        Math.toRadians(-90)
                 );
-        TrajectoryActionBuilder park = goToScoreForth.endTrajectory().fresh()
+
+        //park
+        TrajectoryActionBuilder park = goToScoreForthSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .strafeToLinearHeading(
                         new Vector2d(40, -53),
                         Math.toRadians(-90));
+
         myBot.runAction(
                 new SequentialAction(
+                        //scoring preload - done
                         PreLoad.build(),
-                        BackUp.build(),
+                        BackUpAfterScoringPreload.build(),
+
+                        //bring sec sample - done
                         goToSample.build(),
                         goToSample2.build(),
-                        goToSample3.build(),
                         goToHUmanPlayer.build(),
-                        goToScore.build(),
-                        BackUpSec.build(),
-                        goToSampleSec.build(),
-                        goToSample2Sec.build(),
-                        goToSample3Sec.build(),
+
+                        //score sec sample - done
+                        goToScoreSecSample.build(),
+                        backUpAfterScoringSecSample.build(),
+
+                        //bring third sample - done
+                        goToThirdSample.build(),
+                        goToThirdSample2.build(),
                         goToHUmanPlayerSec.build(),
-                        goToScoreSec.build(),
+
+                        //score third sample
+                        goToScoreThirdSample.build(),
+
+                        //bring forth sample
                         goToHUmanPlayerThird.build(),
-                        goToScoreThird.build(),
+
+                        //score forth sample
+                        goToScoreForthSample.build(),
+
+                        //park
                         park.build()
                 )
         );
+
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_OFFICIAL)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
