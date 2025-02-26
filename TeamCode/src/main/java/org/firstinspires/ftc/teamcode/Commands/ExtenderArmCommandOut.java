@@ -22,7 +22,7 @@ public class ExtenderArmCommandOut extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (elbowArm.getAngle().getAsDouble() <90 && extenderArm.getLength() > 44.5){
+        if (elbowArm.getAngle().getAsDouble() <90 && extenderArm.getLength() > 46){
             return true;
         } else {
             return  false;

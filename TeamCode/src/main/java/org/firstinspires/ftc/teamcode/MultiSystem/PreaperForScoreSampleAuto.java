@@ -18,7 +18,7 @@ public class PreaperForScoreSampleAuto extends SequentialCommandGroup {
                 new ElbowArmCommand(elbowArm, ElbowArm.SCORING_SAMPLE),
                 new WaitUntilCommand(() -> elbowArm.getPidController().getPositionError() < 20),
                 new WaitCommand(1000),
-                new ExtenderArmCommand(extenderArm, ExtenderArm.SCORE).withTimeout(2000)
+                new ExtenderArmCommand(extenderArm, elbowArm,ExtenderArm.SCORE).withTimeout(2000)
         );
         addRequirements(
                 extenderArm

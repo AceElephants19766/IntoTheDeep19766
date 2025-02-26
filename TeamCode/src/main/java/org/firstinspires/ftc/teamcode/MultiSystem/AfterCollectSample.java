@@ -17,7 +17,7 @@ public class AfterCollectSample extends SequentialCommandGroup {
                 new ElbowArmCommand(elbowArm, ElbowArm.DEFAULT),
                 new InstantCommand(()->clawRollRotate.setPose(ClawRollRotate.DEFAULT)),
                 new InstantCommand(()->clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN )),
-                new ExtenderArmCommand(extenderArm, ExtenderArm.COLLECT),
+                new ExtenderArmCommand(extenderArm, elbowArm,ExtenderArm.COLLECT),
                 new ElbowArmCommand(elbowArm, ElbowArm.DEFAULT)
         );
         addRequirements(

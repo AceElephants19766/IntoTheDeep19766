@@ -181,6 +181,7 @@ public class CompTeleOp extends CommandOpMode {
         gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
                 new ClawRollRotateToggleCommand(clawRollRotat, ClawRollRotate.SPECIAL)
         );
+
         //claw open close
         gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
                 new ConditionalCommand(
@@ -199,7 +200,7 @@ public class CompTeleOp extends CommandOpMode {
         //preaper for collect sample from sub
         gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new ParallelCommandGroup(
-                        new ExtenderArmCommand(extenderArm,15),
+                        new ExtenderArmCommand(extenderArm,elbowArm,15),
                         new ElbowArmCommand(elbowArm,138)
                 )
         );

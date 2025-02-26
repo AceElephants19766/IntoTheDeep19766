@@ -86,7 +86,7 @@ public class RedFarSpecimen extends CommandOpMode {
                         new WaitCommand(500),
                         new ActionCommand(BackingUpAfterSpecimen.build(), autoDriveTrain),
                         new ClawSetPose(claw, Claw.OPEN),
-                        new ExtenderArmCommand(extenderArm,0),
+                        new ExtenderArmCommand(extenderArm,elbowArm,0),
                         new ActionCommand(park.build())
                 )
         );

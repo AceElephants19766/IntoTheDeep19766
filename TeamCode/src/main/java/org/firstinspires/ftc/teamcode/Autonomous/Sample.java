@@ -170,7 +170,7 @@ public class Sample extends CommandOpMode {
                                         new AuotPreaperForCollect(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat)
                                 )
                         ),
-                        new ExtenderArmCommand(extenderArm,0),
+                        new ExtenderArmCommand(extenderArm,elbowArm,0),
                         new WaitCommand(500),
                         new ElbowArmCommand(elbowArm,130)
                 )

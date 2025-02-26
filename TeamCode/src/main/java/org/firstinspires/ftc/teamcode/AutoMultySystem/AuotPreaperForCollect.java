@@ -17,10 +17,10 @@ public class AuotPreaperForCollect extends SequentialCommandGroup {
         addCommands(
                 new SequentialCommandGroup(
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.COLLECT)),
-                        new ExtenderArmCommand(extenderArm, ExtenderArm.COLLECT),
+                        new ExtenderArmCommand(extenderArm,elbowArm, ExtenderArm.COLLECT),
                         new ElbowArmCommand(elbowArm, ElbowArm.DEFAULT),
                         new WaitCommand(500),
-                        new ExtenderArmCommand(extenderArm, ExtenderArm.P_F_COLLECTSAMPLE)
+                        new ExtenderArmCommand(extenderArm,elbowArm, ExtenderArm.P_F_COLLECTSAMPLE)
                 )
         );
         addRequirements(

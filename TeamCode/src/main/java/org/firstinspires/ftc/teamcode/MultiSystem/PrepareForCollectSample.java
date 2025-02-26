@@ -17,22 +17,23 @@ public class PrepareForCollectSample extends ConditionalCommand {
     public PrepareForCollectSample(ElbowArm elbowArm, ExtenderArm extenderArm, Claw claw, ClawUpDown clawUpDown, ClawRollRotate clawRollRotate){
         super(
                 new SequentialCommandGroup(
+                        new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.DEFAULT), clawRollRotate),
                         new InstantCommand(()->clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN)),
                         new InstantCommand(() -> claw.SetPose(Claw.OPEN)),
                         new WaitCommand(200),
                         new InstantCommand(()->clawUpDown.setPos(ClawUpDown.COLLECT)),
                         new WaitCommand(700),
-                        new ExtenderArmCommand(extenderArm,ExtenderArm.COLLECT),
+                        new ExtenderArmCommand(extenderArm,elbowArm,ExtenderArm.COLLECT),
                         new ElbowArmCommand(elbowArm,ElbowArm.DEFAULT),
                         new WaitCommand(500),
-                        new ExtenderArmCommand(extenderArm,ExtenderArm.P_F_COLLECTSAMPLE)
+                        new ExtenderArmCommand(extenderArm,elbowArm,ExtenderArm.P_F_COLLECTSAMPLE)
                 ),
                 new SequentialCommandGroup(
                         new InstantCommand(() -> claw.SetPose(Claw.OPEN)),
                         new InstantCommand(()->clawUpDown.setPos(ClawUpDown.COLLECT)),
                         new ElbowArmCommand(elbowArm,ElbowArm.DEFAULT),
                         new WaitCommand(500),
-                        new ExtenderArmCommand(extenderArm,ExtenderArm.P_F_COLLECTSAMPLE)
+                        new ExtenderArmCommand(extenderArm,elbowArm,ExtenderArm.P_F_COLLECTSAMPLE)
                 ),
                 ()-> elbowArm.getDeg() > 90
 

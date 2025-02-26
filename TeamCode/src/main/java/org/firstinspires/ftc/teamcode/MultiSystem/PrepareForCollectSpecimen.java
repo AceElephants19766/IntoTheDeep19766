@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 public class PrepareForCollectSpecimen extends SequentialCommandGroup {
     public PrepareForCollectSpecimen(ExtenderArm extenderArm, ElbowArm elbowArm, ClawRollRotate clawRollRotate, ClawUpDown clawUpDown, Claw claw) {
         addCommands(
-                new ExtenderArmCommand(extenderArm, ExtenderArm.COLLECT).raceWith(
+                new ExtenderArmCommand(extenderArm, elbowArm,ExtenderArm.COLLECT).raceWith(
                         new WaitUntilCommand(()->extenderArm.isPressed())
                 ),
                 new ElbowArmCommand(elbowArm, ElbowArm.SPECIMEN_COLLECT),

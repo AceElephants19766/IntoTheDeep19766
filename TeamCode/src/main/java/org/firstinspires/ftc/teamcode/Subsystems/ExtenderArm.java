@@ -23,8 +23,11 @@ public class ExtenderArm extends SubsystemBase {
     public static double kP = 0.3;
     public static double kI = 0;
     public static double kD = 0;
+    public static double kG = 0.15;
 
     public static final double MAX_OPEN = 44;
+    private static final double ELBOW_STARTING_ANG = 124;
+
 
     private final double TPR = 537.7;
     private double offset = 0;
@@ -71,6 +74,12 @@ public class ExtenderArm extends SubsystemBase {
 
     public PIDController getPidController() {
         return pidController;
+    }
+
+    public  static double getFeedForward(double extenderLength,double elbowAng){
+        return (kG * (extenderLength/ExtenderArm.MAX_OPEN)
+                * Math.cos(Math.toRadians(elbowAng-ELBOW_STARTING_ANG))
+        );
     }
 
     @Override

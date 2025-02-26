@@ -20,7 +20,7 @@ public class AutoCollectSample extends SequentialCommandGroup {
                 new ClawSetPose(claw, Claw.CLOSE),
                 new WaitCommand(200),
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN)),
-                new ExtenderArmCommand(extenderArm, ExtenderArm.COLLECT),
+                new ExtenderArmCommand(extenderArm, elbowArm,ExtenderArm.COLLECT),
                 new ElbowArmCommand(elbowArm, ElbowArm.DEFAULT)
         );
         addRequirements(
