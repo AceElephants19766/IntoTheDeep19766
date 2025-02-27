@@ -16,7 +16,7 @@ public class PrepaereForScoreSample extends SequentialCommandGroup {
         addCommands(
                 new ElbowArmCommand(elbowArm,ElbowArm.SCORING_SAMPLE),
                 new WaitUntilCommand(() -> elbowArm.getPidController().getPositionError() < 40),
-                new ExtenderArmCommand(extenderArm,elbowArm,ExtenderArm.SCORE)/*.withTimeout(2000)*/,
+                new ExtenderArmCommand(extenderArm,elbowArm,ExtenderArm.SCORE).withTimeout(1000),
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORING)),
                 new InstantCommand(()-> clawRollRotate.setPose(ClawRollRotate.DEFAULT))
         );
