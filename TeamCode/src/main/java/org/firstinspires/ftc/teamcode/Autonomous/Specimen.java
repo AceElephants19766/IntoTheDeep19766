@@ -209,6 +209,7 @@ public class Specimen extends CommandOpMode {
                                         new PreaperForScoreSpecimen(elbowArm, extenderArm, claw, clawRollRotat, clawUpDown)
                                 )
                         ),
+
                         //score pre load
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
                         new WaitCommand(500),
@@ -295,13 +296,6 @@ public class Specimen extends CommandOpMode {
     @Override
     public void run() {
         super.run();
-        if (elbowArm.getDeg() < 60){
-            elbowArm.getPidController().setP(0.04);
-            elbowArm.getPidController().setI(0.003);
-        }else {
-            elbowArm.getPidController().setP(0.01);
-            elbowArm.getPidController().setI(0.001);
-        }
         telemetry.addData("elbow",elbowArm.getDeg());
         telemetry.update();
     }

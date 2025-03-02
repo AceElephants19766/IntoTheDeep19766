@@ -18,14 +18,14 @@ public class ElbowArm extends SubsystemBase {
 
     private PIDController pidController;
 
-    public static double kP = 0.03;
-    public static double kI = 0.0001; //0.1
+    public static double kP = 0.007;
+    public static double kI = 0.0002; //0.1
     public static double kD = 0.002;
     public static double TOL = 1;
 
-    public static double kGMin = 0.04;
+    public static double kGMin = 0.09;
     public static double kGMax = 0.19;
-    public static double FUDGE_FACTOR = 1.5;
+//    public static double FUDGE_FACTOR = 1.5;
 
     private static final double ELBOW_STARTING_ANG = 37;
     private final double TPR = 537.7;

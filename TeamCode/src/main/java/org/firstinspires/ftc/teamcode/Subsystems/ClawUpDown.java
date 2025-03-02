@@ -14,10 +14,11 @@ public class ClawUpDown extends SubsystemBase {
     public static final double P_F_COLLECT_SPECIMEN = 0.62;
     public static final double PREAPER_SCORING_BACKWARD_SPECIMEN = 0.25;
     public static final double SCORE_SPECIMEN = 0;
+    public static final double STARTING_POS_AUTO = 0;
 
     public ClawUpDown(HardwareMap hardwareMap){
         clawUpDown = hardwareMap.get(Servo.class , "clawUpDown");
-        clawUpDown.setPosition(ClawUpDown.SCORE_SPECIMEN);
+        clawUpDown.setPosition(ClawUpDown.STARTING_POS_AUTO);
     }
     public void setPos(double pos){
         clawUpDown.setPosition(pos);

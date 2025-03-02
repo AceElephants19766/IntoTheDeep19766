@@ -10,7 +10,6 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.Commands.ActionCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawSetPose;
@@ -24,7 +23,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 
-@Disabled
+@Autonomous
 public class RedCloseSpecimen extends CommandOpMode {
     //Subsystem
     private AutoDriveTrain autoDriveTrain;
@@ -47,7 +46,7 @@ public class RedCloseSpecimen extends CommandOpMode {
         elbowArm = new ElbowArm(hardwareMap);
         hangArm = new HangArm(hardwareMap);
 
-        Pose2d initialPose = new Pose2d(-32, -62, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(50, -50, Math.toRadians(90));
         autoDriveTrain = new AutoDriveTrain(hardwareMap, initialPose);
 
         elbowArm.setDefaultCommand(
@@ -57,10 +56,14 @@ public class RedCloseSpecimen extends CommandOpMode {
                         initialPose
                 )
                 .setTangent(Math.toRadians(90))
-                .splineToConstantHeading(
-                        new Vector2d(-10, -34)
-                        , Math.toRadians(90) //tangent
-                );
+                .lineToY(50)
+                .turn(Math.toRadians(90))
+                .lineToX(-50)
+                .turn(Math.toRadians(90))
+                .lineToY(-50)
+                .turn(Math.toRadians(90))
+                .lineToX(50);
+
         TrajectoryActionBuilder BackingUpAfterSpecimen = PrepaerForSpicimen.endTrajectory().fresh()
                 .setTangent(Math.toRadians(90))
                 .splineToConstantHeading(
@@ -79,22 +82,7 @@ public class RedCloseSpecimen extends CommandOpMode {
                         Math.toRadians(0)
                 );
         schedule(
-                new InstantCommand(),
-                        new SequentialCommandGroup(
-                                new ParallelCommandGroup(
-                                        new ActionCommand(PrepaerForSpicimen.build()),
-                                        new SequentialCommandGroup(
-                                                new WaitUntilCommand(
-                                                        () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.x > -20
-                                                ),
-                                                new PreaperForScoreSpecimen(elbowArm, extenderArm, claw,clawRollRotat,clawUpDown)
-                                        )
-                                ),
-                        new WaitCommand(500),
-                        new ActionCommand(BackingUpAfterSpecimen.build(), autoDriveTrain),
-                        new ClawSetPose(claw, Claw.OPEN),
-                        new ActionCommand(goToParkAtBar.build())
-                )
+                new ActionCommand(PrepaerForSpicimen.build())
         );
     }
 }

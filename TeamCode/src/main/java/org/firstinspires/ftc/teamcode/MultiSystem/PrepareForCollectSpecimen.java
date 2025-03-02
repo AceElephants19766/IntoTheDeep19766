@@ -29,7 +29,6 @@ public class PrepareForCollectSpecimen extends SequentialCommandGroup {
                 clawRollRotate,
                 clawUpDown,
                 claw
-
         );
     }
 }

@@ -6,17 +6,19 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 
 import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
+import org.firstinspires.ftc.teamcode.Subsystems.ClawUpDown;
 import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 
 import java.util.function.DoubleSupplier;
 
 public class CollectFromSub extends ParallelCommandGroup {
-    public  CollectFromSub(ElbowArm elbowArm, ExtenderArm extenderArm, DoubleSupplier rightTriggerSupplier){
+    public  CollectFromSub(ElbowArm elbowArm, ExtenderArm extenderArm, ClawUpDown clawUpDown, DoubleSupplier rightTriggerSupplier){
         addCommands(
+                new InstantCommand(()-> clawUpDown.setPos(ClawUpDown.COLLECT)),
                 new InstantCommand(()->extenderArm.getPidController().setSetPoint((int)(rightTriggerSupplier.getAsDouble()*42))),
                 new InstantCommand(()-> {
-                    int ang = (int)(Math.toDegrees(Math.acos((17.0/(38+(rightTriggerSupplier.getAsDouble()*30)))))) -48;
+                    int ang = (int)(Math.toDegrees(Math.acos((25.0/(38+(rightTriggerSupplier.getAsDouble()*30)))))) -48;
                     if (ang>7){
                         elbowArm.getPidController().setSetPoint(ang);
                     }
