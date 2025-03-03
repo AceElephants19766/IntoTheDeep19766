@@ -36,6 +36,8 @@ public class ExtenderArm extends SubsystemBase {
     public static final int SCORE = 47;
     public static final int P_F_COLLECTSAMPLE = 16;
 
+    private static final int HANG = 12;
+
     public static final int SCORINGSPACIMEN = 15;
     public ExtenderArm(HardwareMap hardwareMap) {
         register();

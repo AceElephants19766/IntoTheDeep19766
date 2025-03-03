@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Teleop;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
@@ -12,23 +11,22 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateToggleCommand;
-import org.firstinspires.ftc.teamcode.Commands.ClawSetPose;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
-import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
-import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommandOut;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmSetPower;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderkeepPos;
-import org.firstinspires.ftc.teamcode.Commands.ResetElbowEncoder;
 import org.firstinspires.ftc.teamcode.Commands.ResetExtnderEncoder;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
 import org.firstinspires.ftc.teamcode.MultiSystem.CollectFromSub;
 import org.firstinspires.ftc.teamcode.MultiSystem.CollectSample;
+import org.firstinspires.ftc.teamcode.MultiSystem.Hang;
 import org.firstinspires.ftc.teamcode.MultiSystem.PreaperForScoreSpecimen;
+import org.firstinspires.ftc.teamcode.MultiSystem.PreaperForScoreSpecimen2;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScoreSample;
-import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSpecimen;
+import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSpecimen2;
+import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSpecimen3;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawUpDown;
@@ -41,6 +39,7 @@ import java.util.function.DoubleSupplier;
 
 @TeleOp
 public class CompTeleOpOneDriver extends CommandOpMode {
+
     public GamepadEx gamepadEx1;
     public GamepadEx gamepadEx2;
 
@@ -115,16 +114,6 @@ public class CompTeleOpOneDriver extends CommandOpMode {
         extenderReset.whenActive(
                 new ResetExtnderEncoder(extenderArm)
         );
-        gamepad2rightTrigger.whileActiveOnce(
-                new ExtenderkeepPos(extenderArm)
-        );
-        gamepad2rightTrigger.whenInactive(
-                new SequentialCommandGroup(
-                        new WaitCommand(500),
-                        new InstantCommand(() -> extenderArm.setPower(0))
-                )
-        );
-
 
         //Claw roll rotation - ok
         gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
@@ -142,31 +131,53 @@ public class CompTeleOpOneDriver extends CommandOpMode {
 
         //collect from submersible - need to check
         rightTriggerSupplier = () -> gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
+
         gamepad2rightTrigger = new Trigger(() -> rightTriggerSupplier.getAsDouble() > 0.1);
+
         gamepad2rightTrigger.whileActiveContinuous(
-                new CollectFromSub(elbowArm, extenderArm, clawUpDown, rightTriggerSupplier)
+                new CollectFromSub(elbowArm, extenderArm, clawUpDown,claw, rightTriggerSupplier)
+        );
+
+        gamepad2rightTrigger.whileActiveOnce(
+                new ExtenderkeepPos(extenderArm)
+        );
+
+        gamepad2rightTrigger.whenInactive(
+                new SequentialCommandGroup(
+                        new WaitCommand(500),
+                        new InstantCommand(() -> extenderArm.setPower(0))
+                )
+        );
+
+        gamepad2rightTrigger.whenInactive(
+                new CollectSample(elbowArm,extenderArm,claw,clawUpDown)
         );
 
         //Preaper for score sample
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenActive(
                 new PrepaereForScoreSample(elbowArm, extenderArm, clawUpDown, clawRollRotat)
         );
 
-        //preaper for collect specimen press B to collect specimen
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-                new PrepareForCollectSpecimen(extenderArm, elbowArm, clawRollRotat, clawUpDown, claw)
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenReleased(
+                new PrepareForCollectSpecimen2(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw)
         );
-        //preaper for score specimen
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
-                new PreaperForScoreSpecimen(elbowArm, extenderArm, claw, clawRollRotat, clawUpDown)
+
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new PreaperForScoreSpecimen2(elbowArm,extenderArm,claw,clawRollRotat,clawUpDown)
         );
-        //score specimen
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
-                new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown)
+
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                new InstantCommand(()-> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN))
         );
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenInactive(
-                new ClawSetPose(claw, Claw.OPEN)
+
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenInactive(
+                new PrepareForCollectSpecimen3(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw)
         );
+
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new Hang(elbowArm,extenderArm,clawUpDown,clawRollRotat)
+        );
+
 
         //extender open by hand
         joystickRightYUpCondition = new Trigger(() -> -gamepadEx2.getRightY() > 0.1);
@@ -209,7 +220,6 @@ public class CompTeleOpOneDriver extends CommandOpMode {
                 new InstantCommand(() -> claw.SetPose(Claw.OPEN)),
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN)),
                 new InstantCommand(() -> clawRollRotat.setPose(ClawRollRotate.DEFAULT))
-
         );
 
     }

@@ -126,7 +126,7 @@ public class CompTeleOp extends CommandOpMode {
         rightTriggerSupplier = () -> gamepadEx2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
         gamepad2rightTrigger = new Trigger(() -> rightTriggerSupplier.getAsDouble() > 0.1);
         gamepad2rightTrigger.whileActiveContinuous(
-                new CollectFromSub(elbowArm, extenderArm,clawUpDown, rightTriggerSupplier)
+                new CollectFromSub(elbowArm, extenderArm,clawUpDown,claw, rightTriggerSupplier)
         );
 
         gamepad2rightTrigger.whileActiveOnce(
@@ -167,7 +167,7 @@ public class CompTeleOp extends CommandOpMode {
         joystickLeftYDownCondition.whileActiveContinuous(
                 new InstantCommand(() -> {
                     if (elbowArm.getAngle().getAsDouble() < 20) {
-                        jump = 0.1;
+                        jump = 0.5;
                     } else {
                         jump = 1;
                     }
@@ -199,7 +199,9 @@ public class CompTeleOp extends CommandOpMode {
         //preaper for collect sample from sub
         gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new ParallelCommandGroup(
-                        new ExtenderArmCommand(extenderArm,elbowArm,15),
+                        new InstantCommand(()-> clawUpDown.setPos(ClawUpDown.COLLECT)),
+                        new InstantCommand(()-> clawRollRotat.setPose(ClawRollRotate.SPECIAL)),
+                        new ExtenderArmCommand(extenderArm,elbowArm,12),
                         new ElbowArmCommand(elbowArm,138)
                 )
         );
