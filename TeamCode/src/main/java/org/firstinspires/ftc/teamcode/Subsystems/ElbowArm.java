@@ -18,14 +18,14 @@ public class ElbowArm extends SubsystemBase {
 
     private PIDController pidController;
 
-    public static double kP = 0.005;
+    public static double kP = 0.011;
     public static double kI = 0;
     public static double kD = 0;
     public static double TOL = 1;
 
     public static double kGMin = 0.09;
-    public static double kGMax = 0.25;
-//    public static double FUDGE_FACTOR = 1.5;
+    public static double kGMax = 0.19;
+    public static double FUDGE_FACTOR = 1.5;
 
     private static final double ELBOW_STARTING_ANG = 37;
     private final double TPR = 537.7;
@@ -36,7 +36,7 @@ public class ElbowArm extends SubsystemBase {
     public static final int COLLECT_SAMPLE = 20;
     public static final int SCORING_SAMPLE = 124;
 
-    public static final int SPECIMEN_COLLECT = 0;
+    public static final int SPECIMEN_COLLECT = 10;
     public static final int  SCORING_SPECIMEN = 105;
 
     public static final int AUTO_SCORING_SPECIMEN = 100;
@@ -50,7 +50,7 @@ public class ElbowArm extends SubsystemBase {
         elbowArmLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         elbowArmRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        elbowArmRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        elbowArmLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         resetEncoder();
 
         pidController = new PIDController(kP, kI, kD);
@@ -74,11 +74,11 @@ public class ElbowArm extends SubsystemBase {
     }
 
     public DoubleSupplier getAngle() {
-        return ()->((getTicks() / TPR)/4) * 360;
+        return ()->((getTicks() / TPR)/5) * 360;
     }
 
     public double getDeg(){
-        return ((getTicks() / TPR)/4)*360;
+        return ((getTicks() / TPR)/5)*360;
     }
 
 
@@ -87,7 +87,7 @@ public class ElbowArm extends SubsystemBase {
     }
 
     public static double getFeedForward(double extenderLength,double elbowAng) {
-        return ((kGMax-kGMin) * (extenderLength/ExtenderArm.MAX_OPEN) + kGMin) /* * FUDGE_FACTOR*/
+        return ((kGMax-kGMin) * (extenderLength/ExtenderArm.MAX_OPEN) + kGMin)  * FUDGE_FACTOR
                 * Math.cos(Math.toRadians(elbowAng-ELBOW_STARTING_ANG)
         );
     }

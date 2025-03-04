@@ -10,6 +10,7 @@ public class ClawUpDown extends SubsystemBase {
 
     public static final double COLLECT = 0.937;
     public static final double SCORING = 0.73;
+    public static final double SCORING_SAMPLE = 0.5;
 
     public static final double P_F_COLLECT_SPECIMEN = 0.7;
     public static final double PREAPER_SCORING_BACKWARD_SPECIMEN = 0.25;

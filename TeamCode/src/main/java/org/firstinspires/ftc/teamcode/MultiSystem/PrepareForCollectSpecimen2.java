@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 public class PrepareForCollectSpecimen2 extends SequentialCommandGroup {
     public PrepareForCollectSpecimen2(ExtenderArm extenderArm, ElbowArm elbowArm, ClawRollRotate clawRollRotate, ClawUpDown clawUpDown, Claw claw) {
         addCommands(
-                new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()-5)),
+                new ElbowArmCommand(elbowArm,120),
                 new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.DEFAULT), clawRollRotate),
                 new InstantCommand(()->clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN)),
                 new InstantCommand(() -> claw.SetPose(Claw.OPEN)),
@@ -33,8 +33,8 @@ public class PrepareForCollectSpecimen2 extends SequentialCommandGroup {
                     FtcDashboard.getInstance().getTelemetry().addLine("w");
                     FtcDashboard.getInstance().getTelemetry().update();
                 }),
-                new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.DEFAULT), clawRollRotate),
-                new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN), clawUpDown),
+                new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.DEFAULT)),
+                new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN)),
                 new ClawSetPose(claw, Claw.OPEN)
         );
         addRequirements(

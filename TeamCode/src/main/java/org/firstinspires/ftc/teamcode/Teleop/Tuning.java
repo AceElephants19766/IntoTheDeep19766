@@ -6,17 +6,21 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawUpDown;
+import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
+
 @TeleOp
 public class Tuning extends CommandOpMode {
     public Claw claw;
     public ClawUpDown clawUpDown;
     public ClawRollRotate clawRollRotate;
+    public ElbowArm elbowArm;
 
     @Override
     public void initialize() {
         claw = new Claw(hardwareMap);
         clawUpDown = new ClawUpDown(hardwareMap);
         clawRollRotate = new ClawRollRotate(hardwareMap);
+        elbowArm = new ElbowArm(hardwareMap);
 
     }
 
@@ -33,6 +37,7 @@ public class Tuning extends CommandOpMode {
         clawRollRotate.setPose(gamepad2.left_trigger);
         telemetry.addData(" Up down Pos",gamepad2.right_trigger);
         telemetry.addData("Roll Pos",gamepad2.left_trigger);
+        telemetry.addData("elbow",elbowArm.getDeg());
         telemetry.update();
     }
 }
