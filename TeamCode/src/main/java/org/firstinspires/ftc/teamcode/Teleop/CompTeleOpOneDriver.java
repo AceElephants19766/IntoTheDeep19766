@@ -216,6 +216,8 @@ public class CompTeleOpOneDriver extends CommandOpMode {
         );
         joystickLeftYUpCondition.whenInactive(() -> ctr = 0);
 
+
+
         //on start normal positions for the servos
         schedule(
                 new InstantCommand(),

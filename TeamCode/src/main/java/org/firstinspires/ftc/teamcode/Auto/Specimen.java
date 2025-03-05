@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Auto;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
@@ -10,12 +10,10 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Commands.ActionCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawSetPose;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
-import org.firstinspires.ftc.teamcode.Commands.ResetExtnderEncoder;
 import org.firstinspires.ftc.teamcode.MultiSystem.PreaperForScoreSpecimen;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSpecimen;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveTrain;
@@ -26,8 +24,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 
-@Autonomous
 public class Specimen extends CommandOpMode {
+
     //Subsystem
     private AutoDriveTrain autoDriveTrain;
 
@@ -54,143 +52,119 @@ public class Specimen extends CommandOpMode {
         autoDriveTrain = new AutoDriveTrain(hardwareMap, initialPose);
 
         elbowArm.setDefaultCommand(
-                new ElbowKeepPos(elbowArm,extenderArm)
+                new ElbowKeepPos(elbowArm, extenderArm)
         );
 
-        TrajectoryActionBuilder PreLoad = autoDriveTrain.getMecanumDrive().actionBuilder(
+        //scoring preload - done
+        TrajectoryActionBuilder preLoad = autoDriveTrain.getMecanumDrive().actionBuilder(
                         initialPose
                 )
                 .setTangent(Math.toRadians(90))
-                .strafeToLinearHeading(
+                .splineToConstantHeading(
                         new Vector2d(-4, -28),
-                        Math.toRadians(-90)
+                        Math.toRadians(90)
                 );
-        TrajectoryActionBuilder BackUp = PreLoad.endTrajectory().fresh()
+        TrajectoryActionBuilder BackUpAfterScoringPreload = preLoad.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(
-                        new Vector2d(-4,-40),
+                .splineToConstantHeading(
+                        new Vector2d(-4, -40),
                         Math.toRadians(-90)
                 );
 
-        TrajectoryActionBuilder goToSample = BackUp.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(
+
+
+        //bring sec sample - done
+        TrajectoryActionBuilder goToSample = BackUpAfterScoringPreload.endTrajectory().fresh()
+                .setTangent(Math.toRadians(0))
+                .splineToConstantHeading(
                         new Vector2d(36, -33),
-                        Math.toRadians(-90)
+                        Math.toRadians(0)
                 );
 
         TrajectoryActionBuilder goToSample2 = goToSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(90))
-                .strafeToLinearHeading(
-                        new Vector2d(40,-12),
-                        Math.toRadians(-90)
-                );
-
-        TrajectoryActionBuilder goToSample3 = goToSample2.endTrajectory().fresh()
-                .strafeToLinearHeading(
+                .splineToConstantHeading(
                         new Vector2d(45, -12),
-                        Math.toRadians(-90)
+                        Math.toRadians(0)
                 );
 
-        TrajectoryActionBuilder goToHUmanPlayer = goToSample3.endTrajectory().fresh()
+        TrajectoryActionBuilder goToHUmanPlayer = goToSample2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(
+                .splineToConstantHeading(
                         new Vector2d(45, -59),
                         Math.toRadians(-90)
                 );
 
-        TrajectoryActionBuilder goToScore = goToHUmanPlayer.endTrajectory().fresh()
-                .setTangent(Math.toRadians(90))
+
+
+        //score sec sample - done
+        TrajectoryActionBuilder goToScoreSecSample = goToHUmanPlayer.endTrajectory().fresh()
+                .setTangent(Math.toRadians(180))
                 .strafeToLinearHeading(
                         new Vector2d(-2, -28),
                         Math.toRadians(-90)
                 );
 
-        TrajectoryActionBuilder BackUpSec = goToScore.endTrajectory().fresh()
+        TrajectoryActionBuilder backUpAfterScoringSecSample = goToScoreSecSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(
-                        new Vector2d(-2,-40),
+                .splineToConstantHeading(
+                        new Vector2d(-2, -40),
                         Math.toRadians(-90)
                 );
-        //sec sample
-        TrajectoryActionBuilder goToSampleSec = BackUpSec.endTrajectory().fresh()
-                .setTangent(-90)
-                .strafeToLinearHeading(
+
+
+
+        //bring third sample - done
+        TrajectoryActionBuilder goToThirdSample = backUpAfterScoringSecSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(0))
+                .splineToConstantHeading(
                         new Vector2d(36, -33),
-                        Math.toRadians(-90)
+                        Math.toRadians(0)
                 );
 
-        TrajectoryActionBuilder goToSample2Sec = goToSampleSec.endTrajectory().fresh()
+        TrajectoryActionBuilder goToThirdSample2 = goToThirdSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(90))
-                .strafeToLinearHeading(
-                        new Vector2d(40, -12),
-                        Math.toRadians(-90)
-                );
-
-        TrajectoryActionBuilder goToSample3Sec = goToSample2Sec.endTrajectory().fresh()
-                .strafeToLinearHeading(
+                .splineToConstantHeading(
                         new Vector2d(55, -12),
+                        Math.toRadians(0)
+                );
+
+        TrajectoryActionBuilder goToHUmanPlayerSec = goToThirdSample2.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .splineToConstantHeading(
+                        new Vector2d(55, -59),
                         Math.toRadians(-90)
                 );
 
-        TrajectoryActionBuilder goToHUmanPlayerSec = goToSample3Sec.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
+
+
+        //score third sample - done
+        TrajectoryActionBuilder goToScoreThirdSample = goToHUmanPlayerSec.endTrajectory().fresh()
+                .setTangent(Math.toRadians(180))
+                .strafeToLinearHeading(
+                        new Vector2d(-2, -28),
+                        Math.toRadians(-90)
+                );
+
+        //bring forth sample from human player
+        TrajectoryActionBuilder goToHUmanPlayerThird = goToScoreThirdSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(180))
                 .strafeToLinearHeading(
                         new Vector2d(45, -59),
-                        Math.toRadians(-90));
-
-        TrajectoryActionBuilder goToScoreSec = goToHUmanPlayerSec.endTrajectory().fresh()
-                .setTangent(Math.toRadians(90))
-                .strafeToLinearHeading(
-                        new Vector2d(0, -28),
-                        Math.toRadians(-90)
-                );
-        // third sample
-        TrajectoryActionBuilder goToHUmanPlayerThird = goToScoreSec.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(
-                        new Vector2d(45, -59),
-                        Math.toRadians(-90));
-
-        TrajectoryActionBuilder goToScoreThird = goToHUmanPlayerThird.endTrajectory().fresh()
-                .setTangent(Math.toRadians(90))
-                .strafeToLinearHeading(
-                        new Vector2d(3, -28),
-                        Math.toRadians(-90)
-                );
-        TrajectoryActionBuilder BackUpThird = goToScoreThird.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(
-                        new Vector2d(-4,-40),
-                        Math.toRadians(-90)
-                );
-        //forth sample
-        TrajectoryActionBuilder goToHUmanPlayerForth = BackUpThird.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(
-                        new Vector2d(45, -59),
-                        Math.toRadians(-90));
-
-        TrajectoryActionBuilder goToScoreForth = goToHUmanPlayerForth.endTrajectory().fresh()
-                .setTangent(Math.toRadians(90))
-                .strafeToLinearHeading(
-                        new Vector2d(3, -30),
                         Math.toRadians(-90)
                 );
 
-        TrajectoryActionBuilder goToScoreForth1 = goToScoreForth.endTrajectory().fresh()
-                .setTangent(Math.toRadians(90))
+
+        //score forth sample
+        TrajectoryActionBuilder goToScoreForthSample = goToHUmanPlayerThird.endTrajectory().fresh()
+                .setTangent(Math.toRadians(180))
                 .strafeToLinearHeading(
-                        new Vector2d(7, -28),
+                        new Vector2d(-2, -28),
                         Math.toRadians(-90)
                 );
-        TrajectoryActionBuilder BackUpForth = goToScoreForth1.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(
-                        new Vector2d(-4,-40),
-                        Math.toRadians(-90)
-                );
-        TrajectoryActionBuilder park = goToScoreForth.endTrajectory().fresh()
+
+        //park
+        TrajectoryActionBuilder park = goToScoreForthSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .strafeToLinearHeading(
                         new Vector2d(40, -53),
@@ -199,9 +173,10 @@ public class Specimen extends CommandOpMode {
         schedule(
                 new InstantCommand(),
                 new SequentialCommandGroup(
+
                         // go to score pre load
                         new ParallelCommandGroup(
-                                new ActionCommand(PreLoad.build()),
+                                new ActionCommand(preLoad.build()),
                                 new SequentialCommandGroup(
                                         new WaitUntilCommand(
                                                 () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -30
@@ -214,21 +189,27 @@ public class Specimen extends CommandOpMode {
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
                         new WaitCommand(500),
                         new ClawSetPose(claw,Claw.OPEN),
+
                         //back up after scoring
-                        new ActionCommand(BackUp.build()),
+                        new ActionCommand(BackUpAfterScoringPreload.build()),
+
+
                         //sec sample
                         new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
                         new ActionCommand(goToSample.build()),
                         new ActionCommand(goToSample2.build()),
-                        new ActionCommand(goToSample3.build()),
                         new ActionCommand(goToHUmanPlayer.build()),
+
+
                         //collect sec sample
                         new ClawSetPose(claw,Claw.CLOSE),
                         new WaitCommand(100),
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN), clawUpDown),
+
+
                         //go to score sec sample
                         new ParallelCommandGroup(
-                                new ActionCommand(goToScore.build()),
+                                new ActionCommand(goToScoreSecSample.build()),
                                 new SequentialCommandGroup(
                                         new WaitUntilCommand(
                                                 () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y > -55
@@ -236,23 +217,29 @@ public class Specimen extends CommandOpMode {
                                         new PreaperForScoreSpecimen(elbowArm, extenderArm, claw, clawRollRotat, clawUpDown)
                                 )
                         ),
+
+
                         //score sec sample
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
                         new WaitCommand(500),
                         new ClawSetPose(claw,Claw.OPEN),
-                        //back up after scoring
-                        new ActionCommand(BackUpSec.build()),
+
+
+                        //back up after scoring second sample
+                        new ActionCommand(backUpAfterScoringSecSample.build()),
+
+                        //collecting third sample
                         new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
-                        new ActionCommand(goToSampleSec.build()),
-                        new ActionCommand(goToSample2Sec.build()),
-                        new ActionCommand(goToSample3Sec.build()),
+                        new ActionCommand(goToThirdSample.build()),
+                        new ActionCommand(goToThirdSample.build()),
                         new ActionCommand(goToHUmanPlayerSec.build()),
-                        //collect third sample
                         new ClawSetPose(claw,Claw.CLOSE),
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN), clawUpDown),
+
+
                         //go to score third sample
                         new ParallelCommandGroup(
-                                new ActionCommand(goToScoreThird.build()),
+                                new ActionCommand(goToScoreThirdSample.build()),
                                 new SequentialCommandGroup(
                                         new WaitUntilCommand(
                                                 () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.x < 15
@@ -260,15 +247,19 @@ public class Specimen extends CommandOpMode {
                                         new PreaperForScoreSpecimen(elbowArm, extenderArm, claw, clawRollRotat, clawUpDown)
                                 )
                         ),
+
                         //score third sample
                         new WaitCommand(100),
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
                         new WaitCommand(200),
-                        new ClawSetPose(claw,Claw.OPEN),
+                        new ClawSetPose(claw,Claw.OPEN)/*,
+
                         //back up after scoring third sample
-                        new ActionCommand(BackUpThird.build()),
+                        new ActionCommand(backUpThird.build()),
                         new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
                         new ActionCommand(goToHUmanPlayerForth.build())
+                        */
+
 //                        //collect forth sample
 //                        new ClawSetPose(claw,Claw.CLOSE),
 //                        new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN), clawUpDown),
@@ -291,12 +282,7 @@ public class Specimen extends CommandOpMode {
 //                        new ActionCommand(park.build())
                 )
         );
-    }
 
-    @Override
-    public void run() {
-        super.run();
-        telemetry.addData("elbow",elbowArm.getDeg());
-        telemetry.update();
+
     }
 }

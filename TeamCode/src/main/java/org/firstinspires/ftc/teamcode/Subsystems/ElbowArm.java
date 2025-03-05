@@ -19,12 +19,12 @@ public class ElbowArm extends SubsystemBase {
     private PIDController pidController;
 
     public static double kP = 0.011;
-    public static double kI = 0;
-    public static double kD = 0;
+    public static double kI = 0.12;
+    public static double kD = 0.001;
     public static double TOL = 1;
 
-    public static double kGMin = 0.09;
-    public static double kGMax = 0.19;
+    public static double kGMin = 0.22;
+    public static double kGMax = 0.42;
     public static double FUDGE_FACTOR = 1.5;
 
     private static final double ELBOW_STARTING_ANG = 37;
@@ -54,7 +54,7 @@ public class ElbowArm extends SubsystemBase {
         resetEncoder();
 
         pidController = new PIDController(kP, kI, kD);
-        pidController.setIntegrationBounds(0, 50);
+//        pidController.setIntegrationBounds(0, 50);
         pidController.setTolerance(TOL);
 
         register();
@@ -87,7 +87,7 @@ public class ElbowArm extends SubsystemBase {
     }
 
     public static double getFeedForward(double extenderLength,double elbowAng) {
-        return ((kGMax-kGMin) * (extenderLength/ExtenderArm.MAX_OPEN) + kGMin)  * FUDGE_FACTOR
+        return ((kGMax-kGMin) * (extenderLength/ExtenderArm.MAX_OPEN) + kGMin)  /** FUDGE_FACTOR*/
                 * Math.cos(Math.toRadians(elbowAng-ELBOW_STARTING_ANG)
         );
     }

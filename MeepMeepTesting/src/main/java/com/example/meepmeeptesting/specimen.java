@@ -8,7 +8,7 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class squareAuto {
+public class specimen {
     public static void main(String[] args) {
 
         MeepMeep meepMeep = new MeepMeep(700);
@@ -138,6 +138,7 @@ public class squareAuto {
 
         myBot.runAction(
                 new SequentialAction(
+
                         //scoring preload - done
                         PreLoad.build(),
                         BackUpAfterScoringPreload.build(),

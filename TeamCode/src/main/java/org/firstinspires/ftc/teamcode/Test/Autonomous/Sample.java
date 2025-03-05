@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Test.Autonomous;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
@@ -32,7 +32,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 
 // for the red close and the blue close (mirror)
-@Autonomous
+@Disabled
 public class Sample extends CommandOpMode {
     //Subsystem
     private AutoDriveTrain autoDriveTrain;
