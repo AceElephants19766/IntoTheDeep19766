@@ -17,7 +17,7 @@ public class CollectFromSubSetPIn extends ParallelCommandGroup {
                 new InstantCommand(()-> clawUpDown.setPos(ClawUpDown.COLLECT)),
                 new InstantCommand(()-> extenderArm.setPower(-0.6)),
                 new InstantCommand(()-> {
-                    int ang = (int)(Math.toDegrees(Math.acos((25.0/(38+(extenderArm.getLength())))))) -48;
+                    int ang = (int)(Math.toDegrees(Math.acos((29.0/(38+(extenderArm.getLength())))))) -48;
                         elbowArm.getPidController().setSetPoint(ang);
                 })
         );

@@ -90,6 +90,7 @@ public class CompTeleOpOneDriver extends CommandOpMode {
                         gamepadEx1
                 )
         );
+
         gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whileActiveContinuous(
                 new InstantCommand(() -> {
                     driveTrainMecanum.fieldOrientedDrive(
@@ -122,8 +123,13 @@ public class CompTeleOpOneDriver extends CommandOpMode {
                 new ClawRollRotateToggleCommand(clawRollRotat, ClawRollRotate.SPECIAL)
         );
 
+
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON).whenPressed(
+                new InstantCommand(()-> clawUpDown.setPos(1),clawUpDown)
+        );
+
         //claw open close - ok
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON).whenPressed(
                 new ConditionalCommand(
                         new InstantCommand(() -> claw.SetPose(Claw.CLOSE), claw),
                         new InstantCommand(() -> claw.SetPose(Claw.OPEN), claw),
