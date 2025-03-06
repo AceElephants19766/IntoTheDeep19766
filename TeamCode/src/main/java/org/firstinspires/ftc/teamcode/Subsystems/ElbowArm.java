@@ -18,12 +18,12 @@ public class ElbowArm extends SubsystemBase {
 
     private PIDController pidController;
 
-    public static double kP = 0.011;
+    public static double kP = 0.007;
     public static double kI = 0.12;
-    public static double kD = 0.001;
+    public static double kD = 0;
     public static double TOL = 1;
 
-    public static double kGMin = 0.20;
+    public static double kGMin = 0.29;
     public static double kGMax = 0.42;
     public static double FUDGE_FACTOR = 1.5;
 
@@ -36,7 +36,7 @@ public class ElbowArm extends SubsystemBase {
     public static final int COLLECT_SAMPLE = 20;
     public static final int SCORING_SAMPLE = 124;
 
-    public static final int SPECIMEN_COLLECT = 6;
+    public static final int SPECIMEN_COLLECT = 0;
     public static final int  SCORING_SPECIMEN = 105;
 
     public static final int AUTO_SCORING_SPECIMEN = 100;
@@ -52,6 +52,7 @@ public class ElbowArm extends SubsystemBase {
 
         elbowArmLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         elbowArmRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
         resetEncoder();
 
         pidController = new PIDController(kP, kI, kD);

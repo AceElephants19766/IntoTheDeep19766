@@ -43,7 +43,7 @@ public class specimen {
         TrajectoryActionBuilder goToSample = BackUpAfterScoringPreload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
                 .splineToConstantHeading(
-                        new Vector2d(36, -33),
+                        new Vector2d(36, -35),
                         Math.toRadians(0)
                 );
 

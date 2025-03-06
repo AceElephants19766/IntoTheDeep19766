@@ -10,10 +10,12 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Commands.ActionCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawSetPose;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
+import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
 import org.firstinspires.ftc.teamcode.MultiSystem.PreaperForScoreSpecimen;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSpecimen;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveTrain;
@@ -24,6 +26,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 
+@Autonomous
 public class Specimen extends CommandOpMode {
 
     //Subsystem
@@ -61,7 +64,7 @@ public class Specimen extends CommandOpMode {
                 )
                 .setTangent(Math.toRadians(90))
                 .splineToConstantHeading(
-                        new Vector2d(-4, -28),
+                        new Vector2d(-3, -28),
                         Math.toRadians(90)
                 );
         TrajectoryActionBuilder BackUpAfterScoringPreload = preLoad.endTrajectory().fresh()
@@ -77,7 +80,7 @@ public class Specimen extends CommandOpMode {
         TrajectoryActionBuilder goToSample = BackUpAfterScoringPreload.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
                 .splineToConstantHeading(
-                        new Vector2d(36, -33),
+                        new Vector2d(36, -35),
                         Math.toRadians(0)
                 );
 
@@ -142,17 +145,26 @@ public class Specimen extends CommandOpMode {
         TrajectoryActionBuilder goToScoreThirdSample = goToHUmanPlayerSec.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
                 .strafeToLinearHeading(
-                        new Vector2d(-2, -28),
+                        new Vector2d(0, -28),
+                        Math.toRadians(-90)
+                );
+        TrajectoryActionBuilder backUpAfterScoringThirdSample = goToScoreThirdSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(180))
+                .strafeToLinearHeading(
+                        new Vector2d(0, -35),
                         Math.toRadians(-90)
                 );
 
+
         //bring forth sample from human player
-        TrajectoryActionBuilder goToHUmanPlayerThird = goToScoreThirdSample.endTrajectory().fresh()
+        TrajectoryActionBuilder goToHUmanPlayerThird = backUpAfterScoringThirdSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
                 .strafeToLinearHeading(
                         new Vector2d(45, -59),
                         Math.toRadians(-90)
                 );
+
+
 
 
         //score forth sample
@@ -170,9 +182,13 @@ public class Specimen extends CommandOpMode {
                         new Vector2d(40, -53),
                         Math.toRadians(-90));
 
+
+
         schedule(
                 new InstantCommand(),
                 new SequentialCommandGroup(
+
+                        new ExtenderArmCommand(extenderArm,elbowArm,ExtenderArm.COLLECT),
 
                         // go to score pre load
                         new ParallelCommandGroup(
@@ -188,14 +204,19 @@ public class Specimen extends CommandOpMode {
                         //score pre load
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
                         new WaitCommand(500),
-                        new ClawSetPose(claw,Claw.OPEN),
+                        new ParallelCommandGroup(
+                                new ActionCommand(BackUpAfterScoringPreload.build()),
+                                new SequentialCommandGroup(
+                                        new WaitUntilCommand(
+                                                ()-> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -30.5
+                                        ),
+                                        new ClawSetPose(claw,Claw.OPEN)
+                                )
+                        ),
 
-                        //back up after scoring
-                        new ActionCommand(BackUpAfterScoringPreload.build()),
-
+                        new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
 
                         //sec sample
-                        new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
                         new ActionCommand(goToSample.build()),
                         new ActionCommand(goToSample2.build()),
                         new ActionCommand(goToHUmanPlayer.build()),
@@ -221,21 +242,28 @@ public class Specimen extends CommandOpMode {
 
                         //score sec sample
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
-                        new WaitCommand(500),
-                        new ClawSetPose(claw,Claw.OPEN),
+                        new WaitCommand(300),
+                        new ParallelCommandGroup(
+                                new ActionCommand(backUpAfterScoringSecSample.build()),
+                                new SequentialCommandGroup(
+                                        new WaitUntilCommand(
+                                        ()-> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -31
+                                        ),
+                                        new ClawSetPose(claw,Claw.OPEN)
+                                    )
+                        ),
 
-
-                        //back up after scoring second sample
-                        new ActionCommand(backUpAfterScoringSecSample.build()),
 
                         //collecting third sample
                         new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
-                        new ActionCommand(goToThirdSample.build()),
-                        new ActionCommand(goToThirdSample.build()),
-                        new ActionCommand(goToHUmanPlayerSec.build()),
-                        new ClawSetPose(claw,Claw.CLOSE),
-                        new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN), clawUpDown),
 
+                        new ActionCommand(goToThirdSample.build()),
+                        new ActionCommand(goToThirdSample2.build()),
+                        new ActionCommand(goToHUmanPlayerSec.build()),
+
+                        new ClawSetPose(claw,Claw.CLOSE),
+                        new WaitCommand(300),
+                        new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN), clawUpDown),
 
                         //go to score third sample
                         new ParallelCommandGroup(
@@ -249,16 +277,21 @@ public class Specimen extends CommandOpMode {
                         ),
 
                         //score third sample
-                        new WaitCommand(100),
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
-                        new WaitCommand(200),
-                        new ClawSetPose(claw,Claw.OPEN)/*,
+                        new WaitCommand(500),
+                        new ParallelCommandGroup(
+                                new ActionCommand(backUpAfterScoringThirdSample.build()),
+                                new SequentialCommandGroup(
+                                        new WaitUntilCommand(
+                                                ()-> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -31.5
+                                        ),
+                                        new ClawSetPose(claw,Claw.OPEN)
+                                )
+                        ),
 
-                        //back up after scoring third sample
-                        new ActionCommand(backUpThird.build()),
                         new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
-                        new ActionCommand(goToHUmanPlayerForth.build())
-                        */
+
+                        new ActionCommand(goToHUmanPlayerThird.build())
 
 //                        //collect forth sample
 //                        new ClawSetPose(claw,Claw.CLOSE),
