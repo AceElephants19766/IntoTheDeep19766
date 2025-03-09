@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Test.Autonomous;
+package org.firstinspires.ftc.teamcode.Auto;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
@@ -11,7 +11,6 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.AutoMultySystem.AuotPreaperForCollect;
 import org.firstinspires.ftc.teamcode.AutoMultySystem.AutoCollectSample;
@@ -20,21 +19,17 @@ import org.firstinspires.ftc.teamcode.Commands.ActionCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
-import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScoreSample;
-import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSample;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveTrain;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawUpDown;
-import org.firstinspires.ftc.teamcode.Subsystems.DriveTrainMecanum;
 import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
 
-// for the red close and the blue close (mirror)
 
-@Disabled
-public class Sample extends CommandOpMode {
+@Autonomous
+public class sample extends CommandOpMode {
     //Subsystem
     private AutoDriveTrain autoDriveTrain;
 
@@ -45,10 +40,7 @@ public class Sample extends CommandOpMode {
     public ExtenderArm extenderArm;
     public ElbowArm elbowArm;
 
-    public DriveTrainMecanum driveTrainMecanum;
-
-    public Trigger joystickRightYUpCondition;
-    public Trigger joystickRightYDownCondition;
+    public Trigger extenderReset;
 
     @Override
     public void initialize() {
@@ -64,101 +56,133 @@ public class Sample extends CommandOpMode {
         autoDriveTrain = new AutoDriveTrain(hardwareMap, initialPose);
 
         elbowArm.setDefaultCommand(
-                new ElbowKeepPos(elbowArm,extenderArm)
+                new ElbowKeepPos(elbowArm, extenderArm)
         );
 
-        TrajectoryActionBuilder goToBasket = autoDriveTrain.getMecanumDrive().actionBuilder(
+
+        TrajectoryActionBuilder preLoad = autoDriveTrain.getMecanumDrive().actionBuilder(
                         initialPose
                 )
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(
-                        new Pose2d(-57, -55, Math.toRadians(45)),
+                        new Pose2d(-55, -55, Math.toRadians(45)),
                         Math.toRadians(180)
                 );
-        TrajectoryActionBuilder goToSample = goToBasket.endTrajectory().fresh()
-                .setTangent(Math.toRadians(0))
-                .strafeToLinearHeading(new Vector2d(-50, -40),
-                        Math.toRadians(90));
 
-        TrajectoryActionBuilder goToBasket2 = goToSample.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(
-                        new Pose2d(-57, -55, Math.toRadians(45)),
-                        Math.toRadians(135)
-                );
-        TrajectoryActionBuilder goToSample2 = goToBasket2.endTrajectory().fresh()
+        TrajectoryActionBuilder Sample = preLoad.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
-                .strafeToLinearHeading(new Vector2d(-59, -40),
-                        Math.toRadians(90));
-
-        TrajectoryActionBuilder goToBasket3 = goToSample2.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(
-                        new Pose2d(-57, -55, Math.toRadians(45)),
-                        Math.toRadians(135)
+                .strafeToLinearHeading(
+                        new Vector2d(-47, -40),
+                        Math.toRadians(90)
                 );
 
-        TrajectoryActionBuilder goToParkAtBar = goToBasket3.endTrajectory().fresh()
+        TrajectoryActionBuilder Basket = Sample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(
+                        new Pose2d(-55, -55, Math.toRadians(45)),
+                        Math.toRadians(-135)
+                );
+
+        TrajectoryActionBuilder secSample = Basket.endTrajectory().fresh()
+                .setTangent(Math.toRadians(0))
+                .strafeToLinearHeading(
+                        new Vector2d(-56, -40),
+                        Math.toRadians(90)
+                );
+
+        TrajectoryActionBuilder Basket2 = secSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(
+                        new Pose2d(-55, -55, Math.toRadians(45)),
+                        Math.toRadians(-135)
+                );
+
+        TrajectoryActionBuilder ThirdSample = Basket2.endTrajectory().fresh()
+                .setTangent(Math.toRadians(0))
+                .strafeToLinearHeading(
+                        new Vector2d(-55, -28),
+                        Math.toRadians(180)
+                );
+
+        TrajectoryActionBuilder Basket3 = ThirdSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(
+                        new Pose2d(-55, -55, Math.toRadians(45)),
+                        Math.toRadians(-135)
+                );
+
+        TrajectoryActionBuilder goToParkAtBar = Basket.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
                 .splineToSplineHeading(
-                        new Pose2d(-30,0,Math.toRadians(180)),
-                        Math.toRadians(0)
-                )
-                .splineToLinearHeading(
-                        new Pose2d(-22,-0,Math.toRadians(180)),
+                        new Pose2d(-25, -10, Math.toRadians(180)),
                         Math.toRadians(0)
                 );
+
 
         schedule(
                 new InstantCommand(),
+
                 new SequentialCommandGroup(
+                        //score preload
                         new ParallelCommandGroup(
-                                new ActionCommand(goToBasket.build()),
+                                new ActionCommand(preLoad.build()),
                                 new SequentialCommandGroup(
                                         new WaitUntilCommand(
                                                 () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.x < -45
                                         ),
-                                        new AutoPreaperForScore(elbowArm, extenderArm, clawUpDown, clawRollRotat,claw)
+                                        new AutoPreaperForScore(elbowArm, extenderArm, clawUpDown, clawRollRotat, claw)
                                 )
                         ),
+
                         new WaitCommand(1000),
+
+                        //collect sample
                         new ParallelCommandGroup(
-                                new ActionCommand(goToSample.build()),
+                                new ActionCommand(Sample.build()),
                                 new SequentialCommandGroup(
                                         new WaitUntilCommand(
                                                 () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y > -50
                                         ),
-                                        new AuotPreaperForCollect(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat)
+                                        new AuotPreaperForCollect(elbowArm, extenderArm, claw, clawUpDown, clawRollRotat)
                                 )
                         ),
                         new WaitCommand(500),
-                        new AutoCollectSample(elbowArm, extenderArm, claw,clawUpDown),
-                        new ActionCommand(goToBasket2.build()),
-                        new SequentialCommandGroup(
-                                new WaitUntilCommand(
-                                        () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -45
-                                ),
-                                new AutoPreaperForScore(elbowArm, extenderArm, clawUpDown, clawRollRotat,claw)
+
+                        //collect sample
+                        new AutoCollectSample(elbowArm, extenderArm, claw, clawUpDown),
+
+                        new ParallelCommandGroup(
+                                new ActionCommand(Basket.build()),
+                                new SequentialCommandGroup(
+                                        new WaitUntilCommand(
+                                                () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -45
+                                        ),
+                                        new AutoPreaperForScore(elbowArm, extenderArm, clawUpDown, clawRollRotat, claw)
+                                )
                         ),
                         new WaitCommand(1000),
+
                         new ParallelCommandGroup(
-                                new ActionCommand(goToSample2.build()),
+                                new ActionCommand(secSample.build()),
                                 new SequentialCommandGroup(
                                         new WaitUntilCommand(
                                                 () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y > -50
                                         ),
-                                        new AuotPreaperForCollect(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat)
+                                        new AuotPreaperForCollect(elbowArm, extenderArm, claw, clawUpDown, clawRollRotat)
                                 )
                         ),
+
                         new WaitCommand(500),
-                        new AutoCollectSample(elbowArm, extenderArm, claw,clawUpDown),
+
+
+                        new AutoCollectSample(elbowArm, extenderArm, claw, clawUpDown),
                         new ParallelCommandGroup(
-                                new ActionCommand(goToBasket3.build()),
+                                new ActionCommand(Basket2.build()),
                                 new SequentialCommandGroup(
                                         new WaitUntilCommand(
                                                 () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.x < -45
                                         ),
-                                        new AutoPreaperForScore(elbowArm, extenderArm, clawUpDown, clawRollRotat,claw)
+                                        new AutoPreaperForScore(elbowArm, extenderArm, clawUpDown, clawRollRotat, claw)
                                 )
                         ),
                         new WaitCommand(1000),
@@ -168,12 +192,12 @@ public class Sample extends CommandOpMode {
                                         new WaitUntilCommand(
                                                 () -> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y > -50
                                         ),
-                                        new AuotPreaperForCollect(elbowArm,extenderArm,claw,clawUpDown,clawRollRotat)
+                                        new AuotPreaperForCollect(elbowArm, extenderArm, claw, clawUpDown, clawRollRotat)
                                 )
                         ),
-                        new ExtenderArmCommand(extenderArm,elbowArm,0),
+                        new ExtenderArmCommand(extenderArm, elbowArm, 0),
                         new WaitCommand(500),
-                        new ElbowArmCommand(elbowArm,130)
+                        new ElbowArmCommand(elbowArm, 130)
                 )
         );
     }

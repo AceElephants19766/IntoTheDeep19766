@@ -22,8 +22,7 @@ public class AutoPreaperForScore extends SequentialCommandGroup {
                 new WaitUntilCommand(() -> elbowArm.getPidController().getPositionError() < 40),
                 new ExtenderArmCommand(extenderArm,elbowArm, ExtenderArm.SCORE).withTimeout(2000),
                 new InstantCommand(()->clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN)),
-                new InstantCommand(() -> claw.SetPose(Claw.OPEN)),
-                new WaitCommand(200)
+                new InstantCommand(() -> claw.SetPose(Claw.OPEN))
         );
         addRequirements(
                 extenderArm,

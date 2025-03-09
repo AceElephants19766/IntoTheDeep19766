@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Commands.ClawRollRotateToggleCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
+import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommandOut;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmSetPower;
@@ -21,10 +22,8 @@ import org.firstinspires.ftc.teamcode.Commands.ResetImu;
 import org.firstinspires.ftc.teamcode.MultiSystem.CollectFromSub;
 import org.firstinspires.ftc.teamcode.MultiSystem.CollectSample;
 import org.firstinspires.ftc.teamcode.MultiSystem.Hang;
-import org.firstinspires.ftc.teamcode.MultiSystem.PreaperForScoreSpecimen;
 import org.firstinspires.ftc.teamcode.MultiSystem.PreaperForScoreSpecimen2;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepaereForScoreSample;
-import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSpecimen;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSpecimen2;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSpecimen3;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
@@ -59,7 +58,7 @@ public class CompTeleOpOneDriver extends CommandOpMode {
     public Trigger joystickLeftYUpCondition;
     public Trigger joystickLeftYDownCondition;
 
-    public Trigger gamepad2rightTrigger;
+    public Trigger rightTrigger;
 
     public DoubleSupplier rightTriggerSupplier;
 
@@ -140,25 +139,29 @@ public class CompTeleOpOneDriver extends CommandOpMode {
         //collect from submersible - need to check
         rightTriggerSupplier = () -> gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
 
-        gamepad2rightTrigger = new Trigger(() -> rightTriggerSupplier.getAsDouble() > 0.1);
+        rightTrigger = new Trigger(() -> rightTriggerSupplier.getAsDouble() > 0.1);
 
-        gamepad2rightTrigger.whileActiveContinuous(
+        rightTrigger.whileActiveContinuous(
                 new CollectFromSub(elbowArm, extenderArm, clawUpDown,claw, rightTriggerSupplier)
         );
 
-        gamepad2rightTrigger.whileActiveOnce(
+        rightTrigger.whileActiveOnce(
                 new ExtenderkeepPos(extenderArm)
         );
 
-        gamepad2rightTrigger.whenInactive(
+        rightTrigger.whenInactive(
                 new SequentialCommandGroup(
                         new WaitCommand(500),
                         new InstantCommand(() -> extenderArm.setPower(0))
                 )
         );
 
-        gamepad2rightTrigger.whenInactive(
+        rightTrigger.whenInactive(
                 new CollectSample(elbowArm,extenderArm,claw,clawUpDown)
+        );
+
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+                new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()-2))
         );
 
         //Preaper for score sample
