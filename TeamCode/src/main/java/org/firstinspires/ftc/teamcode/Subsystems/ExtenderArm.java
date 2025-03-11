@@ -25,7 +25,7 @@ public class ExtenderArm extends SubsystemBase {
     public static double kD = 0;
     public static double kG = 0.15;
 
-    public static final double MAX_OPEN = 44;
+    public static final double MAX_OPEN = 42;
     private static final double ELBOW_STARTING_ANG = 124;
 
 
@@ -33,7 +33,7 @@ public class ExtenderArm extends SubsystemBase {
     private double offset = 0;
 
     public static  final int COLLECT = 0;
-    public static final int SCORE = 47;
+    public static final int SCORE = 42;
     public static final int P_F_COLLECTSAMPLE = 16;
 
     private static final int HANG = 12;

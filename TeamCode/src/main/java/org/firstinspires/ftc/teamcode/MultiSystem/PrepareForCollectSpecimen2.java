@@ -18,25 +18,27 @@ import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 public class PrepareForCollectSpecimen2 extends SequentialCommandGroup {
     public PrepareForCollectSpecimen2(ExtenderArm extenderArm, ElbowArm elbowArm, ClawRollRotate clawRollRotate, ClawUpDown clawUpDown, Claw claw) {
         addCommands(
+
                 new ElbowArmCommand(elbowArm,120),
                 new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.DEFAULT), clawRollRotate),
                 new InstantCommand(()->clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN)),
                 new InstantCommand(() -> claw.SetPose(Claw.OPEN)),
                 new WaitCommand(200),
-                new InstantCommand(()->clawUpDown.setPos(ClawUpDown.COLLECT)),
+                new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN),clawUpDown),
                 new WaitCommand(700),
+
                 new ExtenderArmCommand(extenderArm, elbowArm,ExtenderArm.COLLECT).raceWith(
                         new WaitUntilCommand(()->extenderArm.isPressed())
-                ),
+                ).withTimeout(1000),
+
                 new ElbowArmCommand(elbowArm, ElbowArm.SPECIMEN_COLLECT),
-                new InstantCommand(()-> {
-                    FtcDashboard.getInstance().getTelemetry().addLine("w");
-                    FtcDashboard.getInstance().getTelemetry().update();
-                }),
-                new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.DEFAULT)),
-                new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN)),
-                new ClawSetPose(claw, Claw.OPEN)
+
+                new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.DEFAULT),clawRollRotate),
+                new ClawSetPose(claw, Claw.OPEN),
+
+                new ExtenderArmCommand(extenderArm,elbowArm,ExtenderArm.COLLECT)
         );
+
         addRequirements(
                 extenderArm,
                 clawRollRotate,

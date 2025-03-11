@@ -155,7 +155,7 @@ public class CompTeleOpOneDriverMatan extends CommandOpMode {
                 ));
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                new CollectSample(elbowArm,extenderArm,claw,clawUpDown)
+                new CollectSample(elbowArm,extenderArm,claw,clawUpDown,rightTriggerSupplier)
         );
 
         //Preaper for score sample

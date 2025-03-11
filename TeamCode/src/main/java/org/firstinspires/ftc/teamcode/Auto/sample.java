@@ -65,7 +65,7 @@ public class sample extends CommandOpMode {
                 )
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(
-                        new Pose2d(-55, -55, Math.toRadians(45)),
+                        new Pose2d(-54, -54, Math.toRadians(45)),
                         Math.toRadians(180)
                 );
 
@@ -132,7 +132,7 @@ public class sample extends CommandOpMode {
                                         ),
                                         new AutoPreaperForScore(elbowArm, extenderArm, clawUpDown, clawRollRotat, claw)
                                 )
-                        ),
+                        )/*,
 
                         new WaitCommand(1000),
 
@@ -197,7 +197,7 @@ public class sample extends CommandOpMode {
                         ),
                         new ExtenderArmCommand(extenderArm, elbowArm, 0),
                         new WaitCommand(500),
-                        new ElbowArmCommand(elbowArm, 130)
+                        new ElbowArmCommand(elbowArm, 130)*/
                 )
         );
     }

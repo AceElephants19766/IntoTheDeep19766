@@ -28,7 +28,7 @@ public class ExtenderArmCommand extends CommandBase {
         extenderArm.setPower(
                 extenderArm.getPidController().calculate(
                         extenderArm.getLength()
-                ) + ExtenderArm.getFeedForward(extenderArm.getLength(),elbowArm.getDeg())
+                ) +  ExtenderArm.getFeedForward(extenderArm.getLength(),elbowArm.getDeg())
         );
     }
 

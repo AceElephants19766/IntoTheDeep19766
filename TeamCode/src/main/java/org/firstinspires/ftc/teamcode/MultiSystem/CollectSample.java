@@ -13,14 +13,28 @@ import org.firstinspires.ftc.teamcode.Subsystems.ClawUpDown;
 import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 
+import java.util.function.DoubleSupplier;
+
 public class CollectSample extends SequentialCommandGroup {
-    public CollectSample(ElbowArm elbowArm, ExtenderArm extenderArm, Claw claw, ClawUpDown clawUpDown){
+    public CollectSample(ElbowArm elbowArm, ExtenderArm extenderArm, Claw claw, ClawUpDown clawUpDown, DoubleSupplier rightTriggerSupplier){
         addCommands(
+                //elbow down
+                new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()-17)),
+                //claw down
+                new InstantCommand(()-> clawUpDown.setPos(1)),
+                new WaitCommand(300),
+
+                //close claw
                 new ClawSetPose(claw, Claw.CLOSE),
                 new WaitCommand(200),
-                new InstantCommand(()->clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN)),
+
+                //claw up
+                new InstantCommand(()->clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN),clawUpDown),
+                //elbow up
+                new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()+17)),
+                //return to default
                 new ExtenderArmCommand(extenderArm,elbowArm,ExtenderArm.COLLECT),
-                new ElbowArmCommand(elbowArm, ElbowArm.SPECIMEN_COLLECT)
+                new ElbowArmCommand(elbowArm, ElbowArm.COLLECT_SAMPLE)
         );
         addRequirements(
                 extenderArm,

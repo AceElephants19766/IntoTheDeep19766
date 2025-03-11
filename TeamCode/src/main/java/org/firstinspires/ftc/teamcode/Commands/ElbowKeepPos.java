@@ -26,7 +26,7 @@ public class ElbowKeepPos extends CommandBase {
                 elbowArm.getPidController().calculate(
                         elbowArm.getAngle().getAsDouble()
 
-                ) + ElbowArm.getFeedForward(extenderArm.getLength(),elbowArm.getDeg())
+                ) +  ElbowArm.getFeedForward(extenderArm.getLength(),elbowArm.getDeg())
         );
     }
 }

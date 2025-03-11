@@ -157,11 +157,7 @@ public class CompTeleOpOneDriver extends CommandOpMode {
         );
 
         rightTrigger.whenInactive(
-                new CollectSample(elbowArm,extenderArm,claw,clawUpDown)
-        );
-
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-                new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()-2))
+                new CollectSample(elbowArm,extenderArm,claw,clawUpDown,rightTriggerSupplier)
         );
 
         //Preaper for score sample
