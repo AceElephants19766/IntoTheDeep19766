@@ -19,10 +19,10 @@ public class CollectSample extends SequentialCommandGroup {
     public CollectSample(ElbowArm elbowArm, ExtenderArm extenderArm, Claw claw, ClawUpDown clawUpDown, DoubleSupplier rightTriggerSupplier){
         addCommands(
                 //elbow down
-                new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()-17)),
+                new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()-17.0)),
+                new WaitCommand(200),
                 //claw down
                 new InstantCommand(()-> clawUpDown.setPos(1)),
-                new WaitCommand(300),
 
                 //close claw
                 new ClawSetPose(claw, Claw.CLOSE),
@@ -31,11 +31,12 @@ public class CollectSample extends SequentialCommandGroup {
                 //claw up
                 new InstantCommand(()->clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN),clawUpDown),
                 //elbow up
-                new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()+17)),
+                new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()+17.0)),
                 //return to default
                 new ExtenderArmCommand(extenderArm,elbowArm,ExtenderArm.COLLECT),
                 new ElbowArmCommand(elbowArm, ElbowArm.COLLECT_SAMPLE)
         );
+
         addRequirements(
                 extenderArm,
                 claw

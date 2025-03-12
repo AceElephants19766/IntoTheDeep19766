@@ -17,6 +17,7 @@ import java.util.function.DoubleSupplier;
 public class CollectFromSub extends ParallelCommandGroup {
     public  CollectFromSub(ElbowArm elbowArm, ExtenderArm extenderArm, ClawUpDown clawUpDown, Claw claw, DoubleSupplier rightTriggerSupplier){
         addCommands(
+                new ElbowArmCommand(elbowArm,15),
                 new InstantCommand(()->claw.SetPose(Claw.OPEN)),
                 new WaitCommand(300),
                 new InstantCommand(()-> clawUpDown.setPos(ClawUpDown.COLLECT)),

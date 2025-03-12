@@ -27,17 +27,13 @@ public class PrepareForCollectSpecimen2 extends SequentialCommandGroup {
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN),clawUpDown),
                 new WaitCommand(700),
 
-                new ExtenderArmCommand(extenderArm, elbowArm,ExtenderArm.COLLECT).raceWith(
-                        new WaitUntilCommand(()->extenderArm.isPressed())
-                ).withTimeout(1000),
+                new ExtenderArmCommand(extenderArm, elbowArm,ExtenderArm.COLLECT).withTimeout(1000),
 
                 new ElbowArmCommand(elbowArm, ElbowArm.SPECIMEN_COLLECT),
 
                 new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.DEFAULT),clawRollRotate),
-                new ClawSetPose(claw, Claw.OPEN),
-
-                new ExtenderArmCommand(extenderArm,elbowArm,ExtenderArm.COLLECT)
-        );
+                new ClawSetPose(claw, Claw.OPEN)
+                );
 
         addRequirements(
                 extenderArm,
