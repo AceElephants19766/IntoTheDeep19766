@@ -59,7 +59,7 @@ public class Specimen extends CommandOpMode {
                 new ElbowKeepPos(elbowArm, extenderArm)
         );
 
-        extenderReset = new Trigger(() -> extenderArm.isPressed());
+        extenderReset = new Trigger(() -> extenderArm.isTouched());
 
         extenderReset.whenActive(
                 new ResetExtnderEncoder(extenderArm)

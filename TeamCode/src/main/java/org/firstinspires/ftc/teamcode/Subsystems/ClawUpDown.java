@@ -9,12 +9,12 @@ public class ClawUpDown extends SubsystemBase {
 
     private Servo clawUpDown;
 
-    public static final double COLLECT = 0.937;
+    public static final double COLLECT = 1;
     public static final double SCORING = 0.73;
     public static final double SCORING_SAMPLE = 0.5;
 
-    public static final double P_F_COLLECT_SPECIMEN = 0.6;
-    public static final double PREAPER_SCORING_BACKWARD_SPECIMEN = 0.3;
+    public static final double P_F_COLLECT_SPECIMEN = 0.7;
+    public static final double PREAPER_SCORING_BACKWARD_SPECIMEN = 0.35;
     public static final double SCORE_SPECIMEN = 0;
     public static final double STARTING_POS_AUTO = 0;
 

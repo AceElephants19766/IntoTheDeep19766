@@ -21,7 +21,7 @@ public class PrepareForCollectSpecimen2 extends SequentialCommandGroup {
 
                 new ElbowArmCommand(elbowArm,120),
                 new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.DEFAULT), clawRollRotate),
-                new InstantCommand(()->clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN)),
+                new InstantCommand(()->clawUpDown.setPos(ClawUpDown.SCORING_SAMPLE)),
                 new InstantCommand(() -> claw.SetPose(Claw.OPEN)),
                 new WaitCommand(200),
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN),clawUpDown),

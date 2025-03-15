@@ -17,16 +17,14 @@ import java.util.function.DoubleSupplier;
 
 public class CollectSample extends SequentialCommandGroup {
     public CollectSample(ElbowArm elbowArm, ExtenderArm extenderArm, Claw claw, ClawUpDown clawUpDown, DoubleSupplier rightTriggerSupplier){
+
         addCommands(
                 //elbow down
                 new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()-17.0)),
-                new WaitCommand(200),
-                //claw down
-                new InstantCommand(()-> clawUpDown.setPos(1)),
-
+                new WaitCommand(500),
                 //close claw
                 new ClawSetPose(claw, Claw.CLOSE),
-                new WaitCommand(200),
+                new WaitCommand(500),
 
                 //claw up
                 new InstantCommand(()->clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN),clawUpDown),
@@ -38,8 +36,8 @@ public class CollectSample extends SequentialCommandGroup {
         );
 
         addRequirements(
-                extenderArm,
-                claw
+                claw,
+                clawUpDown
         );
     }
 }

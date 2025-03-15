@@ -110,7 +110,7 @@ public class CompTeleOpOneDriverMatan extends CommandOpMode {
                 new ElbowKeepPos(elbowArm, extenderArm)
         );
         //extender
-        extenderReset = new Trigger(() -> extenderArm.isPressed());
+        extenderReset = new Trigger(() -> extenderArm.isTouched());
         extenderReset.whenActive(
                 new ResetExtnderEncoder(extenderArm)
         );
@@ -236,7 +236,7 @@ public class CompTeleOpOneDriverMatan extends CommandOpMode {
         telemetry.addLine("");
 //        telemetry.addData("Kp",elbowArm.getPidController().getP());
 //        telemetry.addData("Kp",elbowArm.getPidController().getI());
-        telemetry.addData("is Pressed", extenderArm.isPressed());
+        telemetry.addData("is Pressed", extenderArm.isTouched());
         telemetry.addData("extender", extenderArm.getLength());
         telemetry.addData("elbow", elbowArm.getDeg());
 //        telemetry.addData("ctr", ctr);

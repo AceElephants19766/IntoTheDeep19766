@@ -111,11 +111,11 @@ public class CompTeleOpOneDriver extends CommandOpMode {
         );
 
         //extender
-        extenderReset = new Trigger(() -> extenderArm.isPressed());
+//        extenderReset = new Trigger(() -> extenderArm.isTouched());
 
-        extenderReset.whenActive(
-                new ResetExtnderEncoder(extenderArm)
-        );
+//        extenderReset.whenActive(
+//                new ResetExtnderEncoder(extenderArm)
+//        );
 
         //Claw roll rotation - ok
         gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
@@ -141,6 +141,8 @@ public class CompTeleOpOneDriver extends CommandOpMode {
 
         rightTrigger = new Trigger(() -> rightTriggerSupplier.getAsDouble() > 0.1);
 
+
+
         rightTrigger.whileActiveContinuous(
                 new CollectFromSub(elbowArm, extenderArm, clawUpDown,claw, rightTriggerSupplier)
         );
@@ -151,14 +153,11 @@ public class CompTeleOpOneDriver extends CommandOpMode {
 
         rightTrigger.whenInactive(
                 new SequentialCommandGroup(
-                        new WaitCommand(500),
-                        new InstantCommand(() -> extenderArm.setPower(0))
+                        new InstantCommand(() -> extenderArm.setPower(0)),
+                        new CollectSample(elbowArm,extenderArm,claw,clawUpDown,rightTriggerSupplier)
                 )
         );
 
-        rightTrigger.whenInactive(
-                new CollectSample(elbowArm,extenderArm,claw,clawUpDown,rightTriggerSupplier)
-        );
 
         //Preaper for score sample
         gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenActive(
@@ -179,6 +178,11 @@ public class CompTeleOpOneDriver extends CommandOpMode {
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenInactive(
                 new PrepareForCollectSpecimen3(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw)
+        );
+
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).toggleWhenPressed(
+                new InstantCommand(()-> clawUpDown.setPos(ClawUpDown.PREAPER_SCORING_BACKWARD_SPECIMEN)),
+                new InstantCommand(()-> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN))
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
@@ -237,14 +241,9 @@ public class CompTeleOpOneDriver extends CommandOpMode {
     public void run() {
         super.run();
         telemetry.addData("ff",ElbowArm.getFeedForward(extenderArm.getLength(),elbowArm.getDeg()));
-        telemetry.addLine("");
-//        telemetry.addData("Kp",elbowArm.getPidController().getP());
-//        telemetry.addData("Kp",elbowArm.getPidController().getI());
-        telemetry.addData("is Pressed", extenderArm.isPressed());
         telemetry.addData("extender", extenderArm.getLength());
         telemetry.addData("elbow", elbowArm.getDeg());
-//        telemetry.addData("ctr", ctr);
-//        telemetry.addData("erech",Math.toDegrees(Math.acos((25.0/(38+(rightTriggerSupplier.getAsDouble()*30)))))-53);
+        telemetry.addData("",extenderArm.isTouched());
         telemetry.update();
     }
 }

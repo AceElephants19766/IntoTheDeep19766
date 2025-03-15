@@ -7,8 +7,10 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.hardware.configuration.annotations.DigitalIoDeviceType;
 
 import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
@@ -18,7 +20,7 @@ import org.firstinspires.ftc.teamcode.Commands.ExtenderGetToZero;
 public class ExtenderArm extends SubsystemBase {
     private DcMotor extenderArm;
 
-    private TouchSensor touchSensor;
+    private DigitalChannel limitSwitch;
 
     
     private PIDController pidController;
@@ -49,7 +51,7 @@ public class ExtenderArm extends SubsystemBase {
         extenderArm.setDirection(DcMotorSimple.Direction.REVERSE);
         resetEncoder();
 
-        touchSensor = hardwareMap.get(TouchSensor.class,"extenderTouchSens");
+        limitSwitch = hardwareMap.get(DigitalChannel.class,"extenderLimitSwitch");
 
         pidController = new PIDController(kP, kI, kD);
         pidController.setTolerance(2);
@@ -71,10 +73,9 @@ public class ExtenderArm extends SubsystemBase {
         return (getTicks() / TPR) * 12;
     }
 
-    public boolean isPressed(){
-        return touchSensor.isPressed();
+    public boolean isTouched(){
+        return limitSwitch.getState();
     }
-
 
     public PIDController getPidController() {
         return pidController;
@@ -86,12 +87,12 @@ public class ExtenderArm extends SubsystemBase {
         );
     }
 
-    @Override
-    public void periodic() {
-        FtcDashboard.getInstance().getTelemetry().addData("extenderTarget", pidController.getSetPoint());
-        FtcDashboard.getInstance().getTelemetry().addData("extenderCurrentPos", getLength());
-        FtcDashboard.getInstance().getTelemetry().addData("extender power", extenderArm.getPower());
-        FtcDashboard.getInstance().getTelemetry().addData("extender is finished",getPidController().atSetPoint());
-        FtcDashboard.getInstance().getTelemetry().update();
-    }
+//    @Override
+//    public void periodic() {
+//        FtcDashboard.getInstance().getTelemetry().addData("extenderTarget", pidController.getSetPoint());
+//        FtcDashboard.getInstance().getTelemetry().addData("extenderCurrentPos", getLength());
+//        FtcDashboard.getInstance().getTelemetry().addData("extender power", extenderArm.getPower());
+//        FtcDashboard.getInstance().getTelemetry().addData("extender is finished",getPidController().atSetPoint());
+//        FtcDashboard.getInstance().getTelemetry().update();
+//    }
 }

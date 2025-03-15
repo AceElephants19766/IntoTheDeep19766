@@ -18,15 +18,13 @@ public class PrepareForCollectSpecimen3 extends SequentialCommandGroup {
     public PrepareForCollectSpecimen3(ExtenderArm extenderArm, ElbowArm elbowArm, ClawRollRotate clawRollRotate, ClawUpDown clawUpDown, Claw claw) {
         addCommands(
                 new InstantCommand(()-> claw.SetPose(Claw.OPEN)),
-                new WaitCommand(200),
-                new ExtenderArmCommand(extenderArm, elbowArm,ExtenderArm.COLLECT).raceWith(
-                        new WaitUntilCommand(()->extenderArm.isPressed())
-                ),
+                new ExtenderArmCommand(extenderArm, elbowArm,ExtenderArm.COLLECT).withTimeout(300),
                 new ElbowArmCommand(elbowArm, ElbowArm.SPECIMEN_COLLECT),
                 new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.DEFAULT), clawRollRotate),
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN), clawUpDown),
                 new ClawSetPose(claw, Claw.OPEN)
         );
+
         addRequirements(
                 extenderArm,
                 clawRollRotate,

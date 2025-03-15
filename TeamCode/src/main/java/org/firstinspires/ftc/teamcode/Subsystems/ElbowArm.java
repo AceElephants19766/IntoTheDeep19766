@@ -27,7 +27,7 @@ public class ElbowArm extends SubsystemBase {
     public static double kGMax = 0.4;
     public static double FUDGE_FACTOR = 1.5;
 
-    private static final double ELBOW_STARTING_ANG = 37;
+    private static final double ELBOW_STARTING_ANG = 45;
     private final double TPR = 537.7;
     private double offset = 0;
 
@@ -36,7 +36,7 @@ public class ElbowArm extends SubsystemBase {
     public static final int COLLECT_SAMPLE = 20;
     public static final int SCORING_SAMPLE = 124;
 
-    public static final int SPECIMEN_COLLECT = 5;
+    public static final int SPECIMEN_COLLECT = 10;
     public static final int  SCORING_SPECIMEN = 115;
 
     public static final int AUTO_SCORING_SPECIMEN = 100;
