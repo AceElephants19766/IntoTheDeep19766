@@ -59,8 +59,10 @@ public class CompTeleOpOneDriver extends CommandOpMode {
     public Trigger joystickLeftYDownCondition;
 
     public Trigger rightTrigger;
+    public Trigger leftTrigger;
 
     public DoubleSupplier rightTriggerSupplier;
+    public DoubleSupplier leftTriggerSupplier;
 
 
     double ctr = 0;
@@ -89,8 +91,11 @@ public class CompTeleOpOneDriver extends CommandOpMode {
                         gamepadEx1
                 )
         );
+        leftTriggerSupplier = () -> gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER);
 
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whileActiveContinuous(
+        leftTrigger = new Trigger(() -> leftTriggerSupplier.getAsDouble() > 0.1);
+
+        leftTrigger.whileActiveContinuous(
                 new InstantCommand(() -> {
                     driveTrainMecanum.fieldOrientedDrive(
                             (Math.pow((gamepadEx1.getLeftX() * 1.1), 5)) * 0.3,
