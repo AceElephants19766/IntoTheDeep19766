@@ -19,11 +19,11 @@ public class ElbowArm extends SubsystemBase {
     private PIDController pidController;
 
     public static double kP = 0.008;
-    public static double kI = 0.1;
+    public static double kI = 0.07;
     public static double kD = 0.0002;
     public static double TOL = 1;
 
-    public static double kGMin = 0.23;
+    public static double kGMin = 0.21;
     public static double kGMax = 0.4;
     public static double FUDGE_FACTOR = 1.5;
 
@@ -37,6 +37,7 @@ public class ElbowArm extends SubsystemBase {
     public static final int SCORING_SAMPLE = 135;
 
     public static final int SPECIMEN_COLLECT = 15;
+    public static final int AUTO_SPECIMEN_COLLECT = 13;
     public static final int  SCORING_SPECIMEN = 115;
 
     public static final int AUTO_SCORING_SPECIMEN = 100;

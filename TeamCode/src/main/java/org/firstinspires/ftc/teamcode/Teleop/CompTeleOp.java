@@ -116,7 +116,7 @@ public class CompTeleOp extends CommandOpMode {
                 new ResetElbowEncoder(elbowArm)
         );
 
-        extenderReset = new Trigger(() -> extenderArm.isTouched());
+//        extenderReset = new Trigger(() -> extenderArm.isTouched());
         extenderReset.whenActive(
                 new ResetExtnderEncoder(extenderArm)
         );
@@ -250,7 +250,7 @@ public class CompTeleOp extends CommandOpMode {
         telemetry.addLine("");
 //        telemetry.addData("Kp",elbowArm.getPidController().getP());
 //        telemetry.addData("Kp",elbowArm.getPidController().getI());
-        telemetry.addData("is Pressed", extenderArm.isTouched());
+//        telemetry.addData("is Pressed", extenderArm.isTouched());
         telemetry.addData("extender", extenderArm.getLength());
         telemetry.addData("elbow", elbowArm.getDeg());
 //        telemetry.addData("ctr", ctr);

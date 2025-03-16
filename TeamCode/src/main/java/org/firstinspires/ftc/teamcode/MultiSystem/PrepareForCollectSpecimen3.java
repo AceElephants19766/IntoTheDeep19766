@@ -19,7 +19,7 @@ public class PrepareForCollectSpecimen3 extends SequentialCommandGroup {
         addCommands(
                 new InstantCommand(()-> claw.SetPose(Claw.OPEN)),
                 new ExtenderArmCommand(extenderArm, elbowArm,ExtenderArm.COLLECT).withTimeout(300),
-                new ElbowArmCommand(elbowArm, ElbowArm.SPECIMEN_COLLECT),
+                new ElbowArmCommand(elbowArm, ElbowArm.AUTO_SPECIMEN_COLLECT),
                 new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.DEFAULT), clawRollRotate),
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN), clawUpDown),
                 new ClawSetPose(claw, Claw.OPEN)

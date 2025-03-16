@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ResetExtnderEncoder;
 import org.firstinspires.ftc.teamcode.MultiSystem.PreaperForScoreSpecimen;
 import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSpecimen;
+import org.firstinspires.ftc.teamcode.MultiSystem.PrepareForCollectSpecimen3;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveTrain;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.ClawRollRotate;
@@ -40,7 +41,7 @@ public class Specimen extends CommandOpMode {
     public ExtenderArm extenderArm;
     public ElbowArm elbowArm;
 
-    public Trigger extenderReset;
+//    public Trigger extenderReset;
 
     @Override
     public void initialize() {
@@ -59,11 +60,11 @@ public class Specimen extends CommandOpMode {
                 new ElbowKeepPos(elbowArm, extenderArm)
         );
 
-        extenderReset = new Trigger(() -> extenderArm.isTouched());
+//        extenderReset = new Trigger(() -> extenderArm.isTouched());
 
-        extenderReset.whenActive(
-                new ResetExtnderEncoder(extenderArm)
-        );
+//        extenderReset.whenActive(
+//                new ResetExtnderEncoder(extenderArm)
+//        );
 
         //scoring preload - done
         TrajectoryActionBuilder preLoad = autoDriveTrain.getMecanumDrive().actionBuilder(
@@ -101,7 +102,7 @@ public class Specimen extends CommandOpMode {
         TrajectoryActionBuilder goToHUmanPlayer = goToSample2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .splineToConstantHeading(
-                        new Vector2d(45, -59),
+                        new Vector2d(45, -55),
                         Math.toRadians(-90)
                 );
 
@@ -142,7 +143,7 @@ public class Specimen extends CommandOpMode {
         TrajectoryActionBuilder goToHUmanPlayerSec = goToThirdSample2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .splineToConstantHeading(
-                        new Vector2d(50, -59),
+                        new Vector2d(50, -55),
                         Math.toRadians(-90)
                 );
 
@@ -167,7 +168,7 @@ public class Specimen extends CommandOpMode {
         TrajectoryActionBuilder goToHUmanPlayerThird = backUpAfterScoringThirdSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
                 .strafeToLinearHeading(
-                        new Vector2d(45, -59),
+                        new Vector2d(45, -55),
                         Math.toRadians(-90)
                 );
 
@@ -221,7 +222,7 @@ public class Specimen extends CommandOpMode {
                                 )
                         ),
 
-                        new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
+                        new PrepareForCollectSpecimen3(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
 
                         //sec sample
                         new ActionCommand(goToSample.build()),
@@ -262,7 +263,7 @@ public class Specimen extends CommandOpMode {
 
 
                         //collecting third sample
-                        new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
+                        new PrepareForCollectSpecimen3(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
 
                         new ActionCommand(goToThirdSample.build()),
                         new ActionCommand(goToThirdSample2.build()),
@@ -298,9 +299,10 @@ public class Specimen extends CommandOpMode {
                                 )
                         ),
 
-                        new PrepareForCollectSpecimen(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
+                        new PrepareForCollectSpecimen3(extenderArm,elbowArm,clawRollRotat,clawUpDown,claw),
 
-                        new ActionCommand(goToHUmanPlayerThird.build())
+                        new ActionCommand(goToHUmanPlayerThird.build()),
+                        new ClawSetPose(claw,Claw.CLOSE)
 
 //                        //collect forth sample
 //                        new ClawSetPose(claw,Claw.CLOSE),

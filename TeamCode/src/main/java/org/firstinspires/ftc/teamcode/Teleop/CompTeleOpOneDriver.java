@@ -54,7 +54,9 @@ public class CompTeleOpOneDriver extends CommandOpMode {
 
     public Trigger joystickRightYUpCondition;
     public Trigger joystickRightYDownCondition;
+
     public Trigger extenderReset;
+
     public Trigger joystickLeftYUpCondition;
     public Trigger joystickLeftYDownCondition;
 
@@ -127,11 +129,11 @@ public class CompTeleOpOneDriver extends CommandOpMode {
         );
 
         //extender
-//        extenderReset = new Trigger(() -> extenderArm.isTouched());
+        extenderReset = new Trigger(() -> extenderArm.isTouched());
 
-//        extenderReset.whenActive(
-//                new ResetExtnderEncoder(extenderArm)
-//        );
+        extenderReset.whenInactive(
+                new ResetExtnderEncoder(extenderArm)
+        );
 
         //Claw roll rotation - ok
         gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
