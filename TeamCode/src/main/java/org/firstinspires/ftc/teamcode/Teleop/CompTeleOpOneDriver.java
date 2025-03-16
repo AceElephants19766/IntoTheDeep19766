@@ -91,6 +91,17 @@ public class CompTeleOpOneDriver extends CommandOpMode {
                         gamepadEx1
                 )
         );
+
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whileActiveContinuous(
+                new InstantCommand(() -> {
+                    driveTrainMecanum.fieldOrientedDrive(
+                            (Math.pow((gamepadEx1.getLeftX() * 1.1), 5)) * 0.3,
+                            (Math.pow(gamepadEx1.getLeftY(), 5)) * 0.3,
+                            Math.pow(gamepadEx1.getRightX(), 5) * 0.25
+                    );
+                }, driveTrainMecanum)
+        );
+
         leftTriggerSupplier = () -> gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER);
 
         leftTrigger = new Trigger(() -> leftTriggerSupplier.getAsDouble() > 0.1);
