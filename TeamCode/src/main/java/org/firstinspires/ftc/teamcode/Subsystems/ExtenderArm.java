@@ -38,7 +38,9 @@ public class ExtenderArm extends SubsystemBase {
 
     public static  final int COLLECT = 0;
     public static final int SCORE = 42;
-    public static final int P_F_COLLECTSAMPLE = 16;
+
+
+    public static final int P_F_COLLECTSAMPLE = 11;
 
     private static final int HANG = 12;
 

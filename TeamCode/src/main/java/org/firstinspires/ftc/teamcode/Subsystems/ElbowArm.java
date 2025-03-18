@@ -19,7 +19,7 @@ public class ElbowArm extends SubsystemBase {
     private PIDController pidController;
 
     public static double kP = 0.008;
-    public static double kI = 0.07;
+    public static double kI = 0.075;
     public static double kD = 0.0002;
     public static double TOL = 1;
 
@@ -38,7 +38,7 @@ public class ElbowArm extends SubsystemBase {
 
     public static final int SPECIMEN_COLLECT = 15;
     public static final int AUTO_SPECIMEN_COLLECT = 13;
-    public static final int  SCORING_SPECIMEN = 115;
+    public static final int  SCORING_SPECIMEN = 120;
 
     public static final int AUTO_SCORING_SPECIMEN = 100;
 
@@ -90,7 +90,7 @@ public class ElbowArm extends SubsystemBase {
     }
 
     public static double getFeedForward(double extenderLength,double elbowAng) {
-        return ((kGMax-kGMin) * (extenderLength/ExtenderArm.MAX_OPEN) + kGMin)  /** FUDGE_FACTOR*/
+        return ((kGMax-kGMin) * (extenderLength/ExtenderArm.MAX_OPEN) + kGMin)  /* *FUDGE_FACTOR*/
                 * Math.cos(Math.toRadians(elbowAng-ELBOW_STARTING_ANG)
         );
     }

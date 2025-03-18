@@ -116,7 +116,7 @@ public class CompTeleOp extends CommandOpMode {
                 new ResetElbowEncoder(elbowArm)
         );
 
-//        extenderReset = new Trigger(() -> extenderArm.isTouched());
+        extenderReset = new Trigger(() -> extenderArm.isTouched());
         extenderReset.whenActive(
                 new ResetExtnderEncoder(extenderArm)
         );

@@ -23,7 +23,7 @@ public class CollectFromSub extends ParallelCommandGroup {
                 new InstantCommand(()-> clawUpDown.setPos(ClawUpDown.COLLECT)),
                 new InstantCommand(()->extenderArm.getPidController().setSetPoint((int)(rightTriggerSupplier.getAsDouble()*42))),
                 new InstantCommand(()-> {
-                    int ang = (int)((Math.toDegrees(Math.acos((20.0/(38+(rightTriggerSupplier.getAsDouble()*42)))))) -44);
+                    int ang = (int)((Math.toDegrees(Math.acos((20.0/(38+(rightTriggerSupplier.getAsDouble()*42)))))) -45);
                         elbowArm.getPidController().setSetPoint(ang);
                 })
         );

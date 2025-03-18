@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Commands.ActionCommand;
 import org.firstinspires.ftc.teamcode.Commands.ClawSetPose;
+import org.firstinspires.ftc.teamcode.Commands.ElbowArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommand;
 import org.firstinspires.ftc.teamcode.Commands.ResetExtnderEncoder;
@@ -102,7 +103,7 @@ public class Specimen extends CommandOpMode {
         TrajectoryActionBuilder goToHUmanPlayer = goToSample2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .splineToConstantHeading(
-                        new Vector2d(45, -55),
+                        new Vector2d(45, -57),
                         Math.toRadians(-90)
                 );
 
@@ -143,7 +144,7 @@ public class Specimen extends CommandOpMode {
         TrajectoryActionBuilder goToHUmanPlayerSec = goToThirdSample2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
                 .splineToConstantHeading(
-                        new Vector2d(50, -55),
+                        new Vector2d(50, -57),
                         Math.toRadians(-90)
                 );
 
@@ -159,7 +160,7 @@ public class Specimen extends CommandOpMode {
         TrajectoryActionBuilder backUpAfterScoringThirdSample = goToScoreThirdSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
                 .strafeToLinearHeading(
-                        new Vector2d(0, -35),
+                        new Vector2d(0, -37),
                         Math.toRadians(-90)
                 );
 
@@ -168,7 +169,7 @@ public class Specimen extends CommandOpMode {
         TrajectoryActionBuilder goToHUmanPlayerThird = backUpAfterScoringThirdSample.endTrajectory().fresh()
                 .setTangent(Math.toRadians(180))
                 .strafeToLinearHeading(
-                        new Vector2d(45, -55),
+                        new Vector2d(45, -57),
                         Math.toRadians(-90)
                 );
 
@@ -195,7 +196,6 @@ public class Specimen extends CommandOpMode {
         schedule(
                 new InstantCommand(),
                 new SequentialCommandGroup(
-
                         new ExtenderArmCommand(extenderArm,elbowArm,ExtenderArm.COLLECT),
 
                         // go to score pre load - working well
@@ -210,13 +210,14 @@ public class Specimen extends CommandOpMode {
                         ),
 
                         //score pre load - working well
-                        new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
+                        new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),                                        new ElbowArmCommand(elbowArm,135),
+                        new ElbowArmCommand(elbowArm,135),
                         new WaitCommand(500),
                         new ParallelCommandGroup(
                                 new ActionCommand(BackUpAfterScoringPreload.build()),
                                 new SequentialCommandGroup(
                                         new WaitUntilCommand(
-                                                ()-> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -31
+                                                ()-> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -33
                                         ),
                                         new ClawSetPose(claw,Claw.OPEN)
                                 )
@@ -250,12 +251,13 @@ public class Specimen extends CommandOpMode {
 
                         //score sec sample
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
+                        new ElbowArmCommand(elbowArm,135),
                         new WaitCommand(200),
                         new ParallelCommandGroup(
                                 new ActionCommand(backUpAfterScoringSecSample.build()),
                                 new SequentialCommandGroup(
                                         new WaitUntilCommand(
-                                        ()-> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -31.5
+                                        ()-> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -33
                                         ),
                                         new ClawSetPose(claw,Claw.OPEN)
                                     )
@@ -288,12 +290,13 @@ public class Specimen extends CommandOpMode {
 
                         //score third sample
                         new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN), clawUpDown),
+                        new ElbowArmCommand(elbowArm,135),
                         new WaitCommand(500),
                         new ParallelCommandGroup(
                                 new ActionCommand(backUpAfterScoringThirdSample.build()),
                                 new SequentialCommandGroup(
                                         new WaitUntilCommand(
-                                                ()-> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -31.3
+                                                ()-> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -35.5
                                         ),
                                         new ClawSetPose(claw,Claw.OPEN)
                                 )

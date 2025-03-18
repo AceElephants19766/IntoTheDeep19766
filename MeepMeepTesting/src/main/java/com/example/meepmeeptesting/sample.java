@@ -24,12 +24,12 @@ public class sample {
                 )
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(
-                        new Pose2d(-55, -55, Math.toRadians(45)),
+                        new Pose2d(-55, -55, Math.toRadians(47)),
                         Math.toRadians(180)
                 );
 
         TrajectoryActionBuilder Sample = preLoad.endTrajectory().fresh()
-                .setTangent(Math.toRadians(0))
+                .setTangent(Math.toRadians(47))
                 .strafeToLinearHeading(
                         new Vector2d(-47,-40),
                         Math.toRadians(90)

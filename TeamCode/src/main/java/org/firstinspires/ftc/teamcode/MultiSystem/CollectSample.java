@@ -20,7 +20,7 @@ public class CollectSample extends SequentialCommandGroup {
 
         addCommands(
                 //elbow down
-                new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()-17.0)),
+                new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()-10.0)),
                 new WaitCommand(500),
                 //close claw
                 new ClawSetPose(claw, Claw.CLOSE),
@@ -29,7 +29,7 @@ public class CollectSample extends SequentialCommandGroup {
                 //claw up
                 new InstantCommand(()->clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN),clawUpDown),
                 //elbow up
-                new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()+17.0)),
+                new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()+10.0)),
                 //return to default
                 new ExtenderArmCommand(extenderArm,elbowArm,ExtenderArm.COLLECT),
                 new ElbowArmCommand(elbowArm, ElbowArm.COLLECT_SAMPLE)

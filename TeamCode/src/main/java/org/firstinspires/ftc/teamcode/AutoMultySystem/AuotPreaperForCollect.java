@@ -15,13 +15,11 @@ import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
 public class AuotPreaperForCollect extends SequentialCommandGroup {
     public AuotPreaperForCollect(ElbowArm elbowArm, ExtenderArm extenderArm, Claw claw, ClawUpDown clawUpDown, ClawRollRotate clawRollRotate) {
         addCommands(
-                new SequentialCommandGroup(
-                        new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.COLLECT)),
-                        new ExtenderArmCommand(extenderArm,elbowArm, ExtenderArm.COLLECT),
-                        new ElbowArmCommand(elbowArm, ElbowArm.DEFAULT),
-                        new WaitCommand(500),
-                        new ExtenderArmCommand(extenderArm,elbowArm, ExtenderArm.P_F_COLLECTSAMPLE)
-                )
+                    new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.COLLECT)),
+                    new ExtenderArmCommand(extenderArm,elbowArm, ExtenderArm.COLLECT),
+                    new ElbowArmCommand(elbowArm, ElbowArm.DEFAULT),
+                    new WaitCommand(500),
+                    new ExtenderArmCommand(extenderArm,elbowArm, ExtenderArm.P_F_COLLECTSAMPLE)
         );
         addRequirements(
                 extenderArm,

@@ -169,12 +169,13 @@ public class CompTeleOpOneDriver extends CommandOpMode {
                 new ExtenderkeepPos(extenderArm)
         );
 
-        rightTrigger.whenInactive(
+        new Trigger(() -> rightTriggerSupplier.getAsDouble() > 0.2).whenInactive(
                 new SequentialCommandGroup(
                         new InstantCommand(() -> extenderArm.setPower(0)),
                         new CollectSample(elbowArm,extenderArm,claw,clawUpDown,rightTriggerSupplier)
                 )
         );
+
 
 
         //Preaper for score sample
@@ -191,7 +192,7 @@ public class CompTeleOpOneDriver extends CommandOpMode {
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                new InstantCommand(()-> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN))
+                        new InstantCommand(()-> clawUpDown.setPos(ClawUpDown.SCORE_SPECIMEN))
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenInactive(
@@ -252,7 +253,6 @@ public class CompTeleOpOneDriver extends CommandOpMode {
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.P_F_COLLECT_SPECIMEN)),
                 new InstantCommand(() -> clawRollRotat.setPose(ClawRollRotate.DEFAULT))
         );
-
     }
 
     @Override

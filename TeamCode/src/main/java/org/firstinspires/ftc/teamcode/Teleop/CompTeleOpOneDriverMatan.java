@@ -109,8 +109,9 @@ public class CompTeleOpOneDriverMatan extends CommandOpMode {
         elbowArm.setDefaultCommand(
                 new ElbowKeepPos(elbowArm, extenderArm)
         );
+
         //extender
-//        extenderReset = new Trigger(() -> extenderArm.isTouched());
+        extenderReset = new Trigger(() -> extenderArm.isTouched());
         extenderReset.whenActive(
                 new ResetExtnderEncoder(extenderArm)
         );
