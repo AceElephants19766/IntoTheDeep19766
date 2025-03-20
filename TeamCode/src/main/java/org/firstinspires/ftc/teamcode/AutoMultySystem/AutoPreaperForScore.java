@@ -18,7 +18,7 @@ public class AutoPreaperForScore extends SequentialCommandGroup {
         addCommands(
                 new InstantCommand(() -> clawRollRotate.setPose(ClawRollRotate.DEFAULT)),
                 new InstantCommand(() -> clawUpDown.setPos(ClawUpDown.SCORING)),
-                new ElbowArmCommand(elbowArm, ElbowArm.SCORING_SAMPLE),
+                new ElbowArmCommand(elbowArm, 135),
                 new WaitUntilCommand(() -> elbowArm.getPidController().getPositionError() < 40),
                 new ExtenderArmCommand(extenderArm,elbowArm, ExtenderArm.SCORE).withTimeout(2000)
         );

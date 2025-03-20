@@ -216,9 +216,10 @@ public class Specimen extends CommandOpMode {
                         new ParallelCommandGroup(
                                 new ActionCommand(BackUpAfterScoringPreload.build()),
                                 new SequentialCommandGroup(
-                                        new WaitUntilCommand(
-                                                ()-> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -33
-                                        ),
+//                                        new WaitUntilCommand(
+//                                                ()-> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -33
+//                                        ),
+                                        new WaitCommand(450),
                                         new ClawSetPose(claw,Claw.OPEN)
                                 )
                         ),
@@ -256,9 +257,10 @@ public class Specimen extends CommandOpMode {
                         new ParallelCommandGroup(
                                 new ActionCommand(backUpAfterScoringSecSample.build()),
                                 new SequentialCommandGroup(
-                                        new WaitUntilCommand(
-                                        ()-> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -33
-                                        ),
+//                                        new WaitUntilCommand(
+//                                        ()-> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -33
+//                                        ),
+                                        new WaitCommand(450),
                                         new ClawSetPose(claw,Claw.OPEN)
                                     )
                         ),
@@ -295,9 +297,10 @@ public class Specimen extends CommandOpMode {
                         new ParallelCommandGroup(
                                 new ActionCommand(backUpAfterScoringThirdSample.build()),
                                 new SequentialCommandGroup(
-                                        new WaitUntilCommand(
-                                                ()-> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -35.5
-                                        ),
+//                                        new WaitUntilCommand(
+//                                                ()-> autoDriveTrain.getMecanumDrive().localizer.getPose().position.y < -37
+//                                        ),
+                                        new WaitCommand(450),
                                         new ClawSetPose(claw,Claw.OPEN)
                                 )
                         ),

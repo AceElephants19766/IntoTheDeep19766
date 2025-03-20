@@ -20,7 +20,7 @@ public class CollectSample extends SequentialCommandGroup {
 
         addCommands(
                 //elbow down
-                new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()-10.0)),
+                new ElbowArmCommand(elbowArm,(int)(elbowArm.getDeg()-2.0)),
                 new WaitCommand(500),
                 //close claw
                 new ClawSetPose(claw, Claw.CLOSE),

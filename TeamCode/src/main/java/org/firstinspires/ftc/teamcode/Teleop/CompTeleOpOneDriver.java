@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.Commands.ElbowKeepPos;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmCommandOut;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderArmSetPower;
 import org.firstinspires.ftc.teamcode.Commands.ExtenderkeepPos;
+import org.firstinspires.ftc.teamcode.Commands.ResetElbowEncoder;
 import org.firstinspires.ftc.teamcode.Commands.ResetExtnderEncoder;
 import org.firstinspires.ftc.teamcode.Commands.ResetImu;
 import org.firstinspires.ftc.teamcode.MultiSystem.CollectFromSub;
@@ -208,17 +209,20 @@ public class CompTeleOpOneDriver extends CommandOpMode {
                 new Hang(elbowArm,extenderArm,clawUpDown,clawRollRotat)
         );
 
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.BACK).whenPressed(
+                new InstantCommand(() -> elbowArm.setAngle(7 /*todo yakov*/), elbowArm)
+        );
 
         //extender open by hand
         joystickRightYUpCondition = new Trigger(() -> -gamepadEx2.getRightY() > 0.1);
         joystickRightYUpCondition.whileActiveOnce(
-                new ExtenderArmCommandOut(extenderArm, elbowArm, 0.6)
+                new ExtenderArmCommandOut(extenderArm, elbowArm, 1)
         );
 
         //extender close by hand
         joystickRightYDownCondition = new Trigger(() -> -gamepadEx2.getRightY() < -0.1);
         joystickRightYDownCondition.whileActiveOnce(
-                new ExtenderArmSetPower(extenderArm, elbowArm, -0.6)
+                new ExtenderArmSetPower(extenderArm, elbowArm, -1)
         );
 
         //elbow up by hand
@@ -234,12 +238,12 @@ public class CompTeleOpOneDriver extends CommandOpMode {
         joystickLeftYDownCondition = new Trigger(() -> gamepadEx2.getLeftY() < -0.1);
         joystickLeftYDownCondition.whileActiveContinuous(
                 new InstantCommand(() -> {
-                    if (elbowArm.getAngle().getAsDouble() < 20) {
-                        jump = 0.1;
-                    } else {
-                        jump = 1;
-                    }
-                    elbowArm.getPidController().setSetPoint(elbowArm.getAngle().getAsDouble() - (ctr += jump));
+//                    if (elbowArm.getAngle().getAsDouble() < 20) {
+//                        jump = 0.1;
+//                    } else {
+//                        jump = 1;
+//                    }
+                    elbowArm.getPidController().setSetPoint(elbowArm.getAngle().getAsDouble() - (ctr += 1));
                 })
         );
         joystickLeftYUpCondition.whenInactive(() -> ctr = 0);
